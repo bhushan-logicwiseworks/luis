@@ -1,0 +1,70 @@
+<!-- Shortcuts toggle -->
+<button mat-icon-button (click)="openPanel()" #shortcutsOrigin>
+    <mat-icon [svgIcon]="'heroicons_outline:bookmark'"></mat-icon>
+</button>
+
+<!-- Shortcuts panel -->
+<ng-template #shortcutsPanel>
+    <div
+        class="fixed inset-0 flex flex-col overflow-hidden shadow-lg sm:static sm:inset-auto sm:w-90 sm:min-w-90 sm:rounded-2xl"
+    >
+        <!-- Header -->
+        <div class="flex shrink-0 items-center bg-primary py-4 pl-6 pr-4 text-on-primary">
+            <div class="flex items-center text-lg font-medium leading-10">
+                <span class="">Shortcuts</span>
+            </div>
+        </div>
+        <div class="bg-card relative -mb-px flex flex-auto flex-col overflow-y-auto sm:max-h-120">
+            <!-- Shortcuts -->
+            <div class="grid grid-flow-row grid-cols-2">
+                <!-- Shortcut -->
+                @for (shortcut of shortcuts; track trackByFn($index, shortcut)) {
+                    <div
+                        class="group bg-card relative flex flex-col overflow-hidden border-b border-r even:border-r-0 hover:bg-gray-50 dark:hover:bg-black dark:hover:bg-opacity-5"
+                    >
+                        <!-- Router links -->
+                        @if (shortcut.useRouter) {
+                            <a
+                                (click)="detachOverLay()"
+                                class="flex h-full w-full cursor-pointer flex-col items-center justify-center py-6 no-underline"
+                                [routerLink]="shortcut.link"
+                                [queryParams]="shortcut.queryParams"
+                            >
+                                <ng-container *ngTemplateOutlet="linkContent"></ng-container>
+                            </a>
+                        }
+                        @if (shortcut.function) {
+                            <a
+                                (click)="openSearch()"
+                                class="flex h-full w-full cursor-pointer flex-col items-center justify-center py-6 no-underline"
+                                [routerLink]="shortcut.link"
+                                [queryParams]="shortcut.queryParams"
+                            >
+                                <ng-container *ngTemplateOutlet="linkContent"></ng-container>
+                            </a>
+                        }
+                        @if (shortcut.openDialog) {
+                            <a
+                                (click)="openNextDos()"
+                                class="flex h-full w-full cursor-pointer flex-col items-center justify-center py-6 no-underline"
+                                [routerLink]="shortcut.link"
+                            >
+                                <ng-container *ngTemplateOutlet="linkContent"></ng-container>
+                            </a>
+                        }
+                        <!-- Link content template -->
+                        <ng-template #linkContent>
+                            <div
+                                class="relative mb-3 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
+                            >
+                                <mat-icon class="z-10" [svgIcon]="shortcut.icon"></mat-icon>
+                            </div>
+                            <div class="text-center font-medium">{{ shortcut.label }}</div>
+                            <div class="text-secondary text-center text-md">{{ shortcut.description }}</div>
+                        </ng-template>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</ng-template>

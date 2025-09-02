@@ -1,0 +1,194 @@
+<form class="flex max-h-[400px] flex-auto flex-col overflow-y-scroll p-3" [formGroup]="payorOverrideForm">
+    <!-- Payor ID -->
+    <div class="align-center flex px-4">
+        <mat-form-field class="w-full pr-2" [subscriptSizing]="'dynamic'">
+            <mat-label>Payor ID</mat-label>
+            <input
+                [readonly]="payorOverride"
+                class="uppercase"
+                matInput
+                formControlName="payorId"
+                [placeholder]="'Payor ID'"
+                [spellcheck]="false"
+            />
+            @if (payorOverrideForm.get('payorId').hasError('required')) {
+                <mat-error>Payor ID is required</mat-error>
+            }
+        </mat-form-field>
+        <mat-icon
+            matPrefix
+            class="icon-size-1 mt-4 cursor-pointer sm:flex"
+            [svgIcon]="'heroicons_solid:download'"
+            (click)="openPayorList()"
+        ></mat-icon>
+    </div>
+
+    <!-- Bill To -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Bill To</mat-label>
+        <input
+            [readonly]="payorOverride"
+            class="uppercase"
+            matInput
+            formControlName="billto"
+            [placeholder]="'Bill To'"
+            [spellcheck]="false"
+        />
+        @if (payorOverrideForm.get('billto').hasError('required')) {
+            <mat-error>Bill To is required</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Item ID -->
+    <div class="align-center mt-4 flex px-4">
+        <mat-form-field class="w-full pr-2" [subscriptSizing]="'dynamic'">
+            <mat-label>Item ID</mat-label>
+            <input
+                [readonly]="payorOverride"
+                class="uppercase"
+                matInput
+                formControlName="itemId"
+                [placeholder]="'Item ID'"
+                [spellcheck]="false"
+            />
+            @if (payorOverrideForm.get('itemId').hasError('required')) {
+                <mat-error>Item ID is required</mat-error>
+            }
+        </mat-form-field>
+        <mat-icon
+            matPrefix
+            class="icon-size-1 mt-4 cursor-pointer sm:flex"
+            [svgIcon]="'heroicons_solid:download'"
+            (click)="openItemList()"
+        ></mat-icon>
+    </div>
+
+    <!-- Item Code -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Item Code</mat-label>
+        <input class="uppercase" matInput formControlName="itemCode" [placeholder]="'Item Code'" [spellcheck]="false" />
+        @if (payorOverrideForm.get('itemCode').hasError('required')) {
+            <mat-error>Item Code is required</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Description</mat-label>
+        <input
+            [readonly]="payorOverride"
+            class="uppercase"
+            matInput
+            formControlName="description"
+            [placeholder]="'Description'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Bill Type -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Bill Type</mat-label>
+        <mat-select [formControlName]="'billType'" required>
+            <mat-option *ngFor="let type of billTypes" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+        @if (payorOverrideForm.get('billType').hasError('required')) {
+            <mat-error>Bill Type is required</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Confirm -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Confirm</mat-label>
+        <mat-select [formControlName]="'confirm'" required>
+            <mat-option *ngFor="let option of confirmOptions" [value]="option">{{ option }}</mat-option>
+        </mat-select>
+        @if (payorOverrideForm.get('confirm').hasError('required')) {
+            <mat-error>Confirm is required</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Quantity -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Quantity</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            formControlName="quantity"
+            [placeholder]="'Quantity'"
+            [spellcheck]="false"
+            auxNumberValidator
+            [min]="0"
+        />
+        @if (payorOverrideForm.get('quantity').hasError('required')) {
+            <mat-error>Quantity is required</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- HCPC -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>HCPC</mat-label>
+        <input class="uppercase" matInput formControlName="hcpc" [placeholder]="'HCPC'" [spellcheck]="false" />
+        @if (payorOverrideForm.get('hcpc').hasError('required')) {
+            <mat-error>HCPC is required</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Submitted -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Submitted</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            formControlName="submitted"
+            [placeholder]="'Submitted'"
+            [spellcheck]="false"
+            auxNumberValidator
+            [min]="0"
+        />
+        @if (payorOverrideForm.get('submitted').hasError('required')) {
+            <mat-error>Submitted is required</mat-error>
+        } @else if (payorOverrideForm.get('submitted').hasError('min')) {
+            <mat-error>Submitted must be at least 1</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Allowed -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Allowed</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            formControlName="allowed"
+            [placeholder]="'Allowed'"
+            [spellcheck]="false"
+            auxNumberValidator
+            [min]="0"
+            [max]="1000000"
+        />
+        @if (payorOverrideForm.get('allowed').hasError('required')) {
+            <mat-error>Allowed is required</mat-error>
+        } @else if (payorOverrideForm.get('allowed').hasError('min')) {
+            <mat-error>Allowed must be at least 1</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Due Primary -->
+    <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+        <mat-label>Due Primary</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            formControlName="duePrimary"
+            [placeholder]="'Due Primary'"
+            [spellcheck]="false"
+            auxNumberValidator
+            [min]="0"
+            [max]="1000000"
+        />
+        @if (payorOverrideForm.get('duePrimary').hasError('required')) {
+            <mat-error>Due Primary is required</mat-error>
+        } @else if (payorOverrideForm.get('duePrimary').hasError('min')) {
+            <mat-error>Due Primary must be at least 1</mat-error>
+        }
+    </mat-form-field>
+</form>

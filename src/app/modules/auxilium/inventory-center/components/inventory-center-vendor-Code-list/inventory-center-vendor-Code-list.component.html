@@ -1,0 +1,13 @@
+<div class="relative bg-white shadow">
+    <aux-ag-grid
+        [gridOptions]="options"
+        [columnDefs]="columnDefs"
+        [rowData]="rowData$ | async"
+        [visibleColumns]="visibleColumns"
+        [agGridHeight]="'calc(100vh - 312px)'"
+        [loading]="loading$ | async"
+        (cellClicked)="selectionChange($event)"
+        [component]="vendorCode ? 'vendorCodeList' : ''"
+    >
+    </aux-ag-grid>
+</div>

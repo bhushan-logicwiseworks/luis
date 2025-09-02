@@ -1,0 +1,178 @@
+<!-- Alert -->
+@if (alert) {
+    <fuse-alert [appearance]="'outline'" [type]="alert.type" [showIcon]="false" [@shake]="true" class="mt-4">
+        {{ alert.message }}
+    </fuse-alert>
+}
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="shipForm">
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>ID</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:document-text'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        readonly
+                        matInput
+                        [formControlName]="'id'"
+                        [placeholder]="'ID'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Vendor</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:shopping-bag'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'vendor'"
+                        [placeholder]="'Vendor'"
+                        [spellcheck]="false"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Patient Id</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        readonly
+                        matInput
+                        [formControlName]="'patientid'"
+                        [placeholder]="'Patient Id'"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Po Number</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:document'"
+                    ></mat-icon>
+                    <input class="uppercase" matInput [formControlName]="'ponumber'" [placeholder]="'Pon Number'" />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Ship Date</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:calendar'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        [matDatepicker]="picker"
+                        [formControlName]="'shipdate'"
+                        [placeholder]="'Ship Date'"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Tracking Number</mat-label>
+                    <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'trackingnumber'"
+                        [placeholder]="'Tracking Number'"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Shipping Carrier</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:truck'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'shippingcarrier'"
+                        [placeholder]="'Shipping Carrier'"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Ship Status</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                    ></mat-icon>
+                    <input class="uppercase" matInput [formControlName]="'shipstatus'" [placeholder]="'Ship Status'" />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Email Status</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:envelope'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'emailstatus'"
+                        [placeholder]="'Email Status'"
+                    />
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Is Complete</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:check-circle'"
+                    ></mat-icon>
+                    <mat-select [formControlName]="'iscomplete'">
+                        <mat-option [value]="true">Yes</mat-option>
+                        <mat-option [value]="false">No</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="mb-4 mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>File Attached</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:document'"
+                    ></mat-icon>
+                    <mat-select [formControlName]="'fileattached'">
+                        <mat-option [value]="true">Yes</mat-option>
+                        <mat-option [value]="false">No</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="flex-auto">
+    <div class="bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [selectAllManually]="selectAll"
+            [component]="'heldItems'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            (rowSelectionChange)="onChangeSelection($event)"
+            [agGridHeight]="'calc(100vh - 304px)'"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

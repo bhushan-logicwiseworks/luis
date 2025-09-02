@@ -1,0 +1,63 @@
+<div class="flex items-center justify-between">
+    <div class="flex items-center">
+        <!-- Icon on the left side -->
+        <div class="py-4 pl-3">
+            <mat-icon [svgIcon]="data.icon" [color]="data.iconColor"></mat-icon>
+        </div>
+        <!-- Title -->
+        <h2 class="py-4 pl-3 text-2xl font-bold" [ngClass]="data.titleColor">{{ data.title }}</h2>
+    </div>
+    <!-- Close icon on the right side -->
+    <button (click)="onCancelClick()" [tabIndex]="-1" mat-icon-button>
+        <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content class="mat-typography">
+    <ng-template #dynamicComponentContainer></ng-template>
+</mat-dialog-content>
+
+<hr class="my-1 shadow-md" />
+
+<mat-dialog-actions>
+    <div [ngClass]="data.dynamicComponentData?.isEdit === true ? 'justify-justify-start my-2 mr-2' : ''">
+        @if (data.dynamicComponent?.name === '_CreateComponent') {
+            @if (data.dynamicComponentData?.isEdit === true) {
+                <button mat-flat-button [color]="'primary'" class="mr-6" (click)="deleteButton()">
+                    <ic-icon [icon]="icTrash" [inline]="true" size="18px" class="mr-2"></ic-icon>
+                    Delete
+                </button>
+            }
+        }
+    </div>
+    <div class="my-2 ml-auto mr-2 justify-end">
+        <button class="order-first sm:order-last" (click)="onCancelClick()" mat-stroked-button mat-dialog-close>
+            {{ data.cancelButtonText }}
+        </button>
+
+        @if (data.saveButtonText) {
+            @if (data.dynamicComponent.name === '_FileUploadComponent') {
+                <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                    {{ data.saveButtonText }}&nbsp;
+                    @if (data.dynamicComponentData.files?.length) {
+                        <span
+                            >{{ data.dynamicComponentData.files?.length }} File
+                            @if (data.dynamicComponentData.files?.length > 1) {
+                                <span>s</span>
+                            }
+                        </span>
+                    }
+                </button>
+            } @else {
+                <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                    {{ data.saveButtonText }}
+                </button>
+            }
+        }
+        @if (data.addonButtonText) {
+            <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" (click)="onAddonClick()">
+                {{ data.addonButtonText }}
+            </button>
+        }
+    </div>
+</mat-dialog-actions>

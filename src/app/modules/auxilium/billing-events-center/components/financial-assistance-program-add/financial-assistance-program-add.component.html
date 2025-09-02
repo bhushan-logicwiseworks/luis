@@ -1,0 +1,91 @@
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <form [formGroup]="billingForm" class="w-full max-w-3xl">
+        <!-- Date Assigned / Assigned To / Serviced By -->
+        <div class="mt-4">
+            <!-- Today’s Date -->
+            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Today’s Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="todayPicker"
+                    [formControlName]="'todaysDate'"
+                    [readonly]="true"
+                    required
+                />
+                <mat-datepicker-toggle matSuffix [for]="todayPicker"></mat-datepicker-toggle>
+                <mat-datepicker #todayPicker></mat-datepicker>
+                <!-- @if (careForm.get('todaysDate').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Today’s Date cannot be in the past.</mat-error>
+                } -->
+            </mat-form-field>
+        </div>
+
+        <!-- Assigned To/Serviced By -->
+        <div class="mt-4">
+            <!-- Assigned To -->
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Owner</mat-label>
+                <mat-select formControlName="owner">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Program Type</mat-label>
+                <mat-select [formControlName]="'programType'" required>
+                    <mat-option class="uppercase" *ngFor="let option of programType" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="mt-4">
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Outcome</mat-label>
+                <mat-select [formControlName]="'outcome'" required>
+                    <mat-option class="uppercase" *ngFor="let option of outcomeOptions" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Re-evaluation Date (If Approved)</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="datePaymentReceivedPicker"
+                    [formControlName]="'reEvaluationDate'"
+                    required
+                />
+                <mat-datepicker-toggle matSuffix [for]="datePaymentReceivedPicker"></mat-datepicker-toggle>
+                <mat-datepicker #datePaymentReceivedPicker></mat-datepicker>
+                <!-- @if (careForm.get('todaysDate').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Today’s Date cannot be in the past.</mat-error>
+                } -->
+            </mat-form-field>
+        </div>
+
+        <!-- Contact Note (Visible only when adding a new record) -->
+        <div class="mt-4" *ngIf="!billingevents">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Contact Note</mat-label>
+                <textarea class="uppercase" matInput [formControlName]="'contactNote'" rows="2"></textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- Alert -->
+        <fuse-alert
+            *ngIf="alert"
+            [appearance]="'outline'"
+            [type]="alert.type"
+            [showIcon]="false"
+            [@shake]="true"
+            class="mt-4"
+        >
+            {{ alert.message }}
+        </fuse-alert>
+    </form>
+</div>

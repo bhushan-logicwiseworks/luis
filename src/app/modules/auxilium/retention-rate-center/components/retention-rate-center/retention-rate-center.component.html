@@ -1,0 +1,160 @@
+<div class="flex w-full flex-col">
+    <!-- View mode -->
+    @if (!editMode) {
+        <!-- Header -->
+        <div class="relative w-full">
+            <div class="flex items-center" mat-dialog-title>
+                <ng-container>
+                    <mat-icon [svgIcon]="'mat_outline:assignment'" [color]="'primary'"></mat-icon>
+                    <h2 class="text-secondary flex-1 pl-2 font-bold uppercase">Retention Rate Details</h2>
+                </ng-container>
+                <button
+                    class="text-secondary"
+                    matTooltip="Close"
+                    mat-dialog-close
+                    mat-icon-button
+                    type="button"
+                    tabindex="-1"
+                >
+                    <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- <Detailed info> -->
+        <div class="relative flex flex-auto flex-col items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- EDit -->
+                <div class="flex flex-auto items-end">
+                    <div class="mb-1 ml-auto flex items-center">
+                        <button mat-flat-button [color]="'primary'" (click)="toggleEditMode(true)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Edit</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Main Section -->
+                <div class="mt-4 flex flex-col space-y-8 border-t pt-6">
+                    <!-- ID -->
+                    <div class="flex">
+                        <button matTooltip="Code ID">
+                            <mat-icon [svgIcon]="'mat_outline:grid_3x3'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ retentionRate.id }}
+                        </div>
+                    </div>
+                    <!-- Created By -->
+                    @if (retentionRate.createdBy) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Created By">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.createdBy }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Created Date-->
+                    @if (retentionRate.createdDate) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Created Date">
+                                <mat-icon [svgIcon]="'mat_outline:edit_calendar'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.createdDate | datetimeformat }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Initial -->
+                    @if (retentionRate.initial) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Initial">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.initial }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Modified By -->
+                    @if (retentionRate.modifiedBy) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Modified By">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.modifiedBy }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Modified Date -->
+                    @if (retentionRate.modifiedDate) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Modified Date">
+                                <mat-icon [svgIcon]="'mat_outline:edit_calendar'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.modifiedDate | datetimeformat }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Month -->
+                    @if (retentionRate.month) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Month">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.month }}
+                            </div>
+                        </div>
+                    }
+                    <!-- New -->
+                    @if (retentionRate.new) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="New">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.new }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Total -->
+                    @if (retentionRate.total) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Total">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.total }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Year -->
+                    @if (retentionRate.year) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Year">
+                                <mat-icon [svgIcon]="'mat_outline:qr_code'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ retentionRate.year }}
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Edit mode -->
+    @if (editMode) {
+        <ac-retention-rate-center-form
+            [retention]="retentionRate"
+            showDeleteButton="true"
+            (cancel)="toggleEditMode(event)"
+            (delete)="deleteRetentionRate()"
+            (save)="updateRetentionRate()"
+        ></ac-retention-rate-center-form>
+    }
+</div>

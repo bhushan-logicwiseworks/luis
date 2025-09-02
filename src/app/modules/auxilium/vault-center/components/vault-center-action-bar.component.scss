@@ -1,0 +1,15 @@
+:host {
+    @apply w-full;
+}
+
+button.mat-flat-button.mat-primary {
+    @apply bg-blue-500;
+}
+
+.tree-scroller {
+    flex: 1 1 auto;
+}
+::ng-deep .mdc-button__label {
+    display: flex;
+    align-items: center;
+}

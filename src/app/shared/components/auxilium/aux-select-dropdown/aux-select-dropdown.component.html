@@ -1,0 +1,36 @@
+<!-- <mat-form-field [class]="className" [formGroup]="matForm">
+  <mat-label>{{label}}</mat-label>
+  <mat-select [formControlName]="controlName" tabIndex="{{tabindex}}">
+    @for (option of selectOption; track trackByIndex(i); let i = $index) {
+      <mat-option [value]="option.value">{{ option.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field> -->
+
+<mat-form-field [class]="className" [formGroup]="matForm">
+    <mat-label>{{ label }}</mat-label>
+    <ng-container *ngIf="enableAutocomplete; else matSelectTemplate">
+        <input
+            type="text"
+            matInput
+            [formControlName]="controlName"
+            [matAutocomplete]="auto"
+            (focus)="openAutocomplete()"
+            [tabIndex]="tabindex"
+        />
+        <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.value">
+                {{ option.name }}
+            </mat-option>
+        </mat-autocomplete>
+    </ng-container>
+
+    <ng-template #matSelectTemplate>
+        <mat-select [formControlName]="controlName" [tabIndex]="tabindex">
+            <mat-option *ngFor="let option of selectOption" [value]="option.value">
+                {{ option.name }}
+            </mat-option>
+        </mat-select>
+    </ng-template>
+</mat-form-field>

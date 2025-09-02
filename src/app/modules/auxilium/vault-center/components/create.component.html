@@ -1,0 +1,40 @@
+<!-- <div class="mat-dialog-title flex items-center">
+  <ic-icon [icon]="icons[data.toCreate]" [inline]="true" size="18px" class="mr-2"></ic-icon>
+  <span>{{! data.isEdit ? 'Create a new' : 'Edit'}} {{data.toCreate}}@if (data.createInVault) {
+    <span>&nbsp;in {{data.createInVault.vaultName}}</span>
+    }@if (data.createInFolder) {
+    <span>&nbsp;>&nbsp;{{data.createInFolder.folderName}}</span>
+  }</span>
+  <button class="text-secondary ml-auto" (click)="closeModal()" matTooltip="Close" mat-icon-button mat-dialog-close mat-icon-button type="button" tabindex="-1">
+    <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+  </button>
+</div> -->
+<div class="mat-dialog-content my-4 flex flex-col items-center justify-center" [formGroup]="form">
+    <mat-form-field class="w-full">
+        <mat-label>{{ data.toCreate }} Name<sup class="text-sm text-gray-400"></sup></mat-label>
+        <input matInput formControlName="name" class="uppercase" />
+        <ic-icon [icon]="icons[data.toCreate]" [inline]="true" size="18px" class="mr-2" matPrefix></ic-icon>
+        <mat-error>{{ data.toCreate }} name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+        <mat-label>{{ data.toCreate }} Description</mat-label>
+        <input matInput formControlName="description" class="uppercase" />
+        <ic-icon [icon]="icons[data.toCreate]" [inline]="true" size="18px" class="mr-2" matPrefix></ic-icon>
+    </mat-form-field>
+</div>
+<!-- <div class="flex w-full mt-4 " [class.justify-center]="! data.isEdit" [class.justify-between]="data.isEdit">
+  @if (data.isEdit) {
+    <button mat-flat-button color="warn" class="mr-6" (click)="delete()">
+      <ic-icon [icon]="icDelete" [inline]="true" size="18px" class="mr-2"></ic-icon>
+      Delete
+    </button>
+  }
+  <div class="flex gap-4">
+    <button mat-button mat-dialog-close [matTooltip]="'Cancel'" (click)="closeModal()">
+      <span>Cancel</span>
+    </button>
+    <button mat-raised-button color="primary" (click)="data.isEdit ? edit() : add()" [disabled]="form.invalid" [class.w-full]="! data.isEdit">
+      <span>Save</span>
+    </button>
+  </div>
+</div> -->

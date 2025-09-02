@@ -1,0 +1,113 @@
+<!-- COLUMN 3 -->
+<div class="w-full" [ngClass]="className">
+    <!-- COUNTER 3-1 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totActivePatientsCount"
+            [kpiLabel]="activePatientsByManufacturer"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-500"
+            label="Total Active CGM Patients"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-2 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totActiveCMNExpir_14day_Count"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-600"
+            label="DOCS AFFECTING AN ORDER IN THE NEXT 35 DAYS"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-3 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totPendingCGM_Ref_Count"
+            [kpiLabel]="patientsByInsurance1"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-500"
+            label="Total Pending CGM Referrals"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-4 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="tot_Avg_Days_From_Ref_To_Active_Count"
+            [kpiLabel]="patientsByInsurance2"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-500"
+            label="12-Week Average # of days from Referral Entry To Shipped"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-5 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="tot_CGM_Ref_Turned_Active_Patients_Count"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-600"
+            label="% CGM Referrals Turned Into Active Patients Last 12 Weeks"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-6 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [gaugeOptions]="patientsUsingReorderPortalOptions"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-600"
+            [gaugeSeries]="[patientsUsingReorderPortalPercent || 0]"
+            [value]="patientsUsingReorderPortalCount"
+            label="Reg Patients on Answers Portal - % of Total Active"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-7 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totalAccounts"
+            [kpiLabel]="activeAccount"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-600"
+            label="Total Referral Sources"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-8 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totalRetentionRate"
+            [percentage]="true"
+            class="h-full dark:bg-gray-800"
+            color="text-purple-600"
+            label="Total CGM Patient Retention Rate"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 3-9 -->
+    <div [ngClass]="rowClassName">
+        <aux-line-chart
+            [options]="activePatientLongevityThisMonthChartOptions"
+            color="text-orange-500"
+            class="dark:bg-gray-800"
+            [series]="activePatientLongevityThisMonth"
+            [value]="activePatientLongevityThisMonthCount"
+            label="Current Active Patient Longevity"
+        ></aux-line-chart>
+    </div>
+
+    <!-- COUNTER 3-10 -->
+    <div [ngClass]="rowClassName">
+        <aux-line-chart
+            [options]="newCGMPatientLongevityThisMonthChartOptions"
+            color="text-orange-500"
+            class="dark:bg-gray-800"
+            [series]="newCGMPatientLongevityThisMonth"
+            [value]="newCGMPatientLongevityThisMonthCount"
+            label="Average CGM Patient Service Longevity"
+        ></aux-line-chart>
+    </div>
+</div>

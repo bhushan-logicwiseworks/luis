@@ -1,0 +1,36 @@
+<form class="flex flex-auto flex-col p-6 sm:p-8" [formGroup]="physicianForm">
+    <aux-select-dropdown
+        [className]="'w-full pr-2'"
+        [label]="'Order'"
+        [selectOption]="orderList"
+        [controlName]="'order'"
+        [matForm]="physicianForm"
+    ></aux-select-dropdown>
+
+    <!-- Payors -->
+    <div class="align-center flex items-baseline">
+        <mat-form-field class="w-11/12 pr-2">
+            <mat-label>Physician</mat-label>
+            <input [readonly]="true" class="uppercase" matInput [formControlName]="'physicianame'" />
+            @if (physicianForm.get('physicianame').hasError('required')) {
+                <mat-error>Physician Filed Is Required </mat-error>
+            }
+        </mat-form-field>
+        <mat-icon
+            matPrefix
+            class="icon-size-1 cursor-pointer sm:flex"
+            [svgIcon]="'heroicons_solid:download'"
+            (click)="openPhysicianList()"
+        ></mat-icon>
+    </div>
+
+    <!-- type -->
+    <aux-select-dropdown
+        [className]="'w-full pr-2'"
+        [label]="'Type'"
+        [selectOption]="typeList"
+        [controlName]="'type'"
+        [matForm]="physicianForm"
+    ></aux-select-dropdown>
+</form>
+<!-- </div> -->

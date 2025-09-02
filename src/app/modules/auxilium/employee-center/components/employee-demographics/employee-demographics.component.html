@@ -1,0 +1,343 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="employeeForm" (ngSubmit)="save()" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'employee-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- employee Demographics Component -->
+        <div class="w-full p-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- employee Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        Employee Details
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- employee Name -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>User Name</mat-label>
+                                <input
+                                    class="uppercase"
+                                    [formControlName]="'username'"
+                                    matInput
+                                    [value]="employee?.username || ''"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>First Name</mat-label>
+                                <input
+                                    class="uppercase"
+                                    [formControlName]="'firstname'"
+                                    matInput
+                                    [value]="employee?.firstname || ''"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Last Name</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'lastname'"
+                                    [value]="employee?.lastname || ''"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Address</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'address'"
+                                    [value]="employee?.address || ''"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12">
+                                <mat-label>Address 2</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'address2'"
+                                    [value]="employee?.address2 || ''"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- City / Sate / Zip / County -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-5/12 pr-2">
+                                <mat-label>City</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'city'" type="text" />
+                            </mat-form-field>
+
+                            <mat-form-field
+                                class="state-select w-3/12 pr-2"
+                                [appearance]="'outline'"
+                                bindLabel="abbreviation"
+                            >
+                                <mat-label>State</mat-label>
+                                <input
+                                    matInput
+                                    tabindex="9"
+                                    aria-label="State"
+                                    [matAutocomplete]="auto"
+                                    [formControl]="state"
+                                />
+                                <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                                <mat-autocomplete #auto="matAutocomplete" [panelWidth]="285">
+                                    @for (state of filteredStates | async; track state) {
+                                        <mat-option [value]="state.abbreviation">
+                                            <span class="mr-1 font-bold">
+                                                {{ state.abbreviation }}
+                                            </span>
+                                            <span>{{ state.name }}</span>
+                                        </mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Zip</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'zip'"
+                                    [value]="employee?.zip || ''"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Display Name / Date of Birth -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-8/12 pr-2">
+                                <mat-label>Display Name</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'displayname'" type="text" />
+                            </mat-form-field>
+                            <mat-form-field
+                                class="w-4/12"
+                                [ngClass]="{ 'mb-12': employeeForm.get('dob').hasError('notValidDate') }"
+                            >
+                                <mat-label>Date of Birth</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'dob'"
+                                    [matDatepicker]="datepicker3"
+                                    (change)="onDateChange($event, 'dob')"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                    tabindex="11"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker3"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker3="matDatepicker"></mat-datepicker>
+                                @if (employeeForm.get('dob').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Added By / Added TS -->
+                        <div clas="w-full">
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Added By</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'addedby'"
+                                    [value]="employee?.addedBy"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Added Date</mat-label>
+                                <input matInput [formControlName]="'addeddate'" [readonly]="true" />
+                            </mat-form-field>
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Modified By</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'modifiedby'"
+                                    [value]="employee?.modifiedBy"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-3/12">
+                                <mat-label>Modified Date</mat-label>
+                                <input matInput [formControlName]="'modifieddate'" [readonly]="true" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Contact Information Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        Contact Information
+                    </div>
+
+                    <!-- Phone / Fax  -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Phone</mat-label>
+                                <mat-icon
+                                    matSuffix
+                                    class="text-hint icon-size-5"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                    (click)="makeCall('Phone')"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    [formControlName]="'phone'"
+                                    [value]="employee?.phone || employee?.cell || '' | phone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12">
+                                <mat-label>Fax</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'fax'"
+                                    [value]="employee?.phone || employee?.cell || employee?.fax || '' | phone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!--  Cell / Email -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Cell</mat-label>
+                                <mat-icon
+                                    matSuffix
+                                    class="text-hint icon-size-5"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                    (click)="makeCall('Cell')"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    [formControlName]="'cell'"
+                                    [value]="employee?.phone || employee?.cell || '' | phone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12">
+                                <mat-label>Email</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'email'"
+                                    [value]="employee?.email || ''"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- Pending Status -->
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <mat-checkbox
+                                [formControlName]="'isactive'"
+                                [checked]="employee?.isactive === 'Y'"
+                                [color]="'primary'"
+                                class="mr-2"
+                                >Is Active</mat-checkbox
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full pb-2 pl-2 pr-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- employee Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        Company Info
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- Job -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Job Code</mat-label>
+                                <input class="uppercase" [formControlName]="'jobcode'" matInput />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Job Title</mat-label>
+                                <input class="uppercase" [formControlName]="'jobtitle'" matInput />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Role</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'role'" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Employment -->
+                        <div class="flex w-full items-baseline">
+                            <mat-form-field
+                                class="w-6/12 pr-2"
+                                [ngClass]="{ 'mb-12': employeeForm.get('employmentdate').hasError('notValidDate') }"
+                            >
+                                <mat-label>Employment Date</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'employmentdate'"
+                                    [matDatepicker]="openemploymentdate"
+                                    (change)="onDateChange($event, 'employmentdate')"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="openemploymentdate"></mat-datepicker-toggle>
+                                <mat-datepicker #openemploymentdate="matDatepicker"></mat-datepicker>
+                                @if (employeeForm.get('employmentdate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                                }
+                            </mat-form-field>
+                            <mat-form-field
+                                class="w-6/12"
+                                [ngClass]="{ 'mb-12': employeeForm.get('terminationdate').hasError('notValidDate') }"
+                            >
+                                <mat-label>Termination Date</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'terminationdate'"
+                                    [matDatepicker]="datepicker4"
+                                    (change)="onDateChange($event, 'terminationdate')"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker4"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker4="matDatepicker"></mat-datepicker>
+                                @if (employeeForm.get('terminationdate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

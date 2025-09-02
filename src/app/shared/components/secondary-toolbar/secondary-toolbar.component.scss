@@ -1,0 +1,23 @@
+.secondary-toolbar {
+    background: white;
+    height: 54px;
+    margin-top: -54px;
+    width: 100%;
+    /* width: var(--toolbar-width); */
+}
+
+.secondary-toolbar-placeholder {
+    height: 54px;
+}
+
+::ng-deep {
+    .ac-breadcrumbs {
+        @apply hidden;
+    }
+
+    @screen sm {
+        .ac-breadcrumbs {
+            @apply block;
+        }
+    }
+}

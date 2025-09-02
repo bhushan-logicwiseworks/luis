@@ -1,0 +1,26 @@
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 8px !important;
+    overflow-x: hidden;
+}
+
+::ng-deep app-patient-group-edit-work-order .mat-mdc-dialog-container .mdc-dialog__content {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+::ng-deep app-aux-popup .mat-typography {
+    max-height: none;
+}
+::ng-deep .mdc-dialog .mdc-dialog__content {
+    padding: unset !important;
+    max-height: unset;
+}
+
+:host {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+::ng-deep app-aux-popup mat-icon {
+    vertical-align: middle;
+}

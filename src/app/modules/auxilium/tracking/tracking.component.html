@@ -1,0 +1,92 @@
+<div class="bg-card flex min-w-0 flex-auto flex-col">
+    <!-- Main -->
+    <div class="-mt-px flex-auto border-t">
+        <div class="mx-auto w-full max-w-screen-xl">
+            <div class="wrap">
+                <section class="container">
+                    <div class="item subtitle p5">SHIPPING STATUS</div>
+                    <div class="item title p5">{{ item.shipStatus }}</div>
+                    <div class="item subtitle p5">{{ item.actualDeliveryDate }}</div>
+                    <div class="item subtitle p5">{{ item.actualDeliveryDateTZ }}</div>
+                    <div class="item subtitle pt-5"><img src="{{ item.progressBar }}" alt="progressbar" /></div>
+                    <div class="item subtitle p5">{{ item.signer }}</div>
+                    <div class="p-tb">
+                        <div class="item b-all b-radius">
+                            <div class="item flex-item-1">
+                                <section class="container flex">
+                                    <div class="item flex-item-1">
+                                        <div class="p20">
+                                            <div class="FieldName">Shipping Carrier</div>
+                                            <div class="content">
+                                                <img class="logo" src="{{ item.carrierLogo }}" alt="Carrier" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item flex-item-1">
+                                        <div class="p20">
+                                            <div class="FieldName">Tracking Number</div>
+                                            <div class="content">
+                                                <a href="{{ url }}" target="_blank"
+                                                    >{{ item.trackingNumber }}
+                                                    <mat-icon [svgIcon]="'open_in_new'"></mat-icon
+                                                ></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="item b-sides">
+                            <div class="p20">
+                                <div class="FieldName">Order Status or Date Delivered</div>
+                                <div class="content">
+                                    {{ item.actualDeliveryDate }} <br />
+                                    <span class="timezone">{{ item.actualDeliveryDateTZ }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item b-sides b-top">
+                            <div class="p20">
+                                <div class="FieldName">To City and State</div>
+                                <div class="content">{{ item.city }}, {{ item.state }} {{ item.zipCode }}</div>
+                            </div>
+                        </div>
+                        <div class="item b-all">
+                            <div class="item flex-item-1">
+                                <section class="container flex">
+                                    <div class="item flex-item-1">
+                                        <div class="p20">
+                                            <div class="FieldName">Purchase Order Number</div>
+                                            <div class="content">{{ item.patientId }}-{{ item.poNumber }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="item flex-item-1 b-sides">
+                                        <div class="p20">
+                                            <div class="FieldName">Ref Number</div>
+                                            <div class="content">
+                                                {{ item.id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item flex-item-1">
+                                        <div class="p20">
+                                            <div class="FieldName">Parcel Shipped On</div>
+                                            <div class="content">
+                                                {{ item.shipDate }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="text-center">
+                    <a class="text-blue-500" href="https://www.prism-medical.com/privacy-statement" target="_blank"
+                        >Privacy Policy</a
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

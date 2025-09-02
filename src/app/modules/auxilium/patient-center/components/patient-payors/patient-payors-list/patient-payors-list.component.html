@@ -1,0 +1,17 @@
+<!-- UPLOAD DOCUMENT VIEW -->
+<!-- Header -->
+<div class="relative rounded bg-white shadow">
+    <div class="relative bg-white" [ngClass]="{ 'min-h-80': loading$ | async }">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [paginatorOption]="paginationOptions"
+            [component]="'patientPayorList'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="displayedColumns"
+            (rowSelectionChange)="onSelectionChanged($event)"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

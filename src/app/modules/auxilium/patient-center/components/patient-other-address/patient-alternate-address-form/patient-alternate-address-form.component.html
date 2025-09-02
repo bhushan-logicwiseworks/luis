@@ -1,0 +1,272 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="addressForm">
+            <!--Address Type -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Address Type</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <mat-select formControlName="addresstype" tabindex="1">
+                        <mat-option value="SHIP TO">SHIP TO</mat-option>
+                        <mat-option value="OTHER">OTHER</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!--Effective Date -->
+            <div class="mt-4">
+                <mat-form-field class="custom-datepicker-toggle w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Effective Date</mat-label>
+                    <div class="input-container">
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker3"></mat-datepicker-toggle>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [formControlName]="'effectivedate'"
+                            tabindex="2"
+                            [value]="address?.effectivedate"
+                            [matDatepicker]="datepicker3"
+                            (change)="onDateChange($event, 'effectivedate')"
+                            [spellcheck]="false"
+                            [placeholder]="dateFormat"
+                        />
+                    </div>
+                    <mat-datepicker #datepicker3="matDatepicker"></mat-datepicker>
+                    @if (addressForm.get('effectivedate').hasError('notValidDate')) {
+                        <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!--Expire Date -->
+            <div class="mt-4">
+                <mat-form-field class="custom-datepicker-toggle w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Expire Date</mat-label>
+                    <div class="input-container">
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [formControlName]="'expiredate'"
+                            [value]="address?.expiredate"
+                            tabindex="3"
+                            [matDatepicker]="datepicker2"
+                            (change)="onDateChange($event, 'expiredate')"
+                            [spellcheck]="false"
+                            [placeholder]="dateFormat"
+                        />
+                    </div>
+                    <mat-datepicker #datepicker2="matDatepicker"></mat-datepicker>
+                    @if (addressForm.get('expiredate').hasError('notValidDate')) {
+                        <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- First Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>First Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'firstname'"
+                        [placeholder]="'First Name'"
+                        tabindex="4"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Last Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Last Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'lastname'"
+                        [placeholder]="'Last Name'"
+                        tabindex="5"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Address -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Address</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'address'"
+                        [placeholder]="'Address'"
+                        tabindex="6"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Address2 -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Address 2</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'address2'"
+                        [placeholder]="'Address 2'"
+                        tabindex="7"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- City -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>City</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input class="uppercase" matInput [formControlName]="'city'" [placeholder]="'City'" />
+                </mat-form-field>
+            </div>
+
+            <!-- State -->
+            <div class="mt-4">
+                <div class="relative">
+                    <mat-form-field class="state-select state w-full uppercase" bindLabel="abbreviation">
+                        <mat-label>State</mat-label>
+                        <mat-icon
+                            matPrefix
+                            class="hidden icon-size-5 sm:flex"
+                            [svgIcon]="'heroicons_solid:location-marker'"
+                        ></mat-icon>
+                        <input matInput aria-label="State" [matAutocomplete]="auto" [formControl]="state" />
+                        <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                        <mat-autocomplete #auto="matAutocomplete">
+                            @for (state of filteredStates | async; track state) {
+                                <mat-option [value]="state.abbreviation">
+                                    <span class="mr-1 font-bold">
+                                        {{ state.abbreviation }}
+                                    </span>
+                                    <span>{{ state.name }}</span>
+                                </mat-option>
+                            }
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- Zip -->
+            <div>
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Zip</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input matInput [formControlName]="'zip'" [placeholder]="'Zip'" numbers tabindex="8" />
+                </mat-form-field>
+            </div>
+
+            <!-- Email -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:mail'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'email'"
+                        [placeholder]="'Email'"
+                        tabindex="9"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Phone -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Phone</mat-label>
+                    <mat-icon
+                        matPrefix
+                        (click)="makeCall()"
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:phone'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'phone'"
+                        [value]="address?.phone || '' | phone"
+                        tabindex="10"
+                        mask="(000) 000-0000"
+                        [showMaskTyped]="true"
+                        [placeholder]="'Phone'"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Relationship -->
+            <div class="mb-4 mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Relationship</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'relationship'"
+                        [placeholder]="'Relationship'"
+                        tabindex="11"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert [appearance]="'outline'" [type]="alert.type" [showIcon]="false" [@shake]="true">
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

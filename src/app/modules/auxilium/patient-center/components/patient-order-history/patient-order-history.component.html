@@ -1,0 +1,16 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="flex w-full bg-white p-1 dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+    <div class="relative overflow-auto bg-white dark:bg-transparent">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [agGridHeight]="'calc(100vh - 379px)'"
+            [visibleColumns]="visibleColumns"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

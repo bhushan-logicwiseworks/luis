@@ -1,0 +1,192 @@
+<div class="flex w-full flex-col">
+    <div
+        class="bg-card flex flex-0 flex-col border-b p-6 dark:bg-transparent sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:py-6"
+    >
+        <!-- Title -->
+        <div class="min-w-0 flex-1">
+            <div>
+                <h2 class="truncate text-3xl font-extrabold leading-7 tracking-tight sm:leading-10 md:text-4xl">
+                    TerritoryTransfer
+                </h2>
+            </div>
+        </div>
+    </div>
+    <form class="bg-card ml-6 mt-6 max-w-240 overflow-hidden rounded p-4 shadow">
+        <mat-horizontal-stepper [linear]="true" #horizontalStepper>
+            <!-- Territory Owner Step -->
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Territory owner</ng-template>
+                    <p class="my-6 font-medium">Select the new territory owner</p>
+                    <div class="flex">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-select [formControlName]="'salesId'" tabindex="33">
+                                @for (value of salesRepList; track value) {
+                                    <mat-option [value]="value.value">{{ value.name }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-5 flex justify-end">
+                        <button class="px-8" mat-flat-button [color]="'primary'" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <!-- Transfer Type Step -->
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Transfer Type</ng-template>
+                    <p class="my-6 font-medium">Select the type of transfer</p>
+                    <div class="gt-xs:flex-row flex flex-col">
+                        <mat-radio-group
+                            aria-label="Select the type of transfer"
+                            [color]="'primary'"
+                            formControlName="transferType"
+                        >
+                            <mat-radio-button value="state">State</mat-radio-button>
+                            <mat-radio-button value="zip">Zip Code</mat-radio-button>
+                            <mat-radio-button value="representative">Representative</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="mr-2 px-8" mat-flat-button [color]="'accent'" matStepperPrevious>Back</button>
+                        <button class="px-8" mat-flat-button [color]="'primary'" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <!-- Transfer Values Step -->
+            <mat-step [stepControl]="fourFormGroup">
+                <form [formGroup]="fourFormGroup">
+                    <ng-template matStepLabel>Transfer Values</ng-template>
+                    @if (this.secondFormGroup.get('transferType').value === 'zip') {
+                        <p class="my-6 font-medium">Enter the list if zip codes for the transfer</p>
+                    }
+                    @if (this.secondFormGroup.get('transferType').value === 'state') {
+                        <p class="my-6 font-medium">Select the state from the dropdown</p>
+                    }
+                    @if (this.secondFormGroup.get('transferType').value === 'representative') {
+                        <p class="my-6 font-medium">Select the old territory owner</p>
+                    }
+                    @if (this.secondFormGroup.get('transferType').value === 'zip') {
+                        <div class="gt-sm:flex-row flex flex-col">
+                            <mat-form-field class="pr-2">
+                                <input class="uppercase" matInput [formControlName]="'transferValues'" tabindex="5" />
+                            </mat-form-field>
+                        </div>
+                    }
+                    @if (this.secondFormGroup.get('transferType').value === 'state') {
+                        <div class="gt-sm:flex-row flex flex-col">
+                            <mat-form-field
+                                class="state-select w-full"
+                                [appearance]="'outline'"
+                                bindLabel="abbreviation"
+                            >
+                                <mat-label>State</mat-label>
+                                <input
+                                    matInput
+                                    tabindex="9"
+                                    aria-label="State"
+                                    [matAutocomplete]="auto"
+                                    [formControlName]="'transferValues'"
+                                />
+                                <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    @for (state of filteredStates | async; track state) {
+                                        <mat-option [value]="state.abbreviation">
+                                            <span class="mr-1 font-bold">
+                                                {{ state.abbreviation }}
+                                            </span>
+                                            <span>{{ state.name }}</span>
+                                        </mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <!-- <ng-select [appendTo]="'body'" [tabIndex]="'9'" [items]="usStates" class="pr-2 state-select"
+                [appearance]="'outline'" [selectOnTab]="true" bindLabel="abbreviation"
+                formControlName="transferValues" bindValue="abbreviation" [trackByFn]="trackByFn">
+                <ng-template ng-option-tmp let-item="item">
+                  <div class="flex gap-3 w-auto">
+                    <span class="font-bold text-black">
+                      {{item.abbreviation}}
+                    </span>
+                    <span>
+                      {{item.name}}
+                    </span>
+                  </div>
+                </ng-template>
+              </ng-select> -->
+                        </div>
+                    }
+                    @if (this.secondFormGroup.get('transferType').value === 'representative') {
+                        <div class="flex">
+                            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                <mat-select [formControlName]="'transferValues'" tabindex="33">
+                                    @for (value of salesRepList; track value) {
+                                        <mat-option [value]="value.value">{{ value.name }}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    }
+                    <div class="mt-8 flex justify-end">
+                        <button class="mr-2 px-8" mat-flat-button [color]="'accent'" matStepperPrevious>Back</button>
+                        <button class="px-8" mat-flat-button [color]="'primary'" matStepperNext>Next</button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <!-- Category Step -->
+            <mat-step [stepControl]="thirdFormGroup">
+                <ng-template matStepLabel>Category</ng-template>
+                <p class="font-medium">Select the category</p>
+                <div class="gt-sm:flex-row flex flex-col">
+                    <aux-select-dropdown
+                        [className]="'w-full'"
+                        [selectOption]="patientCategoryList$ | async"
+                        [controlName]="'patientCategory'"
+                        [tabindex]="22"
+                        [matForm]="thirdFormGroup"
+                    ></aux-select-dropdown>
+                </div>
+                <div class="mt-8 flex justify-end">
+                    <button class="mr-2 px-8" mat-flat-button [color]="'accent'" matStepperPrevious>Back</button>
+                    <button class="px-8" mat-flat-button [color]="'primary'" matStepperNext>Next</button>
+                </div>
+            </mat-step>
+
+            <!-- Summary Step -->
+            <mat-step [stepControl]="fiveFormGroup">
+                <ng-template matStepLabel>Summary</ng-template>
+                <p class="my-6 font-bold">REVIEW TRANSFER DETAILS</p>
+                <div class="stepper-filed">
+                    <div class="summary-filed">
+                        <span>New Territory Owner :</span>
+                        <span class="font-bold">{{
+                            selectedSalesRep !== null && selectedSalesRep ? selectedSalesRep.name : ''
+                        }}</span>
+                    </div>
+                    <div class="summary-filed">
+                        <span>Type of Transfer:</span>
+                        <span class="font-bold uppercase">{{ secondFormGroup.get('transferType').value }}</span>
+                    </div>
+                    <div class="summary-filed items-baseline">
+                        <span>Transfer Values: </span>
+                        <span class="font-bold">{{ fourFormGroup.get('transferValues').value }}</span>
+                    </div>
+                    <div class="summary-filed">
+                        <span>Category:</span>
+                        <span class="font-bold">{{ thirdFormGroup.get('patientCategory').value }}</span>
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-end">
+                    <button class="mr-2 px-8" mat-flat-button [color]="'accent'" matStepperPrevious>Back</button>
+                    <button class="px-8" mat-flat-button [color]="'primary'" (click)="saveTerritoryTransfer()">
+                        Submit
+                    </button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </form>
+</div>

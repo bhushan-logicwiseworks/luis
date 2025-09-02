@@ -1,0 +1,131 @@
+<div class="vault-center-list flex h-full flex-auto flex-col overflow-auto">
+    <div class="relative mt-0">
+        @if ((viewMode$ | async) === 'list') {
+            <mat-table [dataSource]="dataSource" matSort class="shadow-none" id="vault-center-table">
+                <ng-template cdkNoDataRow>
+                    <div class="flex w-full flex-col items-center justify-center py-6 text-gray-400">
+                        <ic-icon [icon]="icCloudNone" color="#4299e1" [inline]="true" size="48px"></ic-icon>
+                        <span class="mt-5">No files found</span>
+                    </div>
+                </ng-template>
+                <ng-container matColumnDef="logo">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        @if (row.displayName) {
+                            <img
+                                src="fileTypeIcons/file-pdf-box.svg"
+                                height="18px"
+                                width="18px"
+                                style="width: 18px !important; height: 18px !important; max-width: unset"
+                            />
+                        }
+                        @if (!row.displayName) {
+                            <ic-icon [icon]="icFolder" color="#e8bb4d" [inline]="true" size="24px"></ic-icon>
+                        }
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="displayName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="uppercase"> Name</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <div class="flex items-center">
+                            <span>{{ row.displayName || row.folderName }}</span>
+                            @if (row.displayName) {
+                                <span class="ml-3 self-end text-xs uppercase text-gray-400">{{
+                                    row.contentType | contentType
+                                }}</span>
+                            }
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="contentSize">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="uppercase"> size</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        @if (row.displayName) {
+                            <span>{{ row.contentSize | filesize }}</span>
+                        }
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="modifiedDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header class="uppercase"> Modified</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        @if (row.displayName) {
+                            <span> {{ row.modifiedDate | date: 'short' }}</span>
+                        }
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                    (click)="selectFile(row)"
+                    [class.active]="(selectedFile$ | async)?.fileId === row.fileId"
+                >
+                </mat-row>
+            </mat-table>
+        } @else {
+            <div>
+                <div class="flex flex-wrap">
+                    @for (d of dataSource.filteredData; track trackByFn($index, d)) {
+                        <ac-license-gallery-view-item
+                            [item]="d"
+                            (click)="selectFile(d)"
+                            class="gallery-items h-full min-w-8"
+                            [isFileSelected]="fileSelected"
+                        >
+                        </ac-license-gallery-view-item>
+                    }
+                </div>
+                @if (!dataSource?.data?.length) {
+                    <div class="flex w-full flex-col items-center justify-center py-6 text-gray-400">
+                        <ic-icon [icon]="icCloudNone" color="#2f855a" [inline]="true" size="48px"></ic-icon>
+                        <span class="mt-5">No files found</span>
+                    </div>
+                }
+            </div>
+        }
+        <ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>
+    </div>
+</div>
+
+<ng-template #gallery>
+    <div>
+        <div class="flex flex-wrap">
+            @for (d of dataSource.filteredData; track trackByFn($index, d)) {
+                <ac-gallery-view-item
+                    [item]="d"
+                    (click)="selectFile(d)"
+                    class="gallery-items h-full min-w-8"
+                    [isFileSelected]="fileSelected"
+                >
+                    <div class="absolute right-0 top-0 z-40 px-1 py-1">
+                        @if (!fileActionsMenuService.selection.isSelected(d.fileId || d.folderId)) {
+                            <ic-icon
+                                [icon]="icAddCircle"
+                                class="cursor-pointer"
+                                color="gray"
+                                [inline]="true"
+                                size="18px"
+                                (click)="setSelectedFile($event, d)"
+                            ></ic-icon>
+                        }
+                        @if (fileActionsMenuService.selection.isSelected(d.fileId || d.folderId)) {
+                            <ic-icon
+                                [icon]="icCheck"
+                                class="cursor-pointer"
+                                color="#2f855a"
+                                [inline]="true"
+                                size="18px"
+                                (click)="setUnselectedFile($event, d)"
+                            ></ic-icon>
+                        }
+                    </div>
+                </ac-gallery-view-item>
+            }
+        </div>
+        @if (!dataSource?.data?.length) {
+            <div class="flex w-full flex-col items-center justify-center py-6 text-gray-400">
+                <ic-icon [icon]="icCloudNone" color="#2f855a" [inline]="true" size="48px"></ic-icon>
+                <span class="mt-5">No files found</span>
+            </div>
+        }
+    </div>
+</ng-template>

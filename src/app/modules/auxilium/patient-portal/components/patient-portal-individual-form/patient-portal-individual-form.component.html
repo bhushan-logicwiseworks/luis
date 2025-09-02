@@ -1,0 +1,58 @@
+<!-- Header -->
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- Patient ID -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Patient ID</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_outline:hashtag'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'patientId'"
+                        [placeholder]="'Patient ID'"
+                        [spellcheck]="false"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Registered Email -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Registered Email</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_outline:mail'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'registeredEmail'"
+                        [placeholder]="'Registered Email'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

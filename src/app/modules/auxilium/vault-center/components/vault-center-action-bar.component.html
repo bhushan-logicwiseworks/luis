@@ -1,0 +1,48 @@
+@if (vaultData) {
+    <div class="flex w-full items-center justify-between px-8 py-4" id="file-action-bar">
+        <div class="flex w-full flex-1 items-center justify-between">
+            <div class="left flex items-center">
+                @if (this.fileActions.selection.selected.length && fileIsSelected()) {
+                    <ac-action-button
+                        [icon]="icCloudDownload"
+                        (click)="downloadFile()"
+                        [matTooltip]="'Download File'"
+                    ></ac-action-button>
+                }
+                <ac-action-button
+                    [icon]="icPencil"
+                    (click)="renameVault()"
+                    [matTooltip]="'Rename vault'"
+                ></ac-action-button>
+                @if (this.fileActions.selection.selected.length === 1) {
+                    <ac-action-button [icon]="icLink" (click)="generateLink()" [matTooltip]="'Link'"></ac-action-button>
+                }
+                @if (this.fileActions.selection.selected.length && allowDelete()) {
+                    <ac-action-button
+                        [icon]="icTrash"
+                        (click)="deleteFile()"
+                        [matTooltip]="'Delete'"
+                    ></ac-action-button>
+                }
+            </div>
+            <div class="right flex items-center">
+                <mat-divider
+                    [vertical]="true"
+                    class="mx-2"
+                    style="height: 30px; border-right-color: blue"
+                ></mat-divider>
+                <span
+                    [ngTemplateOutlet]="viewModeToggle"
+                    [ngTemplateOutletContext]="{ viewMode: viewMode$ | async }"
+                ></span>
+            </div>
+        </div>
+    </div>
+}
+
+<ng-template #viewModeToggle let-viewMode="viewMode">
+    <ac-action-button
+        [icon]="viewMode === 'list' ? icGallery : icList"
+        (click)="setViewMode(viewMode)"
+    ></ac-action-button>
+</ng-template>

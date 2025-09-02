@@ -1,0 +1,56 @@
+<div class="mat-dialog-title relative flex">
+    <ic-icon [icon]="icNotification" [inline]="true" size="18px" class="mr-2"></ic-icon>
+    Edit Notification
+    <ic-icon
+        class="absolute right-0 top-0 cursor-pointer"
+        [icon]="icCancel"
+        (click)="close()"
+        [inline]="true"
+        size="32px"
+    ></ic-icon>
+</div>
+<form class="mt-10 flex w-full flex-col p-2" [formGroup]="form">
+    <mat-form-field class="w-full">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+    </mat-form-field>
+    <mat-form-field class="w-full pr-2" [ngClass]="{ 'mb-4': form.get('when').hasError('notValidDate') }">
+        <mat-label>Inactive Date</mat-label>
+        <input
+            matInput
+            [formControlName]="'when'"
+            [matDatepicker]="datepicker1"
+            (change)="onDateChange($event, 'when')"
+            [placeholder]="dateFormat"
+            defaultDate
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker1="matDatepicker"></mat-datepicker>
+        @if (form.get('when').hasError('notValidDate')) {
+            <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Notification Method</mat-label>
+        <mat-select formControlName="deliveryMethod">
+            <mat-option [value]="'Email'">Email</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+        <mat-label>Message</mat-label>
+        <textarea
+            matInput
+            formControlName="message"
+            cdkTextareaAutosize
+            cdkAutosizeMaxRows="10"
+            cdkAutosizeMinRows="3"
+        ></textarea>
+    </mat-form-field>
+</form>
+<div class="mt-10 flex justify-between">
+    <button mat-button color="warn" (click)="deleteNotification()">Delete Notification</button>
+    <button mat-raised-button color="primary" (click)="saveData()" [disabled]="form.invalid">
+        <ic-icon [icon]="icSave" [inline]="true" size="18px" class="mr-2"></ic-icon>
+        Save
+    </button>
+</div>

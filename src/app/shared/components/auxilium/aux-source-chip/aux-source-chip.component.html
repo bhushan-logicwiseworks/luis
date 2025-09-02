@@ -1,0 +1,9 @@
+<!-- <div [ngClass]="getColor(label)" class="m-1 py-0 px-2 rounded-full text-sm inline-block lowercase">{{ label }}</div> -->
+@if (label) {
+    <span
+        class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold uppercase tracking-wide"
+        [ngClass]="getColor(label)"
+    >
+        <span class="whitespace-nowrap leading-relaxed">{{ label }}</span>
+    </span>
+}

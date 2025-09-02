@@ -1,0 +1,19 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="flex w-full bg-white p-1 dark:bg-transparent" *ngIf="toolbarData.length > 0">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'work-order-toolbar'">
+        </fuse-horizontal-navigation>
+    </div>
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'workordercenter'"
+            [columnDefs]="columnDefs"
+            [rowData]="rowData"
+            [visibleColumns]="visibleColumns"
+            [agGridHeight]="'calc(100vh - 292px)'"
+            [loading]="loading$ | async"
+            (rowSelectionChange)="onSelectionChanged($event)"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

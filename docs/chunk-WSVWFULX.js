@@ -1,0 +1,1 @@
+import{a as t,b as o}from"./chunk-7TJE7DO7.js";var a=t("[Router] Navigate",o()),e=t("[Router] Navigate Dashboards"),i=t("[Router] Navigate Login"),g={Navigate:a,NavigateHome:e,NavigateLogin:i};export{g as a};

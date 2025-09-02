@@ -1,0 +1,16 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'patientcenter'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            [isCsvExport]="false"
+            [agGridHeight]="'calc(100vh - 292px)'"
+            (cellClicked)="onSelectionChanged($event)"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

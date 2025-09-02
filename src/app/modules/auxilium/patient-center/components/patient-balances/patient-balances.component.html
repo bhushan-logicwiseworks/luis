@@ -1,0 +1,40 @@
+@if (patientBalances) {
+    <div class="container mx-auto p-4">
+        <table class="min-w-full border border-gray-300 bg-white dark:bg-transparent">
+            <thead>
+                <tr>
+                    <th class="border-b py-3 pl-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        A/R Balance
+                    </th>
+                    <th class="border-b py-3 pl-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Insurance Amt
+                    </th>
+                    <th class="border-b py-3 pl-6 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Patient Amt
+                    </th>
+                    <th class="border-b py-3 pl-6 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Remaining Deduction
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b bg-white dark:bg-transparent">
+                    <td class="whitespace-nowrap py-4 pl-2">{{ patientBalances.arBalance }}</td>
+                    <td class="whitespace-nowrap py-4 pl-2">{{ patientBalances.insuranceAmount }}</td>
+                    <td class="whitespace-nowrap py-4 pl-6">{{ patientBalances.patientAmount }}</td>
+                    <td class="whitespace-nowrap py-4 pl-6">{{ patientBalances.remainingDeductible }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @if (patientBalances.length === 0) {
+        <div class="justify-center py-[5%]">
+            <h1 class="to-black text-center text-2xl font-bold">No Patient Balance Details Available</h1>
+        </div>
+    }
+} @else {
+    <ac-loading-overlay [show]="loading"></ac-loading-overlay>
+}
+<ng-template #loading>
+    <ac-loading-overlay [show]="loading"></ac-loading-overlay>
+</ng-template>

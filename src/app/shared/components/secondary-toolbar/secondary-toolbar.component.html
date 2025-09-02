@@ -1,0 +1,10 @@
+<div class="secondary-toolbar-placeholder">&nbsp;</div>
+
+<div class="secondary-toolbar shadow-b fixed z-40 flex w-full border-t px-4 py-1 dark:bg-gray-800">
+    <div class="px-gutter flex flex-auto items-center">
+        @if (current) {
+            <h1 class="m-0 mr-3 flex-auto border-r pr-3 text-base font-medium sm:flex-none">{{ current }}</h1>
+        }
+        <ng-content></ng-content>
+    </div>
+</div>

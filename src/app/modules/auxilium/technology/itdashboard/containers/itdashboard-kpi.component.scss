@@ -1,0 +1,33 @@
+::ng-deep app-itdashboard-kpi {
+    display: block !important;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex-basis: 100%;
+    padding: 0;
+    border: solid 0px #a1a1a1;
+}
+
+.col-kpi {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.row-kpi {
+    flex-basis: 100%;
+    padding: 5px;
+    border: solid 5px transparent;
+}
+
+@media screen and (min-width: 800px) {
+    .column {
+        flex: 1;
+    }
+}

@@ -1,0 +1,58 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="abbottUserForm">
+            <!-- Email -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:mail'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'email'"
+                        [placeholder]="'Email'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Zip Codes -->
+            <div class="mt-8">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Zip Codes</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <textarea
+                        matInput
+                        [formControlName]="'zipcodes'"
+                        [placeholder]="'Zip Codes'"
+                        [rows]="5"
+                        [spellcheck]="false"
+                        cdkTextareaAutosize
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

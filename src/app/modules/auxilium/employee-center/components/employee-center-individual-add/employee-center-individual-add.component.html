@@ -1,0 +1,34 @@
+<form class="flex flex-auto flex-col p-5 sm:p-5 sm:pb-0" [formGroup]="addForm">
+    <!-- First Name -->
+    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>First Name</mat-label>
+        <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'firstname'"
+            [placeholder]="'First Name'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field class="mt-4 w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>Last Name</mat-label>
+        <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'lastname'"
+            [placeholder]="'Last Name'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field class="mb-6 mt-4 w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>Email</mat-label>
+        <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        <input class="uppercase" matInput [formControlName]="'email'" [placeholder]="'Email'" [spellcheck]="false" />
+    </mat-form-field>
+</form>

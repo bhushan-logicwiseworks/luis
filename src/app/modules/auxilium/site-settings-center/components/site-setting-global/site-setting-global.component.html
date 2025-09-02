@@ -1,0 +1,21 @@
+<div class="flex w-full flex-col space-y-6 p-6">
+    <!-- <div class="border-b border-gray-200 pb-4">
+        <h2 class="text-2xl font-semibold text-gray-800">Global Site Settings</h2>
+    </div> -->
+    <div class="flex flex-col space-y-6">
+        <div class="rounded-lg bg-white p-6 shadow-sm">
+            <h3 class="mb-4 text-lg font-medium text-gray-900">System Actions</h3>
+            <div class="flex items-center space-x-4">
+                <button
+                    mat-icon-button
+                    class="rounded-full p-2 transition-colors duration-200 hover:bg-gray-100"
+                    (click)="hardResetApp()"
+                    matTooltip="Hard Reset Application"
+                >
+                    <mat-icon [svgIcon]="'heroicons_outline:refresh'" class="h-6 w-6 text-gray-600"></mat-icon>
+                </button>
+                <span class="text-sm text-gray-600">Hard Reset Application</span>
+            </div>
+        </div>
+    </div>
+</div>

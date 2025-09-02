@@ -1,0 +1,19 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+    <div class="relative overflow-auto bg-white dark:bg-transparent">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [columnDefs]="columnDefs"
+            [rowData]="rowData"
+            [component]="'patientCalls'"
+            [visibleColumns]="visibleColumns"
+            [loading]="loading$ | async"
+            [agGridHeight]="'calc(100vh - 304px)'"
+            (cellClicked)="onSelectionChanged($event)"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

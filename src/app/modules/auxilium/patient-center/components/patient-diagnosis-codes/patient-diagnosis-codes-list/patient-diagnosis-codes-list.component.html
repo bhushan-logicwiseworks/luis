@@ -1,0 +1,13 @@
+<div class="relative overflow-auto" [ngClass]="{ 'min-h-80': loading$ | async }">
+    <aux-ag-grid
+        [gridOptions]="options"
+        [paginatorOption]="paginationOptions"
+        [component]="'patientDiagnosisCodeList'"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [visibleColumns]="displayedColumns"
+        (rowSelectionChange)="onSelectionChanged($event)"
+        [loading]="loading$ | async"
+    >
+    </aux-ag-grid>
+</div>

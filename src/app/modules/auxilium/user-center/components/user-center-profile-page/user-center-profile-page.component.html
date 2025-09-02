@@ -1,0 +1,38 @@
+<div class="flex min-w-0 flex-auto flex-col">
+    <!-- Header -->
+    <div class="bg-card flex flex-col shadow">
+        <!-- Cover image -->
+        <div>
+            <img
+                class="h-40 object-cover lg:h-80"
+                [src]="profileBackGroundPicture$ | async | getimage: profilePicture.BackgroundImage"
+                alt="Cover image"
+            />
+        </div>
+
+        <!-- User info -->
+        <div class="bg-card mx-auto flex w-full max-w-5xl flex-0 flex-col items-center px-8 lg:h-18 lg:flex-row">
+            <!-- Avatar -->
+            <div class="-mt-26 rounded-full bg-white lg:-mt-22">
+                <img
+                    class="ring-bg-card h-32 w-32 rounded-full ring-4"
+                    [src]="profilePicture$ | async | getimage: profilePicture.Picture"
+                    alt="User avatar"
+                />
+            </div>
+            @if (loggedInUser) {
+                <div class="ml-6 w-1/6 border-r">
+                    <div>
+                        <b>{{ loggedInUser?.firstname }}</b>
+                    </div>
+                    <div>{{ loggedInUser?.city }},{{ loggedInUser.state }}</div>
+                </div>
+                <div class="pl-3">
+                    <div>
+                        <b>{{ loggedInUser?.title }}</b>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

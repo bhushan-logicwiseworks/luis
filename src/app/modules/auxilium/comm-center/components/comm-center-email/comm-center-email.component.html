@@ -1,0 +1,387 @@
+<div class="row">
+    <div class="column column1 dark:bg-transparent">
+        <div class="relative">
+            <!-- Header title and action buttons -->
+            <div class="flex items-center">
+                @if (
+                    (email?.emailSource == 'FAX' || email?.emailSource == 'EMAIL' || email?.emailSource == 'Email') &&
+                    attachMentID
+                ) {
+                    <button (click)="downloadPdf()" class="ml-4" matTooltip="Download Pdf" type="button" tabindex="-1">
+                        <mat-icon class="text-xl" svgIcon="mat_outline:cloud_download" size="24px"></mat-icon>
+                    </button>
+                }
+                @if (
+                    (email?.emailSource == 'FAX' ||
+                        email?.emailSource == 'App' ||
+                        email?.emailSource == 'APP' ||
+                        email?.emailSource == 'EMAIL' ||
+                        email?.emailSource == 'Email') &&
+                    attachMentID
+                ) {
+                    <button (click)="openPdf()" class="ml-4" matTooltip="Link Document" type="button" tabindex="-1">
+                        <mat-icon class="text-xl" svgIcon="mat_outline:insert_link" size="24px"></mat-icon>
+                    </button>
+                }
+                @if (!isreadonly) {
+                    <button
+                        class="ml-4"
+                        matTooltip="Mark as Completed"
+                        type="button"
+                        tabindex="-1"
+                        (click)="markCompleted()"
+                    >
+                        <mat-icon class="text-xl text-green-500" svgIcon="mat_outline:check" size="24px"></mat-icon>
+                    </button>
+                }
+                @if (!isreadonly) {
+                    <button
+                        class="text-secondary ml-4 mr-2 hover:text-red-500"
+                        matTooltip="Mark as Deleted"
+                        type="button"
+                        tabindex="-1"
+                        (click)="markDeleted()"
+                    >
+                        <mat-icon class="text-red-500" svgIcon="mat_outline:delete" size="24px"></mat-icon>
+                    </button>
+                }
+                @if (email?.emailSource == 'TASK' && email?.isCompleted === true) {
+                    <button
+                        class="ml-6 hover:text-gray-500"
+                        matTooltip="Reopen Task"
+                        type="button"
+                        tabindex="-1"
+                        (click)="reopenTask()"
+                    >
+                        <mat-icon svgIcon="heroicons_outline:lock-open-right" size="24px"></mat-icon>
+                    </button>
+                }
+            </div>
+
+            <!-- FROM / TO -->
+            <div class="mx-6 mt-4 flex flex-col font-mono">
+                <div class="flex-1 truncate py-4">
+                    @if (email?.emailSource != 'VM') {
+                        <span class="mr-2 text-base font-bold">From:</span>
+                    }
+                    @if (email?.emailSource != 'VM') {
+                        <span class="truncate">{{ email?.from }}</span>
+                    }
+                    <!-- Caller Phone -->
+                    @if (email?.emailSource === 'VM') {
+                        <a
+                            href="tel:{{ email?.phoneNumber }}"
+                            class="relative flex items-center rounded-full px-2 py-3 transition duration-200 ease-in-out hover:bg-blue-100"
+                            tabindex="-1"
+                            matRipple
+                        >
+                            <div
+                                class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-500"
+                            >
+                                <mat-icon svgIcon="mat_outline:local_phone"></mat-icon>
+                            </div>
+                            <div>
+                                <p class="m-0 text-sm">{{ email?.from }}</p>
+                                <p class="text-secondary m-0 text-sm">Call Patient</p>
+                            </div>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- OWNER AND LABEL -->
+            <div class="mx-6 flex items-center font-mono">
+                <div class="relative flex-1">
+                    <mat-form-field appearance="outline" class="no-padding w-full">
+                        <mat-label>Owner</mat-label>
+                        <mat-select [formControl]="ownerCtrl">
+                            @for (owner of owners$ | async; track owner) {
+                                <mat-option [value]="owner.networkName">{{ owner.networkName }} </mat-option>
+                            }
+                        </mat-select>
+
+                        <div class="mx-2" matSuffix>
+                            @if (updatingOwner$ | async) {
+                                <mat-progress-spinner
+                                    [diameter]="24"
+                                    matTooltip="Saving Changes..."
+                                    mode="indeterminate"
+                                ></mat-progress-spinner>
+                            }
+                            @if (!(updatingOwner$ | async)) {
+                                <mat-icon
+                                    [icIcon]="icCheck"
+                                    class="text-green-500"
+                                    matSuffix
+                                    matTooltip="All Changes Saved"
+                                ></mat-icon>
+                            }
+                        </div>
+                    </mat-form-field>
+
+                    <ac-loading-overlay
+                        [diameter]="50"
+                        [show]="loadingOwners$ | async"
+                        type="spinner"
+                    ></ac-loading-overlay>
+                </div>
+
+                <mat-form-field appearance="outline" class="no-padding ml-2 flex-1">
+                    <mat-label>Label</mat-label>
+                    <input [formControl]="labelCtrl" matInput readonly />
+
+                    <div matSuffix class="mx-2">
+                        @if (updatingLabel$ | async) {
+                            <mat-progress-spinner
+                                [diameter]="24"
+                                matTooltip="Saving Changes..."
+                                mode="indeterminate"
+                            ></mat-progress-spinner>
+                        }
+
+                        @if (!(updatingLabel$ | async)) {
+                            <span>
+                                @if (isDeletedCompleted()) {
+                                    <mat-icon
+                                        svgIcon="mat_outline:edit"
+                                        class="text-gray-300"
+                                        matSuffix
+                                        matTooltip="Edit Label"
+                                    ></mat-icon>
+                                }
+                                @if (!isDeletedCompleted()) {
+                                    <mat-icon
+                                        svgIcon="mat_outline:edit"
+                                        class="text-green-500"
+                                        matSuffix
+                                        matTooltip="Edit Label"
+                                        (click)="editLabel(labelModale)"
+                                    ></mat-icon>
+                                }
+                            </span>
+                        }
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <!-- TAGS -->
+            <div class="relative mx-6 font-mono">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Tags</mat-label>
+
+                    <mat-chip-grid #chipList aria-label="Fruit selection">
+                        @for (tag of tags$ | async; track tag) {
+                            <mat-chip-row (removed)="deleteTag(tag)" [removable]="true">
+                                {{ tag }}
+                                <mat-icon svgIcon="mat_outline:close"></mat-icon>
+                            </mat-chip-row>
+                        }
+                        <input
+                            [disabled]="isreadonly"
+                            (matChipInputTokenEnd)="addTag($event)"
+                            [matChipInputAddOnBlur]="true"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            placeholder="New Tag..."
+                        />
+                    </mat-chip-grid>
+
+                    <div class="mx-2" matSuffix>
+                        @if (updatingTags$ | async) {
+                            <mat-progress-spinner
+                                [diameter]="24"
+                                matTooltip="Saving Changes..."
+                                mode="indeterminate"
+                            ></mat-progress-spinner>
+                        }
+                        @if (!(updatingTags$ | async)) {
+                            <mat-icon
+                                [icIcon]="icCheck"
+                                class="text-green-500"
+                                matSuffix
+                                matTooltip="All Changes Saved"
+                            ></mat-icon>
+                        }
+                    </div>
+                </mat-form-field>
+
+                <ac-loading-overlay [diameter]="50" [show]="loadingTags$ | async" type="spinner"></ac-loading-overlay>
+            </div>
+
+            <!-- Messages / Attachments Section -->
+            <mat-tab-group class="font-mono" [selectedIndex]="selectedTab">
+                <!-- Attachments Tab -->
+                @if (
+                    email?.emailSource !== 'TASK' &&
+                    email?.emailSource !== 'SALES' &&
+                    email?.emailSource !== 'FORMSPREE' &&
+                    email?.emailSource !== 'SELF' &&
+                    email?.emailSource !== 'FAST'
+                ) {
+                    <mat-tab>
+                        <ng-template mat-tab-label> Attachments </ng-template>
+                        <div class="relative mt-4">
+                            <p class="flex items-center text-lg font-medium">
+                                <mat-icon class="mr-2 text-primary" svgIcon="mat_outline:attach_file"></mat-icon>
+                                <span>Attachments</span>
+                            </p>
+                            <div class="mt-4">
+                                @for (attachment of attachments$ | async; track attachment; let first = $first) {
+                                    <div
+                                        (click)="viewDocument(attachment)"
+                                        [class.mt-2]="!first"
+                                        class="bg-base relative flex cursor-pointer select-none items-center truncate rounded border p-2 text-xs"
+                                        matRipple
+                                    >
+                                        <ic-icon
+                                            [icon]="icAttachFile"
+                                            class="text-secondary block flex-none pr-2"
+                                            size="24px"
+                                        ></ic-icon>
+                                        <p class="flex-auto truncate">{{ attachment.name }}</p>
+                                        @if (
+                                            attachment.type === 'audio/mpeg' &&
+                                            (audioPlaying$ | async) &&
+                                            player.duration
+                                        ) {
+                                            <mat-progress-bar
+                                                class="mx-2"
+                                                [value]="(player.currentTime / player.duration) * 100"
+                                            >
+                                            </mat-progress-bar>
+                                        }
+                                        @if (attachment.type === 'audio/mpeg') {
+                                            <div>
+                                                @if (!(audioPlaying$ | async)) {
+                                                    <mat-icon
+                                                        class="block flex-none pr-2 text-green-500"
+                                                        svgIcon="mat_outline:play_arrow"
+                                                    ></mat-icon>
+                                                }
+                                                @if (audioPlaying$ | async) {
+                                                    <mat-icon
+                                                        class="block flex-none pr-2 text-red-500"
+                                                        svgIcon="mat_outline:stop"
+                                                    ></mat-icon>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            <ac-loading-overlay [diameter]="30" [show]="loadingAttachments$ | async" type="spinner">
+                            </ac-loading-overlay>
+                        </div>
+                        <pdf-viewer
+                            [src]="previewUrl$ | async"
+                            [render-text]="true"
+                            style="display: block"
+                            [original-size]="true"
+                            [fit-to-page]="true"
+                            [show-all]="false"
+                            [page]="1"
+                            class="mt-8 h-96 cursor-pointer shadow"
+                        ></pdf-viewer>
+                    </mat-tab>
+                }
+
+                @if (email?.emailSource !== 'TASK') {
+                    <mat-tab>
+                        <ng-template mat-tab-label> Message </ng-template>
+                        <div class="relative mt-4">
+                            <p class="flex items-center text-lg font-medium">
+                                <mat-icon class="mr-2 text-primary" svgIcon="mat_outline:message"></mat-icon>
+                                <span>Messages</span>
+                            </p>
+                            <p class="messageBox mt-2 rounded border text-sm">
+                                <span #shadowElem></span>
+                            </p>
+                        </div>
+                    </mat-tab>
+                }
+                <!-- Notes Tab -->
+                @if (email?.emailSource == 'TASK') {
+                    <mat-tab>
+                        <ng-template mat-tab-label> Notes </ng-template>
+                        <!-- NOTES -->
+                        <div class="relative mt-4">
+                            <p class="flex items-center text-lg font-medium">
+                                <mat-icon class="mr-2 text-primary" svgIcon="mat_outline:notes"></mat-icon>
+                                <span>Notes</span>
+                            </p>
+                            @if (notes$ | async; as notes) {
+                                <div>
+                                    @if (!notes || notes?.length === 0) {
+                                        <div class="text-secondary py-4">
+                                            <p>No notes added yet.</p>
+                                        </div>
+                                    }
+                                    @for (note of notes; track note; let first = $first) {
+                                        <div [class.border-t]="!first" [class.mt-0]="first" class="px-4 pb-2 pl-8 pt-2">
+                                            <p class="text-xs text-gray-500">
+                                                {{ note?.createdDate | datetimeformat }} by
+                                                {{ note?.createdBy | titlecase }}
+                                            </p>
+                                            <p class="text-sm" [innerHTML]="note?.description"></p>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            <mat-dialog-actions class="m-0 flex-none border-t py-4">
+                                <form (ngSubmit)="addNote()" [formGroup]="notesForm" class="w-full">
+                                    <quill-editor
+                                        #quillEditor
+                                        class="mt-2 w-full uppercase"
+                                        [formControlName]="'note'"
+                                        [placeholder]="'Enter your note...'"
+                                        [modules]="quillModules"
+                                    >
+                                    </quill-editor>
+                                    <!-- <div class="py-3">
+                      <button class="mr-1" color="primary" mat-flat-button type="submit">Add</button>
+                    </div> -->
+                                    @if (error$ | async) {
+                                        <p class="font-medium text-red-500">
+                                            Sorry! An error occured while saving, please try again.
+                                        </p>
+                                    }
+                                </form>
+                            </mat-dialog-actions>
+                            <ac-loading-overlay
+                                [diameter]="30"
+                                [show]="loadingNotes$ | async"
+                                type="spinner"
+                            ></ac-loading-overlay>
+                        </div>
+                    </mat-tab>
+                }
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+<ng-template #labelModale let-modal>
+    <div class="edit-label">
+        <h4 class="text-2xl font-medium">New Label</h4>
+        <p>Enter label text here..</p>
+        <mat-form-field appearance="outline" class="d:block mt-3 w-full">
+            <input matInput type="text" #label class="uppercase" />
+        </mat-form-field>
+        <div>
+            <div class="flex justify-between">
+                <button mat-flat-button type="button" mat-dialog-close (click)="close('false', label.value)">
+                    Cancel
+                </button>
+                <button
+                    mat-flat-button
+                    type="button"
+                    mat-dialog-close
+                    color="primary"
+                    (click)="close('true', label.value)"
+                >
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

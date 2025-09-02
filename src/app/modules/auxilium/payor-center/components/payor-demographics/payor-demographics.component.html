@@ -1,0 +1,503 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="payorDemographicsForm" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Payor Information & Details Component -->
+        <div class="w-full pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- Payor Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        Payor Information
+                    </div>
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <!-- Bill-To Code -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Bill-To Code</mat-label>
+                                <input class="uppercase" matInput formControlName="billto" tabindex="1" />
+                            </mat-form-field>
+
+                            <!-- Name -->
+                            <mat-form-field class="w-9/12">
+                                <mat-label>Name</mat-label>
+                                <input class="uppercase" matInput formControlName="name" tabindex="2" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Contact Name -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full">
+                                <mat-label>Contact Name</mat-label>
+                                <input class="uppercase" matInput formControlName="contactname" tabindex="3" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Address 1 & 2 -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-8/12 pr-2">
+                                <mat-label>Address 1</mat-label>
+                                <input class="uppercase" matInput formControlName="address" tabindex="4" />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Address 2</mat-label>
+                                <input class="uppercase" matInput formControlName="address2" tabindex="5" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- City/State/Zip -->
+                        <div class="flex w-full">
+                            <!-- City -->
+                            <mat-form-field class="w-1/2 pr-2">
+                                <mat-label>City</mat-label>
+                                <input class="uppercase" matInput formControlName="city" tabindex="7" />
+                            </mat-form-field>
+
+                            <!-- State -->
+                            <mat-form-field
+                                class="state-select w-1/4 pr-2"
+                                [appearance]="'outline'"
+                                bindLabel="abbreviation"
+                            >
+                                <mat-label>State</mat-label>
+                                <input
+                                    matInput
+                                    tabindex="8"
+                                    aria-label="State"
+                                    [matAutocomplete]="auto"
+                                    [formControlName]="'state'"
+                                />
+                                <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                                <mat-autocomplete #auto="matAutocomplete" [panelWidth]="285">
+                                    @for (state of filteredStates | async; track state) {
+                                        <mat-option [value]="state.abbreviation">
+                                            <span class="mr-1 font-bold">
+                                                {{ state.abbreviation }}
+                                            </span>
+                                            <span>{{ state.name }}</span>
+                                        </mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <!-- Zip -->
+                            <mat-form-field class="w-1/4">
+                                <mat-label>Zip</mat-label>
+                                <input class="uppercase" matInput formControlName="zip" tabindex="6" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Added By/Added Date/COBA -->
+                        <div class="flex w-full">
+                            <!-- Added By -->
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Added By</mat-label>
+                                <input class="uppercase" matInput formControlName="adduserid" readonly tabindex="9" />
+                            </mat-form-field>
+
+                            <!-- Added Date -->
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Add Date</mat-label>
+                                <input class="uppercase" matInput formControlName="adddate" readonly tabindex="10" />
+                            </mat-form-field>
+
+                            <!-- COBA -->
+                            <mat-form-field class="w-4/12">
+                                <mat-label>COBA</mat-label>
+                                <input class="uppercase" matInput formControlName="ocnanumber" tabindex="11" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Contact Information Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        Payor Details
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- Phone -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Contact Phone</mat-label>
+                                <mat-icon
+                                    matSuffix
+                                    (click)="makeCall()"
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    mask="(000) 000-0000"
+                                    tabindex="12"
+                                    [showMaskTyped]="true"
+                                    formControlName="phone"
+                                />
+                            </mat-form-field>
+
+                            <!-- Email -->
+                            <mat-form-field class="w-8/12">
+                                <mat-label>Email</mat-label>
+                                <input class="uppercase" matInput formControlName="email" tabindex="13" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Status/PIN/NPI/Tax ID -->
+                        <div class="flex w-full">
+                            <!-- Status -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Status</mat-label>
+                                <mat-select
+                                    [formControlName]="'payorstatus'"
+                                    [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                    [tabindex]="14"
+                                >
+                                    <mat-select-trigger>{{ selectedStatus }}</mat-select-trigger>
+                                    @for (status of statusDropDown$ | async; track status) {
+                                        <mat-option [value]="status.code">
+                                            <div class="flex gap-6">
+                                                <h2 class="font-extrabold">{{ status.code }}</h2>
+                                                {{ status.name }}
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- PIN -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Pin</mat-label>
+                                <input class="uppercase" matInput formControlName="pin" tabindex="15" />
+                            </mat-form-field>
+
+                            <!-- NPI -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>NPI</mat-label>
+                                <input class="uppercase" matInput formControlName="npi" tabindex="16" />
+                            </mat-form-field>
+
+                            <!-- TAX ID -->
+                            <mat-form-field class="w-3/12">
+                                <mat-label>Tax ID</mat-label>
+                                <input class="uppercase" matInput formControlName="taxid" tabindex="17" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Payor Type/Pay to ID Eligibility/Pay to ID -->
+                        <div class="flex w-full">
+                            <!-- Payor Type -->
+                            <mat-form-field class="w-5/12 pr-2">
+                                <mat-label>Payor Type (M, I , P)</mat-label>
+                                <mat-select
+                                    [formControlName]="'payortype'"
+                                    [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                    [tabindex]="18"
+                                >
+                                    <mat-select-trigger>{{ selectedPayorType }}</mat-select-trigger>
+                                    @for (type of payorType$ | async; track type) {
+                                        <mat-option [value]="type.code">
+                                            <div class="flex gap-6">
+                                                <h2 class="font-extrabold">{{ type.code }}</h2>
+                                                {{ type.name }}
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- Pay to ID Eligibility -->
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Pay To ID Eligibility</mat-label>
+                                <input class="uppercase" matInput formControlName="paytoforeligibility" tabindex="19" />
+                            </mat-form-field>
+
+                            <!-- Pay to ID -->
+                            <mat-form-field class="w-3/12">
+                                <mat-label>Pay to Id</mat-label>
+                                <input class="uppercase" matInput formControlName="payto" tabindex="20" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Financial Class/Sales Rep/Branch -->
+                        <div class="flex w-full">
+                            <!-- Financial Class -->
+                            <aux-select-dropdown
+                                class="w-4/12 pr-2"
+                                [className]="'w-full'"
+                                [label]="'Financial Class'"
+                                [tabindex]="21"
+                                [selectOption]="financialClass$ | async"
+                                [matForm]="payorDemographicsForm"
+                                [controlName]="'payorcategory'"
+                            ></aux-select-dropdown>
+
+                            <!-- Sales Rep -->
+                            <aux-select-dropdown
+                                class="flex w-4/12 gap-4 pr-2"
+                                [className]="'w-full'"
+                                [label]="'SalesRep'"
+                                [tabindex]="22"
+                                [selectOption]="saleRep$ | async"
+                                [matForm]="payorDemographicsForm"
+                                [controlName]="'salesid'"
+                            ></aux-select-dropdown>
+
+                            <!-- Branch -->
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Branch</mat-label>
+                                <input
+                                    matInput
+                                    type="text"
+                                    tabIndex="23"
+                                    class="uppercase"
+                                    [formControl]="branchName"
+                                    [placeholder]="'Branch'"
+                                    [matAutocomplete]="auto2"
+                                    #autoInput
+                                />
+                                <mat-autocomplete
+                                    #auto2="matAutocomplete"
+                                    (optionSelected)="onBranchSelected($event.option.value)"
+                                >
+                                    <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                                        {{ option.branchcode }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Report Category -->
+                        <div class="flex w-full">
+                            <mat-form-field>
+                                <mat-label>Report Category</mat-label>
+                                <input class="uppercase" matInput formControlName="account" tabindex="24" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payor Price Code & Paper Claims -->
+        <div class="w-full pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- Payor Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'heroicons_outline:currency-dollar'" class="mr-2"></mat-icon>
+                        Price Code
+                    </div>
+
+                    <!-- Price Code/Price Description -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <!-- Price Code -->
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Price Code</mat-label>
+                                <mat-select
+                                    [formControlName]="'pricecode'"
+                                    [panelClass]="'w-100 min-w-100 max-w-200 h-60'"
+                                    [tabindex]="26"
+                                >
+                                    <mat-select-trigger>{{ selectedPriceCode }}</mat-select-trigger>
+                                    @for (price of priceCode$ | async; track price) {
+                                        <mat-option [value]="price.value">
+                                            <div class="flex gap-6">
+                                                <h2 class="min-w-30 font-extrabold">{{ price.value }}</h2>
+                                                {{ price.description }}
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- Price Description -->
+                            <mat-form-field class="w-8/12">
+                                <mat-label>Price Code Description</mat-label>
+                                <input
+                                    class="uppercase"
+                                    [value]="selectedPriceCodeDescription"
+                                    matInput
+                                    disabled
+                                    [tabIndex]="27"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Billing % / Payment % / Sequester % / Primary Bill Form / Copay Bill Form -->
+                        <div class="flex w-full">
+                            <!-- Billing % -->
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Billing%</mat-label>
+                                <input class="uppercase" matInput formControlName="percentpaid" tabindex="28" />
+                            </mat-form-field>
+
+                            <!-- Payment % -->
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Payment%</mat-label>
+                                <input class="uppercase" matInput formControlName="payorpercent" tabindex="29" />
+                            </mat-form-field>
+
+                            <!-- Sequester % -->
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Sequester%</mat-label>
+                                <input class="uppercase" matInput formControlName="flatfee" tabindex="30" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex w-full">
+                            <!-- Primary Bill Form -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Primary Form</mat-label>
+                                <mat-select
+                                    [formControlName]="'primarybillform'"
+                                    [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                    [tabindex]="31"
+                                >
+                                    <mat-select-trigger>{{ selectedPrimaryBillForm }}</mat-select-trigger>
+                                    @for (form of primaryBillForm$ | async; track form) {
+                                        <mat-option [value]="form.value">
+                                            <div class="flex gap-6">
+                                                <h2 class="font-extrabold">{{ form.value }}</h2>
+                                                {{ form.description }}
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- Copay Bill Form -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Copay Form</mat-label>
+                                <mat-select
+                                    [formControlName]="'secondarybillform'"
+                                    [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                    [tabindex]="32"
+                                >
+                                    <mat-select-trigger>{{ selectedCopayBillForm }}</mat-select-trigger>
+                                    @for (form of primaryBillForm$ | async; track form) {
+                                        <mat-option [value]="form.value">
+                                            <div class="flex gap-6">
+                                                <h2 class="font-extrabold">{{ form.value }}</h2>
+                                                {{ form.description }}
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+
+                            <!-- Pays Submitted -->
+                            <aux-select-dropdown
+                                class="w-6/12"
+                                [className]="'w-full'"
+                                [label]="'Pays Submitted or Allowed Amount (S or A)'"
+                                [tabindex]="33"
+                                [selectOption]="allowedList"
+                                [matForm]="payorDemographicsForm"
+                                [controlName]="'ar'"
+                            ></aux-select-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <div class="flex w-full">
+                        <div class="flex w-full flex-col">
+                            <div class="text-secondary my-2 ml-2.5 flex items-center text-xl font-semibold">
+                                Paper Claims
+                            </div>
+                            <div class="flex w-full">
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="block24k" tabindex="34"
+                                    >Print Block 24 J</mat-checkbox
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-1 flex w-full">
+                        <mat-form-field class="w-4/12">
+                            <mat-label>1500 box 1</mat-label>
+                            <mat-select
+                                [formControlName]="'_1500box1'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                [tabindex]="37"
+                            >
+                                <mat-select-trigger>{{ selectedBoxOne }}</mat-select-trigger>
+                                @for (box of boxOne$ | async; track box) {
+                                    <mat-option [value]="box.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ box.code }}</h2>
+                                            {{ box.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="flex w-4/12 flex-col pl-2">
+                            <aux-select-dropdown
+                                class="w-full"
+                                [className]="'w-full'"
+                                [label]="'Source'"
+                                [tabindex]="38"
+                                [selectOption]="refprovList"
+                                [matForm]="payorDemographicsForm"
+                                [controlName]="'refprov'"
+                            ></aux-select-dropdown>
+                        </div>
+
+                        <div class="flex w-4/12 flex-col pl-2">
+                            <aux-select-dropdown
+                                class="w-full"
+                                [className]="'w-full'"
+                                [label]="'Identifier'"
+                                [tabindex]="38"
+                                [selectOption]="upinProvList"
+                                [matForm]="payorDemographicsForm"
+                                [controlName]="'upinprov'"
+                            ></aux-select-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payor Notes -->
+        <div class="w-full pb-2 pl-1 pr-1 pt-2">
+            <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                <div>
+                    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                        <mat-label>Notes</mat-label>
+                        <textarea
+                            class="uppercase"
+                            matInput
+                            [placeholder]="'Notes'"
+                            [tabIndex]="39"
+                            [rows]="8"
+                            formControlName="notes"
+                            [spellcheck]="false"
+                            cdkTextareaAutosize
+                        ></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

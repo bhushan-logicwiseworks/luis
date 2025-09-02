@@ -1,0 +1,17 @@
+.group-edit-order {
+    height: -webkit-fill-available;
+}
+::ng-deep {
+    .cust-access {
+        & + .cdk-global-overlay-wrapper {
+            .cdk-overlay-pane {
+                .mat-mdc-dialog-container {
+                    app-aux-popup .mat-mdc-dialog-content.mdc-dialog__content.mat-typography {
+                        max-height: 64vh !important;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

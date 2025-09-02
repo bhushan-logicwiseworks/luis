@@ -1,0 +1,11 @@
+<div>
+    <aux-ag-grid
+        [gridOptions]="options"
+        [rowData]="dataSource.data"
+        [columnDefs]="columnDefs"
+        [visibleColumns]="visibleColumns"
+        [agGridHeight]="'calc(100vh - 292px)'"
+        [loading]="loaded$ | async"
+    >
+    </aux-ag-grid>
+</div>

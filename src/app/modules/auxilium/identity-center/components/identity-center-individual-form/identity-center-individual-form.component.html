@@ -1,0 +1,96 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- UID -->
+            @if (showDeleteButton) {
+                <div class="mt-4">
+                    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                        <mat-label>UID</mat-label>
+                        <mat-icon
+                            matPrefix
+                            class="hidden icon-size-5 sm:flex"
+                            [svgIcon]="'heroicons_solid:user-circle'"
+                        ></mat-icon>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [formControlName]="'uid'"
+                            [placeholder]="'UID'"
+                            [spellcheck]="false"
+                            readonly
+                        />
+                    </mat-form-field>
+                </div>
+            }
+
+            <!-- Email -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:mail'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'email'"
+                        [placeholder]="'Email'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Display Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Display Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'displayName'"
+                        [placeholder]="'Display Name'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Password -->
+            @if (!showDeleteButton) {
+                <div class="mt-4">
+                    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                        <mat-label>Password</mat-label>
+                        <mat-icon
+                            matPrefix
+                            class="hidden icon-size-5 sm:flex"
+                            [svgIcon]="'mat_outline:lock_open'"
+                        ></mat-icon>
+                        <input matInput [formControlName]="'password'" [placeholder]="'Password'" />
+                    </mat-form-field>
+                </div>
+            }
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+
+            <!-- Actions -->
+        </form>
+    </div>
+</div>

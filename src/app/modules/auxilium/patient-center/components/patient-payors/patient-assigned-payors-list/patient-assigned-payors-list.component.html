@@ -1,0 +1,16 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="relative overflow-auto bg-white">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [rowData]="rowData"
+            [component]="'patientPayorTable'"
+            [columnDefs]="columnDefs"
+            [agGridHeight]="'calc(100vh - 379px)'"
+            [paginatorOption]="paginationOptions"
+            [visibleColumns]="visibleColumns"
+            (rowSelectionChange)="selectionChange($event)"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

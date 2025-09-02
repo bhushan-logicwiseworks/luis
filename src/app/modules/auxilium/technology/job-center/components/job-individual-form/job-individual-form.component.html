@@ -1,0 +1,266 @@
+<!-- Job Center form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="addForm">
+            <!-- Name -->
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Name</mat-label>
+                <mat-icon
+                    matPrefix
+                    class="hidden icon-size-5 sm:flex"
+                    [svgIcon]="'heroicons_solid:user-circle'"
+                ></mat-icon>
+                <input
+                    class="uppercase"
+                    matInput
+                    [formControlName]="'name'"
+                    [placeholder]="'Name'"
+                    [spellcheck]="false"
+                />
+            </mat-form-field>
+
+            <!-- Command Text -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Command Text</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_outline:menu-alt-2'"
+                    ></mat-icon>
+                    <textarea
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'commandText'"
+                        [placeholder]="'Command Text'"
+                        [rows]="4"
+                        [spellcheck]="false"
+                        cdkTextareaAutosize
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- Schedule Type -->
+            <div class="mt-4">
+                <mat-form-field class="w-full">
+                    <mat-label>Schedule Type</mat-label>
+                    <mat-select formControlName="scheduleType">
+                        @for (type of scheduleTypesOptions; track type) {
+                            <mat-option [value]="type">{{ type }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Start -->
+            <div class="mt-4">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Start</mat-label>
+                    <input matInput type="datetime-local" [formControlName]="'start'" [placeholder]="'Start'" />
+                </mat-form-field>
+            </div>
+
+            <!-- End -->
+            <div class="mt-4">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>End</mat-label>
+                    <input matInput type="datetime-local" [formControlName]="'end'" [placeholder]="'End'" />
+                </mat-form-field>
+            </div>
+
+            <!-- Schedule Details -->
+            <div class="mt-4">
+                @if (addForm?.get('scheduleType')?.value === scheduleTypes.HOURLY) {
+                    <div>
+                        <mat-label class="mb-2 block">Run job every</mat-label>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label> Hours </mat-label>
+                            <mat-select formControlName="hour">
+                                @for (hour of scheduleHours; track hour) {
+                                    <mat-option [value]="hour">
+                                        {{ hour }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label> Minutes </mat-label>
+                            <mat-select formControlName="minute">
+                                @for (minute of scheduleMinutes; track minute) {
+                                    <mat-option [value]="minute">
+                                        {{ minute }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                }
+
+                @if (addForm?.get('scheduleType')?.value === scheduleTypes.DAILY) {
+                    <div>
+                        <p>
+                            Every
+                            <mat-form-field class="form-field" appearance="outline">
+                                <input matInput formControlName="repeatDays" type="number" min="1" max="31" />
+                            </mat-form-field>
+                            days at
+                        </p>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label> Hour </mat-label>
+                            <mat-select formControlName="hour">
+                                @for (hour of scheduleHours; track hour) {
+                                    <mat-option [value]="hour">
+                                        {{ hour }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label> Minute </mat-label>
+                            <mat-select formControlName="minute">
+                                @for (minute of scheduleMinutes; track minute) {
+                                    <mat-option [value]="minute">
+                                        {{ minute }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                }
+
+                @if (
+                    addForm?.get('scheduleType')?.value === scheduleTypes.WEEKLY ||
+                    addForm?.get('scheduleType')?.value === scheduleTypes.WEEKLYSKIP ||
+                    addForm?.get('scheduleType')?.value === scheduleTypes.WEEKNUMBER
+                ) {
+                    <div>
+                        <mat-label class="mr-2">Run at</mat-label>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label>Hour</mat-label>
+                            <mat-select formControlName="hour">
+                                @for (hour of scheduleHours; track hour) {
+                                    <mat-option [value]="hour">
+                                        {{ hour }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label>Minute </mat-label>
+                            <mat-select formControlName="minute">
+                                @for (minute of scheduleMinutes; track minute) {
+                                    <mat-option [value]="minute">
+                                        {{ minute }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="mb-4">
+                            <mat-label>On the following days</mat-label>
+                        </div>
+                        <ul class="ml-8">
+                            @for (
+                                dowControl of addForm.controls.daysOfWeek.controls;
+                                track dowControl;
+                                let i = $index
+                            ) {
+                                <li formArrayName="daysOfWeek">
+                                    <mat-checkbox matInput [formControlName]="i" class="form-field mb-2 block"
+                                        >{{ daysOfWeek[i].name }}
+                                    </mat-checkbox>
+                                </li>
+                            }
+                        </ul>
+                        @if (addForm?.get('scheduleType')?.value === scheduleTypes.WeeklySkip) {
+                            <div>
+                                <p>
+                                    every
+                                    <mat-form-field class="form-field" appearance="outline">
+                                        <input matInput formControlName="repeatWeeks" type="number" min="1" max="31" />
+                                    </mat-form-field>
+                                    weeks
+                                </p>
+                            </div>
+                        }
+                        @if (addForm?.get('scheduleType')?.value === scheduleTypes.WeekNumber) {
+                            <mat-form-field appearance="outline" class="mr-2">
+                                <mat-label class="block">Week number</mat-label>
+                                <mat-select formControlName="weekOfMonth">
+                                    @for (week of weekNumbers; track week) {
+                                        <mat-option [value]="week.id">
+                                            {{ week.name }}
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        }
+                    </div>
+                }
+
+                @if (addForm?.get('scheduleType')?.value === scheduleTypes.CALENDAR) {
+                    <div>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label> Hour </mat-label>
+                            <mat-select formControlName="hour">
+                                @for (hour of scheduleHours; track hour) {
+                                    <mat-option [value]="hour">
+                                        {{ hour }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="mr-2">
+                            <mat-label> Minute </mat-label>
+                            <mat-select formControlName="minute">
+                                @for (minute of scheduleMinutes; track minute) {
+                                    <mat-option [value]="minute">
+                                        {{ minute }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="dom">
+                            <mat-label class="block">Dates</mat-label>
+                            @for (domControl of daysOfMonthFormArray.controls; track domControl; let i = $index) {
+                                <span formArrayName="daysOfMonth">
+                                    <mat-checkbox matInput [formControlName]="i" class="form-field mb-2 mr-3">
+                                        {{ daysOfMonth[i].id.toString().padStart(2, '0') }}
+                                    </mat-checkbox>
+                                    @if (daysOfMonth[i].id % 10 === 0) {
+                                        <br />
+                                    }
+                                </span>
+                            }
+                        </div>
+                        <div class="months">
+                            <mat-label class="block">Months</mat-label>
+                            @for (domControl of monthsFormArray.controls; track domControl; let i = $index) {
+                                <span formArrayName="months">
+                                    <mat-checkbox matInput [formControlName]="i" class="form-field mb-2">
+                                        {{ months[i].name }}
+                                    </mat-checkbox>
+                                </span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Is Enabled -->
+            <mat-checkbox matInput formControlName="isEnabled" class="form-field mb-2 block">Is Enabled</mat-checkbox>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+// export const TranFormInputValuesUpperCase =  ['itemcode','description','description','level','span','billingmultiplier','lastcost','averagecost','purchasemultiplier','vendor','hcpcscode','vendorsku','manufacturerpartno']

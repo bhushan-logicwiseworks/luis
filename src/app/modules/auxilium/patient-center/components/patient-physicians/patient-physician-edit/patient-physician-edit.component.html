@@ -1,0 +1,13 @@
+<div class="flex max-h-screen flex-col md:min-w-160">
+    <form class="flex flex-auto flex-col p-6 sm:p-8" [formGroup]="physicianForm">
+        <aux-select-dropdown
+            [className]="'w-full pr-2'"
+            [label]="'Order'"
+            [selectOption]="orderList"
+            [controlName]="'order'"
+            [matForm]="physicianForm"
+        ></aux-select-dropdown>
+
+        <!-- Upload Button -->
+    </form>
+</div>

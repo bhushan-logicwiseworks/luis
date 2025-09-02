@@ -1,0 +1,14 @@
+.dropzone {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    width: calc(100% - 270px);
+    height: 100%;
+    left: 270px;
+    top: 0;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.4);
+}

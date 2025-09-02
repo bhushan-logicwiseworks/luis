@@ -1,0 +1,140 @@
+<div class="payor-1500-data flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="payor1500DataForm" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="flex w-full flex-col gap-2 p-2 pb-0 md:flex-row">
+            <!-- Box 24 I -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <div class="flex flex-col bg-white p-2 shadow dark:bg-transparent md:p-4">
+                    <div class="text-secondary my-2 text-xl font-semibold">Box 24 I</div>
+                    <div class="mt-4 flex flex-col gap-2">
+                        <mat-checkbox [color]="'primary'" formControlName="usecompanyinfoinbox24i" class="mb-4">
+                            Use Company Info In Box 24 I
+                        </mat-checkbox>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Box 24 I Qualifier:</label>
+                            <mat-form-field appearance="outline" class="w-16">
+                                <input matInput class="uppercase" formControlName="box24iqualifier" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Box 24 I Value:</label>
+                            <aux-select-dropdown
+                                class="w-32"
+                                [className]="'w-full'"
+                                [label]="''"
+                                [matForm]="payor1500DataForm"
+                                [controlName]="'box24ivalue'"
+                                [selectOption]="box24ivalue"
+                            ></aux-select-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 31 Signature -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <div class="flex flex-col bg-white p-2 shadow dark:bg-transparent md:p-4">
+                    <div class="text-secondary my-2 text-xl font-semibold">Box 31 Signature</div>
+                    <div class="mt-4 flex flex-col gap-2">
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">First Name:</label>
+                            <mat-form-field appearance="outline" class="w-80">
+                                <input matInput class="uppercase" formControlName="box31doctorfirstname" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Last Name:</label>
+                            <mat-form-field appearance="outline" class="w-80">
+                                <input matInput class="uppercase" formControlName="box31doctorlastname" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Credentials:</label>
+                            <mat-form-field appearance="outline" class="w-50">
+                                <input matInput class="uppercase" formControlName="box31doctorcredentials" />
+                            </mat-form-field>
+                        </div>
+                        <div class="pb-4 pt-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="flex w-full flex-col gap-2 p-2 md:flex-row">
+            <!-- Box 32 B -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <div class="flex flex-col bg-white p-2 shadow dark:bg-transparent md:p-4">
+                    <div class="text-secondary my-2 text-xl font-semibold">Box 32 B</div>
+                    <div class="mt-4 flex flex-col gap-2">
+                        <mat-checkbox [color]="'primary'" formControlName="usepatientinfoinbox32" class="mb-2">
+                            Use Patient Info In Box 32 (Facility)
+                        </mat-checkbox>
+                        <mat-checkbox [color]="'primary'" formControlName="usecompanyinfoinbox32" class="mb-4">
+                            Use Company Info In Box 32 (Facility)
+                        </mat-checkbox>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Box 32 B Qualifier:</label>
+                            <mat-form-field appearance="outline" class="w-16">
+                                <input matInput class="uppercase" formControlName="box32bqualifier" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Box 32 B Value:</label>
+                            <aux-select-dropdown
+                                class="w-32"
+                                [className]="'w-full'"
+                                [label]="''"
+                                [matForm]="payor1500DataForm"
+                                [controlName]="'box32bvalue'"
+                                [selectOption]="box32ivalue"
+                            ></aux-select-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box 33 B -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <div class="flex flex-col bg-white p-2 shadow dark:bg-transparent md:p-4">
+                    <div class="text-secondary my-2 text-xl font-semibold">Box 33 B</div>
+                    <div class="mt-4 flex flex-col gap-2">
+                        <mat-checkbox
+                            [color]="'primary'"
+                            formControlName="usepayerbranchinfoinhcfa1500box33"
+                            class="mb-4"
+                        >
+                            Use Payer Branch Info In HCFA 1500 Box 33
+                        </mat-checkbox>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Box 33 B Qualifier:</label>
+                            <mat-form-field appearance="outline" class="w-16">
+                                <input matInput class="uppercase" formControlName="box33bqualifier" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex gap-x-2">
+                            <label class="w-36 text-right">Box 33 B Value:</label>
+                            <aux-select-dropdown
+                                class="w-32"
+                                [className]="'w-full'"
+                                [label]="''"
+                                [matForm]="payor1500DataForm"
+                                [controlName]="'box33bvalue'"
+                                [selectOption]="box33ivalue"
+                            ></aux-select-dropdown>
+                        </div>
+                        <div class="pb-5 pt-5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

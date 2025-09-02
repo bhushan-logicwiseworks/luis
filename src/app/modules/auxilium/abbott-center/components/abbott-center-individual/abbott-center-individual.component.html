@@ -1,0 +1,11 @@
+<div class="flex w-full flex-col">
+    <!-- Edit mode -->
+    <ng-container>
+        <app-abbott-center-individual-form
+            [user]="user"
+            showDeleteButton="true"
+            (delete)="deleteUser()"
+            (save)="updateUser()"
+        ></app-abbott-center-individual-form>
+    </ng-container>
+</div>

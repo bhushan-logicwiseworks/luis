@@ -1,0 +1,120 @@
+<!-- COLUMN 2 -->
+<div class="w-full" [ngClass]="className">
+    <!--COUNTER 2-2 NEW -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [gaugeOptions]="orderMonthlyChartOptions"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            [kpiLabel]="orderMonthly"
+            [gaugeSeries]="[grandPercent || 0]"
+            [value]="grandTotal"
+            customClass="text-xs"
+            label="Patient Orders Processed to be Billed This Month"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 2-2a NEW -->
+    <div [ngClass]="rowClassName">
+        <aux-breakdown
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            [kpiLabel]="reorderMonthlyBreakdown"
+            label="Breakdown"
+        ></aux-breakdown>
+    </div>
+
+    <!-- COUNTER 2-1 *** THIS IS GOING AWAY -->
+    <!-- <div [ngClass]="rowClassName">
+        <aux-reorder-value [gaugeOptions]="totalReordersGaugeOptions" class="h-full" color="text-green-500"
+            [kpiLabel]="reorderMonthly" [gaugeSeries]="[globalPercent || 0]" [value]="globalTotal"
+            label="Total CGM Patients Confirmed for an Order This Month"></aux-reorder-value>
+    </div> -->
+
+    <!-- COLUMN 2-1 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="total_Reorders_This_Month"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            label="Total Orders Processed This Month"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 2-2b NEW -->
+    <div [ngClass]="rowClassName">
+        <aux-breakdown
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            [kpiLabel]="reorderMonthlyCategory"
+            label="By Category"
+        ></aux-breakdown>
+    </div>
+
+    <!-- COUNTER 2-2 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [gaugeOptions]="totalReordersGaugeOptions"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            [kpiLabel]="invitatonMonthly"
+            [value]="invitationsTotal"
+            label="Total Reorder Invitations Sent This Month"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 2-3 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [gaugeOptions]="billingPerformanceGaugeOptions"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            [gaugeSeries]="[billingPerformancePercent || 0]"
+            [value]="billingPerformanceCount"
+            label="UNCOLLECTED CLAIMS – 41 TO 71 DAYS FROM DOS"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 2-4 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totalOrdersMain3"
+            [kpiLabel]="abbotDataManuff"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            label="CGM Referrals Entered This Month By Manufacturer"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 2-5 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totalOrdersMain4"
+            [kpiLabel]="abbotDataShipped"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            label="New CGM Patients Shipped This Month"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COLUMN 2-6 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="tot_Ref_MenuVisitsPerMonth"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            label="Monthly Unique RSP Logins"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 2-7 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="hollysmokesPercentMain"
+            [kpiLabel]="trainedData"
+            class="h-full dark:bg-gray-800"
+            color="text-green-500"
+            label="Patients Trained via Fast This Month"
+        ></aux-reorder-value>
+    </div>
+</div>

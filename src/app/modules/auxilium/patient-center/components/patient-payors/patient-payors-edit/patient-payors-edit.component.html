@@ -1,0 +1,27 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center">
+    <div class="w-full">
+        <!-- Payors Form -->
+        <form class="flex flex-auto flex-col overflow-y-auto p-6" [formGroup]="payorForm">
+            <!-- Rank -->
+            <aux-select-dropdown
+                [className]="'w-full pr-2'"
+                [label]="'Rank'"
+                [selectOption]="rank"
+                [controlName]="'rank'"
+                [matForm]="payorForm"
+            ></aux-select-dropdown>
+
+            <!-- Other RP code -->
+            <!-- <aux-select-dropdown class="w-full" [className]="'w-full'" [label]="'Other RP code'"
+                [selectOption]="dropDownOption" [controlName]="'otherId'" [matForm]="payorForm">
+            </aux-select-dropdown> -->
+
+            <!-- Policy -->
+            <mat-form-field>
+                <mat-label>Policy</mat-label>
+                <input class="uppercase" matInput [formControlName]="'policy'" />
+            </mat-form-field>
+        </form>
+    </div>
+</div>

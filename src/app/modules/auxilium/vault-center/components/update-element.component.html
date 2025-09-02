@@ -1,0 +1,60 @@
+@if (form) {
+    <div class="flex w-full flex-col" [formGroup]="form">
+        <div class="mb-5 text-lg font-medium">Basic Info</div>
+        <mat-form-field class="w-full">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" class="uppercase" />
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description" class="uppercase" />
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Created by</mat-label>
+            <input matInput formControlName="createdBy" class="uppercase" />
+        </mat-form-field>
+        @if (data.element?.fileId) {
+            <mat-form-field class="w-full">
+                <mat-label>Start Date</mat-label>
+                <input
+                    matInput
+                    [formControlName]="'startDate'"
+                    [matDatepicker]="datepicker1"
+                    class="uppercase"
+                    (change)="onDateChange($event, 'startDate')"
+                    [placeholder]="dateFormat"
+                    defaultDate
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker1="matDatepicker"></mat-datepicker>
+                @if (form.get('startDate').hasError('notValidDate')) {
+                    <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                }
+            </mat-form-field>
+        }
+        @if (data.element?.fileId) {
+            <mat-form-field class="w-full">
+                <mat-label>Expiration Date</mat-label>
+                <input
+                    matInput
+                    [formControlName]="'expirationDate'"
+                    [matDatepicker]="datepickertwo"
+                    (change)="onDateChange($event, 'expirationDate')"
+                    [placeholder]="dateFormat"
+                    defaultDate
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="datepickertwo"></mat-datepicker-toggle>
+                <mat-datepicker #datepickertwo="matDatepicker"></mat-datepicker>
+                @if (form.get('expirationDate').hasError('notValidDate')) {
+                    <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                }
+            </mat-form-field>
+        }
+    </div>
+}
+<div class="mt-10 flex justify-end">
+    <button mat-raised-button color="primary" (click)="saveData()" [disabled]="form.invalid">
+        <ic-icon [icon]="icSave" [inline]="true" size="18px" class="mr-2"></ic-icon>
+        Save
+    </button>
+</div>

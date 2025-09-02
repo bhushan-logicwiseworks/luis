@@ -1,0 +1,36 @@
+{
+    "printWidth": 120,
+    "semi": true,
+    "bracketSameLine": false,
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "endOfLine": "lf",
+    "plugins": [
+        "prettier-plugin-organize-imports",
+        "prettier-plugin-tailwindcss"
+    ],
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "parser": "html"
+            }
+        },
+        {
+            "files": "*.component.html",
+            "options": {
+                "parser": "angular"
+            }
+        },
+        {
+            "files": ["*.json", "*.yml"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}

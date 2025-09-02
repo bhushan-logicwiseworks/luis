@@ -1,0 +1,208 @@
+<form [formGroup]="patientGroupEditForm">
+    <div class="group-edit-order patient-inquiry flex max-h-screen flex-col">
+        <form [formGroup]="patientGroupEditForm" class="relative h-full" (ngSubmit)="submit()">
+            <div class="w-full md:flex">
+                <div class="mt-4 flex w-full flex-col md:w-1/2">
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Print Status:</label>
+                        <mat-form-field appearance="outline" class="w-1/5 pl-2">
+                            <mat-select
+                                [formControlName]="'printstatus'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedPrintStatus }}</mat-select-trigger>
+                                @for (PrintStatus of PrintStatusDropDown$ | async; track PrintStatus) {
+                                    <mat-option [value]="PrintStatus.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ PrintStatus.code }}</h2>
+                                            {{ PrintStatus.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-2" formControlName="isPrintStatusClear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Tran Type:</label>
+                        <mat-form-field appearance="outline" class="w-1/5 pl-2">
+                            <mat-select
+                                [formControlName]="'trantype'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedTranType }}</mat-select-trigger>
+                                @for (status of tranType$ | async; track status) {
+                                    <mat-option [value]="status.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ status.code }}</h2>
+                                            {{ status.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-2" formControlName="isTranTypeClear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Biling Form #:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-1/5 pl-2">
+                            <mat-select
+                                [formControlName]="'billform'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                [tabindex]="31"
+                            >
+                                <mat-select-trigger>{{ selectedPrimaryBillForm }}</mat-select-trigger>
+                                @for (form of primaryBillForm$ | async; track form) {
+                                    <mat-option [value]="form.value">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ form.value }}</h2>
+                                            {{ form.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-2" formControlName="isBillingFormClear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">MOD1:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-1/5 pl-2">
+                            <input class="uppercase" matInput formControlName="mod1" />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-2" formControlName="isMode1Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">MOD2:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-1/5 pl-2">
+                            <input class="uppercase" matInput formControlName="mod2" />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-2" formControlName="isMode2Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">MOD3:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-1/5 pl-2">
+                            <input class="uppercase" matInput formControlName="mod3" />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-2 mt-1 items-center" formControlName="isMode3Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">MOD4:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-1/5 pl-2">
+                            <input class="uppercase" matInput formControlName="mod4" />
+                        </mat-form-field>
+                        <mat-checkbox
+                            [color]="'primary'"
+                            class="ml-2 mt-1 items-center gap-6"
+                            formControlName="isMode4Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                </div>
+                <div class="mt-4 flex w-full flex-col md:w-1/2">
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Bill-To:</label>
+                        <div class="flex items-center">
+                            <mat-form-field appearance="outline" class="m-0 w-40 pl-2">
+                                <input class="uppercase" [readonly]="false" matInput [formControlName]="'payorName'" />
+                            </mat-form-field>
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-1 hidden cursor-pointer sm:flex"
+                                [svgIcon]="'heroicons_solid:download'"
+                                (click)="openPayorList()"
+                            ></mat-icon>
+                        </div>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isPayor1Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Diagnosis:</label>
+                        <mat-form-field class="w-40 pl-2 pr-0">
+                            <input
+                                [readonly]="true"
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'diagnosis'"
+                                [readonly]="true"
+                            />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            class="icon-size-1 cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                            (click)="openDiagnosisCodePopup()"
+                        ></mat-icon>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isDiagnosisClear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Physician:</label>
+                        <mat-form-field class="w-40 pl-2 pr-0">
+                            <input class="uppercase" matInput [formControlName]="'physicianFullName'" />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            class="icon-size-1 hidden cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                            (click)="openPhysicianList()"
+                        ></mat-icon>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isPatientdoctorid1Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <label class="w-32 text-right">Auth #:</label>
+                        <mat-form-field class="w-40 pl-2 pr-0">
+                            <input class="uppercase" matInput [formControlName]="'authno'" />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-6" formControlName="isAuthnoClear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-label class="w-32 text-right">Place of Service:</mat-label>
+                        <mat-form-field class="m-0 w-40 pl-2">
+                            <mat-select
+                                [formControlName]="'pos'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-70'"
+                            >
+                                <mat-select-trigger>{{ selectedPlaceOfService }}</mat-select-trigger>
+                                @for (service of placeOfServiceReps$ | async; track service) {
+                                    <mat-option [value]="service.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ service.code }}</h2>
+                                            {{ service.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="ml-6" formControlName="isPosClear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-label class="w-32 text-right">Apply Changes To:</mat-label>
+                        <mat-checkbox [color]="'primary'" class="ml-6" formControlName="isApplyToChargesClear"
+                            >Charges</mat-checkbox
+                        >
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</form>

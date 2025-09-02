@@ -1,0 +1,34 @@
+export interface PatientPhysicianList {
+    addDate: string;
+    addUserId: string;
+    address1: string;
+    address2: string;
+    assignment: string;
+    branchid: number;
+    city: string;
+    credentials: string;
+    email: string;
+    emplid: string;
+    facility: string;
+    fax: string;
+    firstName: string;
+    groupid: string;
+    id: number;
+    lastName: string;
+    medicare: string;
+    memo: string;
+    npi: string;
+    otherid: string;
+    phone: string;
+    phoneextension: string;
+    phykey: string;
+    physeq: string;
+    provider: string;
+    state: string;
+    stateid: string;
+    suffix: string;
+    supervisor: string;
+    taxonomy: string;
+    upin: string;
+    zip: string;
+}

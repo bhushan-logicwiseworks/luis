@@ -1,0 +1,90 @@
+<div class="flex w-full flex-col">
+    <!-- View mode -->
+    <!-- Header -->
+    <!-- <Detailed info> -->
+    <div class="relative flex flex-auto flex-col items-center p-6 pt-0 sm:p-12 sm:pt-0">
+        <div class="w-full max-w-3xl">
+            <!-- Name -->
+            <div class="mt-3 truncate text-2xl font-bold">{{ eventTrackingData?.email }}</div>
+
+            <!-- Main Section -->
+            <div class="mt-4 flex flex-col space-y-8 border-t pt-6">
+                <!-- ID -->
+                <div class="flex">
+                    <button matTooltip="Log ID">
+                        <mat-icon [svgIcon]="'mat_outline:grid_3x3'"></mat-icon>
+                    </button>
+                    <div class="ml-6 text-lg">
+                        {{ eventTrackingData?.logid }}
+                    </div>
+                </div>
+
+                <!-- Patient Id -->
+                @if (eventTrackingData?.patientid) {
+                    <div class="flex">
+                        <button matTooltip="Patient ID">
+                            <mat-icon [svgIcon]="'mat_outline:grid_3x3'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ eventTrackingData?.patientid }}
+                        </div>
+                    </div>
+                }
+
+                <!-- Email -->
+                @if (eventTrackingData?.email) {
+                    <div class="flex sm:items-center">
+                        <button matTooltip="Email">
+                            <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            <a
+                                class="text-lg text-primary-500 hover:underline"
+                                [href]="'mailto:' + eventTrackingData?.email"
+                                target="_blank"
+                            >
+                                {{ eventTrackingData?.email }}
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                <!-- Message -->
+                @if (eventTrackingData?.message) {
+                    <div class="flex">
+                        <button matTooltip="Message">
+                            <mat-icon [svgIcon]="'mat_outline:print'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ eventTrackingData?.message }}
+                        </div>
+                    </div>
+                }
+
+                <!-- Created By -->
+                @if (eventTrackingData.createdBy) {
+                    <div class="flex">
+                        <button matTooltip="Added By">
+                            <mat-icon [svgIcon]="'mat_outline:perm_contact_calendar'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ eventTrackingData.createdBy }}
+                        </div>
+                    </div>
+                }
+
+                <!-- Created Date -->
+                @if (eventTrackingData.createdDate) {
+                    <div class="flex">
+                        <button matTooltip="Added Date">
+                            <mat-icon [svgIcon]="'mat_outline:calendar_today'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ eventTrackingData.createdDate | datetimeformat }}
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

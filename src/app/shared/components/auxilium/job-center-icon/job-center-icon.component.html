@@ -1,0 +1,16 @@
+@if (params.data.isEnabled && params.fieldName === 'isEnabled') {
+    <mat-icon class="text-xl text-green-500" svgIcon="mat_outline:check" size="24px"></mat-icon>
+}
+@if (!params.data.isEnabled && params.fieldName === 'isEnabled') {
+    <mat-icon class="text-xl text-red-500" svgIcon="mat_outline:close" size="24px"></mat-icon>
+}
+@if (params.data.isToday && params.fieldName === 'isToday') {
+    <mat-icon class="text-blue-500" [icIcon]="icTurnedInNot" size="24px"></mat-icon>
+}
+@if (compareDates(params.data.nextRun)) {
+    <div>
+        @if (params.fieldName === 'pending') {
+            <mat-icon [icIcon]="icAlarm" size="24px" class="text-yellow-500"></mat-icon>
+        }
+    </div>
+}

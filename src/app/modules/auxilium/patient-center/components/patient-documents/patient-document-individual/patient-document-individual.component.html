@@ -1,0 +1,81 @@
+<div class="flex w-full flex-col">
+    <!-- View mode -->
+    @if (!editMode) {
+        <!-- <Detailed info> -->
+        <div class="relative flex flex-auto flex-col items-center p-3 pt-0 sm:p-12 sm:pb-0 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- EDit -->
+                <div class="flex flex-auto items-end">
+                    <div class="mb-1 ml-auto flex items-center">
+                        <button mat-flat-button [color]="'primary'" (click)="toggleEditMode(true)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Edit</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Name -->
+                <div class="ml-4 mr-4 mt-3 flex items-center truncate border-b text-2xl font-bold">
+                    <span class="mb-3">{{ document.documentname }}</span>
+                </div>
+                <!-- Document -->
+                <div class="mb-8" (click)="viewDocument(document)">
+                    <pdf-viewer
+                        [src]="file"
+                        [render-text]="true"
+                        style="display: block"
+                        [original-size]="true"
+                        [show-all]="false"
+                        [page]="1"
+                        [fit-to-page]="true"
+                        class="mt-8 h-96 cursor-pointer shadow"
+                    ></pdf-viewer>
+                </div>
+                <div class="mt-4 flex flex-col space-y-4 pt-6">
+                    <!-- Document Description -->
+                    <div class="flex">
+                        <button matTooltip="Description">
+                            <mat-icon [svgIcon]="'mat_outline:description'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ document.description }}
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <button matTooltip="Add Date">
+                            <mat-icon [svgIcon]="'mat_outline:date_range'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ document.adddate | datetimeformat }}
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <button matTooltip="Added By">
+                            <mat-icon [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ document.adduserid || 'N/A' }}
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <button matTooltip="Note">
+                            <mat-icon [svgIcon]="'mat_outline:edit_note'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ document.note || 'N/A' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Edit mode -->
+    @if (editMode) {
+        <patient-document-form
+            [document]="document"
+            (cancel)="toggleEditMode(event)"
+            (delete)="deleteDocument()"
+            (save)="updateDocument()"
+        ></patient-document-form>
+    }
+</div>

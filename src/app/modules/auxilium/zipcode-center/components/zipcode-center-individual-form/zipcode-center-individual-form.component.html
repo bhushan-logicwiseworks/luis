@@ -1,0 +1,75 @@
+<!-- Code Center form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- Zip Code -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Zip Code</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'zipcode'"
+                        [placeholder]="'Zip Code'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+            <!-- City -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>City</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input class="uppercase" matInput [formControlName]="'city'" [placeholder]="'City'" />
+                </mat-form-field>
+            </div>
+
+            <!-- State -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>State</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input
+                        type="text"
+                        matInput
+                        class="uppercase"
+                        [formControlName]="'state'"
+                        [placeholder]="'State'"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="statehandler($event)">
+                        @for (option of filteredOptions | async; track option) {
+                            <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

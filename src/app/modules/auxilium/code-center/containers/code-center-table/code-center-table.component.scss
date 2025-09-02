@@ -1,0 +1,12 @@
+::ng-deep ac-code-center-table .mat-mdc-form-field-bottom-align::before {
+    content: none !important;
+}
+
+.description-field {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.example-second-header-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}

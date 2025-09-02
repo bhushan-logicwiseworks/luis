@@ -1,0 +1,14 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [columnDefs]="columnDefs"
+            [rowData]="rowData"
+            [visibleColumns]="visibleColumns"
+            [agGridHeight]="'calc(100vh - 292px)'"
+            (cellClicked)="selectionRow($event)"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

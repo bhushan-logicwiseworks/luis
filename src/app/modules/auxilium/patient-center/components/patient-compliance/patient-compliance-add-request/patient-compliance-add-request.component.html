@@ -1,0 +1,86 @@
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <form [formGroup]="complianceForm" class="w-full max-w-3xl">
+        <!-- Date of Occurrence -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Date of Occurrence</mat-label>
+                <input matInput [matDatepicker]="picker" [formControlName]="'dateOfOccurrence'" required />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <!-- Issue Type -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Issue Type</mat-label>
+                <mat-select [formControlName]="'issueType'" required>
+                    <mat-option *ngFor="let type of issueTypes" [value]="type">{{ type }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- Subtype -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Subtype</mat-label>
+                <mat-select [formControlName]="'subType'" required>
+                    <mat-option *ngFor="let subtype of getSubtypes()" [value]="subtype.subType">
+                        {{ subtype.subType }} – {{ subtype.subTypeDescription }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- Resolution -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Resolution</mat-label>
+                <mat-select [formControlName]="'resolution'" required>
+                    <mat-option *ngFor="let resolution of resolutions" [value]="resolution">{{
+                        resolution
+                    }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- Resolution Date -->
+        <div class="mt-4" *ngIf="complianceForm.get('resolution')?.value === 'RESOLVED'">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Resolution Date</mat-label>
+                <input matInput [matDatepicker]="resolutionPicker" [formControlName]="'resolutionDate'" required />
+                <mat-datepicker-toggle matSuffix [for]="resolutionPicker"></mat-datepicker-toggle>
+                <mat-datepicker #resolutionPicker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <!-- Created By -->
+        <div class="mt-4" *ngIf="compliance">
+            <!-- Created By (only show when editing) -->
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Created By</mat-label>
+                <input matInput [formControlName]="'createdBy'" readonly />
+            </mat-form-field>
+        </div>
+
+        <!-- Contact Note (Visible only when adding a new record) -->
+        <div class="mt-4" *ngIf="!compliance">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Contact Note</mat-label>
+                <textarea class="uppercase" matInput [formControlName]="'contactNote'" rows="4"></textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- Alert -->
+        <fuse-alert
+            *ngIf="alert"
+            [appearance]="'outline'"
+            [type]="alert.type"
+            [showIcon]="false"
+            [@shake]="true"
+            class="mt-4"
+        >
+            {{ alert.message }}
+        </fuse-alert>
+    </form>
+</div>

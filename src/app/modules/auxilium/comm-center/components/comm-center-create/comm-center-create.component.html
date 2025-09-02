@@ -1,0 +1,123 @@
+<form (ngSubmit)="submit()" [formGroup]="form" class="mx-4">
+    <div mat-dialog-content>
+        <mat-form-field appearance="outline" class="mt-4 block w-full">
+            <mat-label>From</mat-label>
+            <input class="uppercase" formControlName="from" matInput name="from" type="text" />
+            @if (form.get('from').hasError('required')) {
+                <mat-error>This field is required.</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="block w-full">
+            <mat-label>Subject</mat-label>
+            <input class="uppercase" formControlName="subject" matInput name="subject" type="text" />
+            @if (form.get('subject').hasError('required')) {
+                <mat-error>This field is required.</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="mb-1">
+            <mat-label>Due Date</mat-label>
+            <input
+                formControlName="taskdate"
+                [matDatepicker]="datepickerRef"
+                matInput
+                name="taskdate"
+                type="text"
+                (change)="onDateChange($event, 'taskdate')"
+                [placeholder]="dateFormat"
+            />
+            <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerRef></mat-datepicker>
+            @if (form.get('taskdate').hasError('required')) {
+                <mat-error>This field is required.</mat-error>
+            }
+            @if (form.get('taskdate').hasError('notValidDate')) {
+                <mat-error class="whitespace-nowrap"
+                    >Please enter valid date!! It should be {{ dateFormat }}.</mat-error
+                >
+            }
+            @if (form.get('taskdate').hasError('pastDate')) {
+                <mat-error class="whitespace-nowrap">Due date cannot be in the past.</mat-error>
+            }
+        </mat-form-field>
+        <!-- Add checkboxes for tags -->
+        <div class="mt-4 flex w-full pb-2 pl-1">
+            <mat-checkbox [formControlName]="'auth'" [color]="'primary'" (change)="onCheckboxChange('auth', 'Auth')"
+                >Auth</mat-checkbox
+            >
+            <mat-checkbox
+                [formControlName]="'verify'"
+                [color]="'primary'"
+                (change)="onCheckboxChange('verify', 'Verify')"
+                class="mr-2"
+                >Verify</mat-checkbox
+            >
+            <mat-checkbox
+                [formControlName]="'notes'"
+                [color]="'primary'"
+                (change)="onCheckboxChange('notes', 'Notes')"
+                class="mr-2"
+                >Notes</mat-checkbox
+            >
+            <mat-checkbox
+                [formControlName]="'referral'"
+                [color]="'primary'"
+                (change)="onCheckboxChange('referral', 'Referral')"
+                class="mr-2"
+                >Referral</mat-checkbox
+            >
+            <mat-checkbox
+                [formControlName]="'signon'"
+                [color]="'primary'"
+                (change)="onCheckboxChange('signon', 'Sign On')"
+                class="mr-2"
+                >Sign On</mat-checkbox
+            >
+            <mat-checkbox
+                [formControlName]="'addedrx'"
+                [color]="'primary'"
+                (change)="onCheckboxChange('addedrx', 'Added Rx')"
+                class="mr-2"
+                >Added Rx</mat-checkbox
+            >
+        </div>
+        <mat-form-field appearance="outline" class="block w-full">
+            <mat-label>Label</mat-label>
+            <input class="uppercase" formControlName="label" matInput name="label" type="text" />
+            @if (form.get('label').hasError('required')) {
+                <mat-error>This field is required.</mat-error>
+            }
+        </mat-form-field>
+
+        <div class="relative">
+            <mat-form-field appearance="outline" class="w-full">
+                <mat-label>Owner</mat-label>
+                <mat-select formControlName="owner">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay>
+        </div>
+
+        <div>
+            <mat-label>Note</mat-label>
+            <quill-editor
+                #quillEditor
+                class="mt-2 w-full uppercase"
+                [formControlName]="'body'"
+                [placeholder]="'Note'"
+                [modules]="quillModules"
+            >
+            </quill-editor>
+        </div>
+
+        @if (error$ | async; as error) {
+            <p class="text-xs font-medium text-red-500">{{ error?.message }}</p>
+        }
+    </div>
+</form>
+
+<ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>

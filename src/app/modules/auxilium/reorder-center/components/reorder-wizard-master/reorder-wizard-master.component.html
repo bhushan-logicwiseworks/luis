@@ -1,0 +1,749 @@
+<!-- <div class="flex flex-col w-full">
+    @if (prismAuthorizationResp?.response == 'NOT_FOUND') {
+      <div
+        class="mb-2 bg-red-200 border border-red-300 dark:bg-gray-700 dark:border-gray-600 text-green-700 px-4 py-3 rounded relative"
+        role="alert"
+      >
+        <span class="block sm:inline text-red-500 text-lg dark:text-white font-medium">
+          Patient has not authorized PRISM yet!
+        </span>
+        <div>
+          <button
+            class="bg-red-500 hover:bg-red-700 text-white font-normal py-2 px-4 mt-4 rounded"
+            (click)="handleAuthorizePrism(prismAuthorizationResp.patientId)"
+          >
+            Authorize
+          </button>
+        </div>
+      </div>
+    } @else if(prismAuthorizationResp?.response == 'AUTHORIZED') {
+      <div
+        class="mb-2 bg-green-100 border border-green-400 dark:bg-gray-700 dark:border-gray-600 text-green-700 px-4 py-8 rounded relative"
+        role="alert"
+      >
+        <span class="block sm:inline text-2xl dark:text-white font-medium">
+          Patient authorized PRISM
+        </span>
+      </div>
+    }
+  </div> -->
+
+<div class="flex w-full flex-col" *ngrxLet="patient$; let p">
+    @if (showReorderAlert) {
+        <div
+            class="relative mb-2 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700 dark:border-gray-600 dark:bg-gray-700"
+            role="alert"
+        >
+            <strong class="font-bold dark:text-white">Invite to SELF!</strong>
+            <span class="block dark:text-white sm:inline">
+                Send invite to patient to complete reorder via <strong>SELF</strong>!
+            </span>
+            <span class="absolute bottom-0 right-0 top-0 px-4 py-3">
+                <!-- <svg class="fill-current h-6 w-6 text-gray-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg> -->
+            </span>
+            <div>
+                <button
+                    [ngClass]="{
+                        'bg-green-500 text-white hover:bg-green-700': canSendText,
+                        'cursor-not-allowed bg-gray-300 text-gray-400': !canSendText,
+                    }"
+                    class="mt-4 rounded px-4 py-2 font-bold"
+                    (click)="sendText(p)"
+                    [disabled]="!canSendText"
+                >
+                    Send Text
+                </button>
+
+                <button
+                    [ngClass]="{
+                        'bg-green-500 text-white hover:bg-green-700': canSendEmail,
+                        'cursor-not-allowed bg-gray-300 text-gray-400': !canSendEmail,
+                    }"
+                    class="ml-4 mt-4 rounded px-4 py-2 font-bold"
+                    (click)="sendEmail(p)"
+                    [disabled]="!canSendEmail"
+                >
+                    Send Email
+                </button>
+            </div>
+        </div>
+    }
+    <div class="w-full bg-blue-500 p-4 dark:bg-gray-700">
+        <div class="flex items-center text-lg font-normal text-white">
+            <mat-icon class="mr-4 text-white">auto_fix_high</mat-icon>
+            FASTLANE
+        </div>
+    </div>
+    <div>
+        <mat-vertical-stepper [linear]="isLinear" #stepper class="rounded shadow-xl">
+            <ng-template matStepperIcon="edit">
+                <mat-icon>done</mat-icon>
+            </ng-template>
+
+            <!-- PATIENT CONTACT -->
+            <mat-step [stepControl]="form.get('steps').get('9')">
+                <form [formGroup]="form.get('steps').get('9')">
+                    <ng-template matStepLabel>Patient Contact</ng-template>
+                    <mat-selection-list
+                        [multiple]="false"
+                        color="primary"
+                        (selectionChange)="contactChange($event)"
+                        class="ml-4"
+                        formControlName="contactType"
+                    >
+                        <mat-list-option class value="Proceed">Proceed</mat-list-option>
+                        <mat-list-option value="NA">No Answer</mat-list-option>
+                        <mat-list-option value="VM">Left Voice Mail</mat-list-option>
+                        <mat-list-option value="CMCP">Contact made, could not proceed</mat-list-option>
+                        <mat-list-option value="CMUMM">Contact made, update monthly marker</mat-list-option>
+                    </mat-selection-list>
+                    <div class="mt-4 flex justify-end md:w-1/3">
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            matStepperNext
+                            [disabled]="form.get('steps').get('0').invalid"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+            <!-- WHO IS AUTHORIZING THE ORDER -->
+            <mat-step [stepControl]="form.get('steps').get('0')">
+                <form [formGroup]="form.get('steps').get('0')">
+                    <ng-template matStepLabel>Who is authorizing the order?</ng-template>
+                    <mat-selection-list
+                        [multiple]="false"
+                        color="primary"
+                        (selectionChange)="selectionChange($event)"
+                        class="ml-4"
+                        formControlName="authorizedBy"
+                    >
+                        <mat-list-option [value]="p?.firstName + ' ' + p?.lastName"
+                            >{{ p?.firstName }} {{ p?.lastName }}</mat-list-option
+                        >
+                        @for (opt of authorizingOptions; track opt) {
+                            <mat-list-option [value]="opt">{{ opt }}</mat-list-option>
+                        }
+                    </mat-selection-list>
+                    @if (showAuthorizedByField) {
+                        <mat-form-field class="mt-2 w-full">
+                            <mat-label>Name of authorizing Person</mat-label>
+                            <input matInput formControlName="authorizedByName" />
+                        </mat-form-field>
+                    }
+                    <div class="mt-4 flex justify-between md:w-1/3">
+                        <button mat-button color="warn" matStepperPrevious>Back</button>
+                        <button
+                            mat-raised-button
+                            color="primary"
+                            matStepperNext
+                            [disabled]="form.get('steps').get('0').invalid"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <!-- ARE YOU IN THE HOSPITAL -->
+            <mat-step [stepControl]="form.get('steps').get('5')">
+                <ng-template matStepLabel>Are you in the hospital</ng-template>
+                <div class="mt-4 flex flex-col">
+                    <div
+                        class="flex items-center rounded px-4 py-4 text-justify hover:bg-gray-100 hover:shadow dark:hover:bg-gray-600"
+                    >
+                        <span
+                            >Please be advised if you are in the hospital, residing in a nursing home or rehab center
+                            when we ship your supplies, Medicare will not pay for those supplies and you will be
+                            responsible for payment. We understand that you may not be able to inform us to stop your
+                            shipment, so if supplies are delivered during this time, please contact us immediately. Do
+                            NOT open the supplies. We will provide a return label for you to send the supplies back to
+                            Acentus and reship supplies when you are released from the hospital, nursing home or home
+                            health episode. Are you currently in the hospital, nursing home or rehab center that
+                            Medicare pays for?</span
+                        >
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    <div class="mr-4 flex">
+                        <button
+                            mat-flat-button
+                            color="accent"
+                            class="mr-4"
+                            (click)="
+                                form.get('steps').get('5').get('complianceQuestion1').patchValue(false); stepper.next()
+                            "
+                        >
+                            No
+                        </button>
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="
+                                form.get('steps').get('5').get('complianceQuestion1').patchValue(true); stepper.next()
+                            "
+                        >
+                            Yes
+                        </button>
+                    </div>
+                </div>
+            </mat-step>
+
+            <!-- PATIENT INFO -->
+            <mat-step [stepControl]="form.get('steps').get('1')">
+                <ng-template matStepLabel>Patient Information for #{{ p?.id }}</ng-template>
+
+                @if (!patientEditMode && p) {
+                    <ng-container
+                        [ngTemplateOutlet]="showAddress"
+                        [ngTemplateOutletContext]="{ data: p }"
+                    ></ng-container>
+                }
+                @if (patientEditMode) {
+                    <ng-container
+                        [ngTemplateOutlet]="dataEntryForm"
+                        [ngTemplateOutletContext]="{ patient: true, formElement: '1' }"
+                    ></ng-container>
+                }
+
+                <div class="mt-4 flex items-center justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    @if (patientEditMode) {
+                        <button
+                            mat-flat-button
+                            color="accent"
+                            (click)="patientEditMode = false; form.get('steps').get('1').patchValue(p)"
+                            class="mx-2"
+                        >
+                            <mat-icon class="mr-2">remove</mat-icon>
+                            Cancel
+                        </button>
+                    }
+                    @if (!patientEditMode) {
+                        <button mat-flat-button color="accent" (click)="patientEditMode = true" class="mx-2">
+                            Edit
+                        </button>
+                    }
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        matStepperNext
+                        [disabled]="form.get('steps').get('1').invalid"
+                        (click)="patientEditMode ? savePatient() : null"
+                    >
+                        {{ patientEditMode ? 'Save and ' : '' }}Next
+                    </button>
+                </div>
+            </mat-step>
+
+            <!-- ALTERNATE SHIP TO ADDRESS -->
+            <mat-step [stepControl]="form.get('steps').get('2')" *ngrxLet="alternateShipToAddress$; let shipTo">
+                <ng-template matStepLabel>Shipping Address</ng-template>
+
+                @if (!altShipToEditMode && shipTo) {
+                    <ng-container
+                        [ngTemplateOutlet]="showAddress"
+                        [ngTemplateOutletContext]="{ data: shipTo }"
+                    ></ng-container>
+                }
+                @if (altShipToEditMode) {
+                    <ng-container
+                        [ngTemplateOutlet]="dataEntryForm"
+                        [ngTemplateOutletContext]="{ altShipTo: true, formElement: '2' }"
+                    ></ng-container>
+                }
+                @if (!altShipToEditMode && !shipTo) {
+                    <div class="text-secondary mt-4 flex md:w-1/3">No shipping addresses found</div>
+                }
+
+                <div class="mt-4 flex justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    @if (altShipToEditMode) {
+                        <button
+                            mat-flat-button
+                            color="accent"
+                            (click)="altShipToEditMode = false; form.get('steps').get('2').patchValue(shipTo)"
+                            class="mx-2"
+                        >
+                            <mat-icon class="mr-2">remove</mat-icon>
+                            Cancel
+                        </button>
+                    }
+
+                    @if (!altShipToEditMode) {
+                        <button mat-flat-button color="accent" (click)="altShipToEditMode = true" class="mx-2">
+                            <!-- <mat-icon class="mr-2">{{!altShipToEditMode && !shipTo ? 'add' : 'edit'}}</mat-icon> -->
+                            {{ !altShipToEditMode && !shipTo ? 'Add' : 'Edit' }}
+                        </button>
+                    }
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        matStepperNext
+                        [disabled]="form.get('steps').get('2').invalid"
+                        (click)="altShipToEditMode ? saveAlternateShipToAddress() : null"
+                    >
+                        {{ altShipToEditMode ? 'Save and ' : '' }}
+                        Next
+                    </button>
+                </div>
+            </mat-step>
+
+            <!-- INSURANCE -->
+            <mat-step>
+                <ng-template matStepLabel>Insurance</ng-template>
+                <table class="mt-6 bg-white shadow-lg dark:bg-gray-600">
+                    <thead>
+                        <tr>
+                            <th class="border bg-blue-100 px-8 py-4 text-left dark:bg-gray-600">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (insurance of insurance$ | async; track insurance) {
+                            <tr>
+                                <td class="border px-8 py-4">{{ insurance.name }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="p-8">
+                    <div>
+                        <div class="font-bold">Insurance Verification</div>
+                        <div class="mb-4 mt-2">
+                            <button
+                                [disabled]="!p?.enableInsuranceEligibility"
+                                mat-raised-button
+                                color="primary"
+                                (click)="VerifyInsurance()"
+                            >
+                                Verify Insurance
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="mb-4 mt-2">
+                            @if (verifiedFlag) {
+                                <div class="relative flex items-center px-2 py-3">
+                                    @if (!insuranceIsValid) {
+                                        <div
+                                            class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-red-500"
+                                        >
+                                            <ic-icon [icon]="icRedX" size="24px" color="red"></ic-icon>
+                                        </div>
+                                    }
+                                    @if (insuranceIsValid) {
+                                        <div
+                                            class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-500"
+                                        >
+                                            <ic-icon [icon]="icGreenCheck" size="24px" color="green"></ic-icon>
+                                        </div>
+                                    }
+                                    <div>
+                                        <p class="m-0 text-sm">
+                                            <span class="font-bold">FLAG:</span> {{ verifiedFlag }}
+                                        </p>
+                                        <p class="m-0 text-sm">
+                                            <span class="font-bold">Response:</span> {{ verifiedResponse }}
+                                        </p>
+                                        <p class="m-0 text-sm">
+                                            <span class="font-bold">File:</span> {{ verifiedFile }}
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <ac-loading-overlay [show]="verifying"></ac-loading-overlay>
+                </div>
+
+                <div class="mt-4 flex justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" matStepperNext class="ml-2">Next</button>
+                </div>
+            </mat-step>
+
+            <!-- PRODUCTS -->
+            <mat-step>
+                <ng-template matStepLabel>Products</ng-template>
+                <table class="mt-6 bg-white shadow-lg dark:bg-gray-600">
+                    <thead>
+                        <tr>
+                            <th class="border bg-blue-100 px-8 py-4 text-left dark:bg-gray-600">Description</th>
+                            <th class="border bg-blue-100 px-8 py-4 text-left dark:bg-gray-600">QTY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (product of products$ | async; track product) {
+                            <tr>
+                                <td class="border px-8 py-4">{{ product.description }}</td>
+                                <td class="border px-8 py-4">{{ product.quantity }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="mt-4 flex justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" matStepperNext class="ml-2">Next</button>
+                </div>
+            </mat-step>
+
+            <!-- PRODUCT SUPPLY EXHAUSTED -->
+            <mat-step [stepControl]="form.get('steps').get('6')">
+                <ng-template matStepLabel>Product supply exhausted</ng-template>
+                <div class="mt-4 flex flex-col">
+                    <div
+                        class="flex items-center rounded py-4 pr-4 text-justify hover:bg-gray-100 hover:shadow md:w-1/2"
+                    >
+                        <span
+                            >Your supply will be exhausted by
+                            {{ (datesEtc$ | async)?.shipDate5 | datetimeformat }}?</span
+                        >
+                    </div>
+                    <div class="mb-2 flex flex-col">
+                        <span class="text-secondary text-sm">Order Ship Date</span>
+                        <span class="font-semibold text-primary">{{ (datesEtc$ | async)?.dos | datetimeformat }}</span>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    <div class="flex">
+                        <button
+                            mat-flat-button
+                            color="accent"
+                            class="mr-4"
+                            (click)="
+                                form.get('steps').get('6').get('complianceQuestion2').patchValue(false); stepper.next()
+                            "
+                        >
+                            No
+                        </button>
+                        <button
+                            mat-flat-button
+                            color="primary"
+                            (click)="
+                                form.get('steps').get('6').get('complianceQuestion2').patchValue(true); stepper.next()
+                            "
+                        >
+                            Yes
+                        </button>
+                    </div>
+                </div>
+            </mat-step>
+
+            <!-- DOCTOR -->
+            <mat-step *ngrxLet="doctor$; let doc">
+                <ng-template matStepLabel>Doctor</ng-template>
+
+                @if (doc) {
+                    <ng-container
+                        [ngTemplateOutlet]="showDrAddress"
+                        [ngTemplateOutletContext]="{ data: doc }"
+                    ></ng-container>
+                }
+                <!--        <ng-container [ngTemplateOutlet]="dataEntryForm" [ngTemplateOutletContext]="{doctor: true, formElement: '4'}"  *ngIf="doctorEditMode"></ng-container>-->
+                @if (inBetweenDays((datesEtc$ | async)?.cmn)) {
+                    <div class="mb-4 mt-4 flex flex-col md:w-1/3">
+                        <span class="text-secondary text-sm">CMN Expires</span>
+                        <span class="font-semibold text-primary">{{ (datesEtc$ | async)?.cmn | dateformat }}</span>
+                        <span class="font-bold text-red-500">Your Rx is about to expire</span>
+                    </div>
+                }
+                @if (inBetweenDays((datesEtc$ | async)?.authDate)) {
+                    <div class="mb-4 flex flex-col md:w-1/3">
+                        <span class="text-secondary text-sm">PA Expires</span>
+                        <span class="font-semibold text-primary">{{ (datesEtc$ | async)?.authDate | dateformat }}</span>
+                        <span class="font-bold text-red-500">Your PA is about to expire</span>
+                    </div>
+                }
+                @if (inBetweenDays((datesEtc$ | async)?.notesExpireDate)) {
+                    <div class="flex flex-col md:w-1/3">
+                        <span class="text-secondary text-sm">Notes Expire</span>
+                        <span class="font-semibold text-primary">{{
+                            (datesEtc$ | async)?.notesExpireDate | dateformat
+                        }}</span>
+                        <span class="font-bold text-red-500">Your notes are about to expire</span>
+                    </div>
+                }
+
+                <div class="mb-4 mt-4 flex justify-between md:w-1/3">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    <!--          <button mat-flat-button color="accent" (click)="doctorEditMode = true" class="mx-2" *ngIf="! doctorEditMode">Edit</button>-->
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        matStepperNext
+                        (click)="patientEditMode ? savePatientDoctor() : null"
+                    >
+                        {{ doctorEditMode ? 'Save and ' : '' }}Next
+                    </button>
+                </div>
+            </mat-step>
+
+            <!-- SUMMARY -->
+            <mat-step>
+                <ng-template matStepLabel>Summary</ng-template>
+                <div class="mt-8 flex flex-col rounded border p-4 shadow">
+                    <div class="ml-4 flex justify-center text-center text-lg font-semibold">
+                        Here is your order summary for your next supply shipment
+                    </div>
+                    <div class="mb-8 ml-4 flex flex-col items-center space-y-3">
+                        <div
+                            class="my-4 flex items-center justify-center rounded-full bg-green-200 p-3 text-3xl text-green-600"
+                        >
+                            <mat-icon>check</mat-icon>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-secondary">Order Confirmation Date</span>
+                            <span class="font-semibold text-primary">{{ now | datetimeformat }}</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-secondary">Order Ship Date</span>
+                            <span class="font-semibold text-primary">{{
+                                (datesEtc$ | async)?.dos | datetimeformat
+                            }}</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-secondary">Expected Delivery Date</span>
+                            <span class="font-semibold text-primary">3 - 5 Business Days</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-secondary">Shipping Address</span>
+                            <ng-container
+                                [ngTemplateOutlet]="showAddress"
+                                [ngTemplateOutletContext]="{
+                                    excludeExtraInfo: true,
+                                    data: form.get('steps').get('2').valid
+                                        ? form.get('steps').get('2').value
+                                        : form.get('steps').get('1').value,
+                                }"
+                            ></ng-container>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-secondary">Supplies to be sent</span>
+                            <table class="mt-6 bg-white shadow-lg dark:bg-gray-600">
+                                <thead>
+                                    <tr>
+                                        <th class="border bg-blue-100 px-8 py-4 text-left dark:bg-gray-600">
+                                            Description
+                                        </th>
+                                        <th class="border bg-blue-100 px-8 py-4 text-left dark:bg-gray-600">QTY</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (product of products$ | async; track product) {
+                                        <tr>
+                                            <td class="border px-8 py-4">{{ product.description }}</td>
+                                            <td class="border px-8 py-4">{{ product.quantity }}</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex flex-col space-y-3 text-sm">
+                            <div class="mt-8 flex flex-col items-center text-center">
+                                <span
+                                    class="text-center"
+                                    [class.line-through]="
+                                        form.get('steps').get('5').get('complianceQuestion1').value === true
+                                    "
+                                    [class.text-secondary]="
+                                        form.get('steps').get('5').get('complianceQuestion1').value === true
+                                    "
+                                    >You certified the patient is not currently in the hospital, is not residing in a
+                                    nursing home and does not have a nurse visiting their home.</span
+                                >
+                            </div>
+                            <div class="flex flex-col items-center text-center">
+                                <span class="text-center"
+                                    >You have no changes to your shipping address, phone number, email address,
+                                    insurance or physician.</span
+                                >
+                            </div>
+                            <div class="flex flex-col items-center text-center">
+                                <span
+                                    class="text-center"
+                                    [class.line-through]="
+                                        form.get('steps').get('6').get('complianceQuestion2').value === false
+                                    "
+                                    [class.text-secondary]="
+                                        form.get('steps').get('6').get('complianceQuestion2').value === false
+                                    "
+                                    >You certified your supply will be exhausted by
+                                    {{ (datesEtc$ | async)?.shipDate5 | datetimeformat }}.</span
+                                >
+                            </div>
+                            <div class="flex flex-col items-center text-center">
+                                <span class="text-center"
+                                    >This supply order renewal was authorized by
+                                    <span class="text-primary">{{
+                                        form.get('steps').get('0').value.authorizedByName
+                                    }}</span></span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-between md:w-1/2">
+                    <button mat-button color="warn" matStepperPrevious>Back</button>
+                    <button mat-raised-button color="primary" (click)="finalize()" class="ml-2">
+                        Confirm & Finalize
+                    </button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+
+        <ac-loading-overlay [show]="loading"></ac-loading-overlay>
+    </div>
+</div>
+
+<ng-template
+    #dataEntryForm
+    let-formElement="formElement"
+    let-doctor="doctor"
+    let-altShipTo="altShipTo"
+    let-patient="patient"
+>
+    <form [formGroup]="form.get('steps').get(formElement)" class="ml-4 flex flex-col">
+        @if (doctor || patient) {
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" />
+            </mat-form-field>
+        }
+        @if (doctor || patient) {
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" />
+            </mat-form-field>
+        }
+        <mat-form-field>
+            <mat-label>Address 1</mat-label>
+            <input matInput formControlName="address" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Address 2</mat-label>
+            <input matInput formControlName="address2" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state">
+                @for (state of states; track state) {
+                    <mat-option [value]="state.abbreviation">{{ state.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Zip</mat-label>
+            <input matInput formControlName="zip" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" />
+        </mat-form-field>
+        @if (doctor || patient) {
+            <mat-form-field>
+                <mat-label>Phone</mat-label>
+                <input matInput formControlName="phone" />
+            </mat-form-field>
+        }
+        @if (patient) {
+            <mat-form-field>
+                <mat-label>Cell Phone</mat-label>
+                <input matInput formControlName="cellPhone" />
+            </mat-form-field>
+        }
+        @if (patient) {
+            <mat-form-field>
+                <mat-label>Work Phone</mat-label>
+                <input matInput formControlName="workPhone" />
+            </mat-form-field>
+        }
+        @if (patient) {
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" />
+            </mat-form-field>
+        }
+        @if (doctor) {
+            <mat-form-field>
+                <mat-label>Fax</mat-label>
+                <input matInput formControlName="fax" />
+            </mat-form-field>
+        }
+    </form>
+</ng-template>
+
+<ng-template #showAddress let-data="data" let-excludeExtraInfo="excludeExtraInfo">
+    <div class="ml-4 mt-2 flex flex-col">
+        @if (data.firstName || data.lastName) {
+            <span class="text-lg text-primary">{{ data.firstName }} {{ data.lastName }}</span>
+        }
+        <span class="">{{ data.address }}</span>
+        @if (data.address2) {
+            <span>{{ data.address2 }}</span>
+        }
+        <div class="flex space-x-1">
+            <span>{{ data.city }}</span>
+            <span>{{ data.state }}</span>
+            <span>{{ data.zip }}</span>
+        </div>
+        @if (data.phone || data.email || data.cellPhone) {
+            <div class="mb-2 mt-2 flex flex-col">
+                <span>{{ data.phone | phonenumber }}</span>
+                @if (data.cellPhone) {
+                    <span class="">{{ data.cellPhone | phonenumber }} (CELL)</span>
+                }
+                <span class="">{{ data.email }}</span>
+            </div>
+        }
+        @if (data.firstName || data.lastName) {
+            <div>
+                <div class="mt-4 flex flex-col font-bold">Emergency Contact</div>
+                <div class="mb-4 mt-2 flex flex-col">
+                    @if (data.emergencyName) {
+                        <span>Contact Name: {{ data.emergencyName }}</span>
+                    }
+                    @if (!data.emergencyName) {
+                        <span class="font-bold text-red-500">Missing emergency contact</span>
+                    }
+                    @if (data.emergencyPhone) {
+                        <span>Contact phone: {{ data.emergencyPhone | phonenumber }}</span>
+                    }
+                    @if (!data.emergencyPhone) {
+                        <span class="font-bold text-red-500">Missing emergency phone</span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</ng-template>
+
+<ng-template #showDrAddress let-data="data" let-excludeExtraInfo="excludeExtraInfo">
+    <div class="ml-4 mt-2 flex flex-col">
+        @if (data.firstName || data.lastName) {
+            <span class="text-lg text-primary">{{ data.firstName }} {{ data.lastName }}</span>
+        }
+        <span class="">{{ data.address }}</span>
+        @if (data.address2) {
+            <span>{{ data.address2 }}</span>
+        }
+        <div class="flex space-x-1">
+            <span>{{ data.city }}</span>
+            <span>{{ data.state }}</span>
+            <span>{{ data.zip }}</span>
+        </div>
+        @if (data.phone || data.email || data.cellPhone) {
+            <div class="mb-2 mt-2 flex flex-col">
+                <span>{{ data.phone | phonenumber }}</span>
+                @if (data.cellPhone) {
+                    <span class="">{{ data.cellPhone | phonenumber }} (CELL)</span>
+                }
+                <span class="">{{ data.email }}</span>
+            </div>
+        }
+    </div>
+</ng-template>

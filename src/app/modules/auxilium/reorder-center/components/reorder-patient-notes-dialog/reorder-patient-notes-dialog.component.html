@@ -1,0 +1,11 @@
+<ac-scrollbar class="h-full">
+    @for (note of patientNotes$ | async; track note) {
+        <div class="flex flex-col p-4" [ngClass]="note.priority === 'PRIORITY' ? 'text-red-500' : 'text-black'">
+            <span class="text-secondary text-sm"
+                >Added on {{ note.addDate | datetimeformat }} by {{ note.addedBy }}</span
+            >
+            <span class="dark:text-white">{{ note.note }}</span>
+        </div>
+        <mat-divider class="w-full"></mat-divider>
+    }
+</ac-scrollbar>

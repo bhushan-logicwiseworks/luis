@@ -1,0 +1,28 @@
+<div class="mx-4 mt-5 flex w-full">
+    <div class="mb-4 mr-4 flex-1">
+        <div class="h-32 rounded-lg bg-white p-4 shadow-md dark:bg-gray-800">
+            <div class="text-center text-orange-500">
+                <div class="mb-2 text-4xl font-bold">{{ dashboardWorkOrdersAll?.[0]?.count || 0 }}</div>
+                <div class="text-black dark:text-white">Work Order All</div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-4 mr-4 flex-1">
+        <div class="h-32 rounded-lg bg-white p-4 shadow-md dark:bg-gray-800">
+            <div class="text-center text-green-500">
+                <div class="mb-2 text-4xl font-bold">{{ dashboardWorkOrdersWithPOD?.[0]?.count || 0 }}</div>
+                <div class="text-black dark:text-white">Work Order With POD</div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-4 flex-1">
+        <div class="h-32 rounded-lg bg-white p-4 shadow-md dark:bg-gray-800">
+            <div class="text-center">
+                <div class="text-peach-500 mb-2 text-4xl font-bold">
+                    {{ dashboardWorkOrdersWithoutPOD?.[0]?.count || 0 }}
+                </div>
+                <div class="text-black dark:text-white">Work Order Without POD</div>
+            </div>
+        </div>
+    </div>
+</div>

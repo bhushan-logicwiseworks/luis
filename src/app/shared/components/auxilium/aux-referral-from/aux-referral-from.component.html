@@ -1,0 +1,12 @@
+<div class="relative overflow-auto" [ngClass]="{ 'min-h-80': loading$ | async }">
+    <aux-ag-grid
+        [gridOptions]="options"
+        [columnDefs]="columnDefs"
+        [rowData]="rowData"
+        [visibleColumns]="visibleColumns"
+        [agGridHeight]="'calc(100vh - 312px)'"
+        [loading]="loading$ | async"
+        (rowSelectionChange)="selectionChange($event)"
+    >
+    </aux-ag-grid>
+</div>

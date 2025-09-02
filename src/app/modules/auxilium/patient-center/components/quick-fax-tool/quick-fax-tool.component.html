@@ -1,0 +1,126 @@
+<div class="flex min-w-0 flex-auto flex-col" style="height: 695px; overflow-y: scroll">
+    <div class="flex flex-col items-center pt-0">
+        <div class="flex h-full w-full flex-col">
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full flex-none bg-white p-4 dark:bg-transparent md:max-w-sm">
+                    <!-- DOCTOR -->
+                    <div class="flex w-full flex-col" *ngrxLet="doctorDetails$; let doc">
+                        <div class="flex flex-col bg-white p-4 dark:bg-transparent">
+                            <div
+                                class="flex w-full justify-center bg-gray-100 pb-4 pt-4 text-center font-bold uppercase text-primary shadow"
+                            >
+                                DOCTOR
+                            </div>
+                            <mat-list>
+                                @if (doc) {
+                                    <div class="flex flex-col">
+                                        <div class="flex flex-col">
+                                            <span class="font-bold">{{ doc.firstName }} {{ doc.lastName }}</span>
+                                            @if (doc.address1) {
+                                                <span>{{ doc.address1 }}</span>
+                                            }
+                                            @if (doc.address2) {
+                                                <span>{{ doc.address2 }}</span>
+                                            }
+                                            <span>{{ doc.city }} {{ doc.state }} {{ doc.zip }}</span>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <!-- Doctor Phone -->
+                                            @if (doc.phone) {
+                                                <a
+                                                    href="tel:{{ doc.phone }}"
+                                                    class="relative flex items-center rounded-full px-2 py-3 transition duration-200 ease-in-out hover:bg-blue-100"
+                                                    matRipple
+                                                >
+                                                    <div
+                                                        class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-500"
+                                                    >
+                                                        <mat-icon
+                                                            class="text-blue-500"
+                                                            [svgIcon]="'mat_outline:phone'"
+                                                        ></mat-icon>
+                                                    </div>
+                                                    <div>
+                                                        <p class="m-0 font-bold">{{ doc.phone | phonenumber }}</p>
+                                                        <p class="text-secondary m-0">Phone</p>
+                                                    </div>
+                                                </a>
+                                            }
+                                            <!-- Doctor Fax -->
+                                            @if (doc.fax) {
+                                                <a
+                                                    class="relative flex items-center rounded-full px-2 py-3 transition duration-200 ease-in-out hover:bg-green-100"
+                                                    matRipple
+                                                    href="tel:{{ doc.fax }}"
+                                                >
+                                                    <div
+                                                        class="mr-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-500"
+                                                    >
+                                                        <mat-icon
+                                                            class="text-green-500"
+                                                            [svgIcon]="'mat_outline:print'"
+                                                        ></mat-icon>
+                                                    </div>
+                                                    <div>
+                                                        <p class="m-0 font-bold">{{ doc.fax | phonenumber }}</p>
+                                                        <p class="text-secondary m-0">Fax</p>
+                                                    </div>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                @if (!doc) {
+                                    <div>N/A</div>
+                                }
+                            </mat-list>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-1 flex-col p-4 pl-12">
+                    <!-- <div class="-ml-4 sm:mt-8">
+          <a mat-button [routerLink]="['../']" [color]="'primary'">
+            <mat-icon [svgIcon]="'heroicons_outline:arrow-narrow-left'"></mat-icon>
+            <span class="ml-2">Back to Demographics</span>
+          </a>
+        </div> -->
+                    <div class="my-auto truncate text-2xl font-extrabold leading-7 sm:leading-10 md:text-3xl">
+                        Choose Your Fax Message
+                    </div>
+                    <mat-accordion class="mat-accordion mt-8 max-w-4xl">
+                        @for (quickFax of quickFaxData; track quickFax) {
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header [collapsedHeight]="'56px'">
+                                    <mat-panel-title class="font-medium leading-tight">{{
+                                        quickFax.title
+                                    }}</mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-form-field appearance="outline" class="w-full">
+                                    <textarea
+                                        class="text-lg text-black dark:text-white"
+                                        matInput
+                                        [(ngModel)]="quickFax.defaultText"
+                                        rows="8"
+                                        placeholder="Your fax message"
+                                    ></textarea>
+                                </mat-form-field>
+                                <div class="mt-2 flex items-center justify-end">
+                                    <button
+                                        mat-flat-button
+                                        type="button"
+                                        class="mat-primary"
+                                        [disabled]="loading$ | async"
+                                        (click)="sendFaxMessage(quickFax.title, quickFax.defaultText)"
+                                    >
+                                        Send
+                                    </button>
+                                </div>
+                            </mat-expansion-panel>
+                        }
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

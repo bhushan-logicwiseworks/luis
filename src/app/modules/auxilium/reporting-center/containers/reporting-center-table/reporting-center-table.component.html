@@ -1,0 +1,16 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'reportingcenter'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            [agGridHeight]="'calc(100vh - 292px)'"
+            [loading]="loading$ | async"
+            [isCsvExport]="true"
+            (cellClicked)="onRowChange($event)"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

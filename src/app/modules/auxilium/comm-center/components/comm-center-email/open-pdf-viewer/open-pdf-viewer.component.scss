@@ -1,0 +1,15 @@
+.pdf-view {
+    height: calc(100vh - 221px);
+}
+.image-section {
+    width: 150px;
+    height: 210px;
+    &.active {
+        border: 3px solid gray !important;
+    }
+}
+.loader-block {
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+}

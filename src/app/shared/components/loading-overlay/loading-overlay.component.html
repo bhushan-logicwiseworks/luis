@@ -1,0 +1,11 @@
+@if (type === 'bar') {
+    <div [@fadeIn]="show ? true : false" class="loading-overlay">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+}
+
+@if (type === 'spinner') {
+    <div [@fadeIn]="show ? true : false" class="loading-overlay-spinner">
+        <mat-progress-spinner [diameter]="diameter" mode="indeterminate"></mat-progress-spinner>
+    </div>
+}

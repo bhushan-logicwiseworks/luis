@@ -1,0 +1,41 @@
+<div class="py-10">
+    <!-- Add any extra content that might be supplied with the component -->
+    <div class="extra-content">
+        <ng-content></ng-content>
+    </div>
+
+    <!-- Fixed demo sidebar -->
+    <div class="mx-6 text-3xl font-bold tracking-tighter">Demo Sidebar</div>
+    <fuse-vertical-navigation
+        [appearance]="'default'"
+        [navigation]="menuData"
+        [inner]="true"
+        [mode]="'side'"
+        [name]="'demo-sidebar-navigation'"
+        [opened]="true"
+    ></fuse-vertical-navigation>
+
+    <!-- Storage -->
+    <div class="mx-6 mt-2">
+        <div class="flex items-center">
+            <mat-icon class="mr-2 icon-size-5" [svgIcon]="'heroicons_solid:database'"></mat-icon>
+            <div class="text-lg font-semibold">Storage</div>
+        </div>
+        <div class="mt-4 flex flex-auto flex-col">
+            <span class="mb-3 text-sm leading-none">19.9 GB of 100 GB used</span>
+            <mat-progress-bar [mode]="'determinate'" [color]="'primary'" [value]="19.9"></mat-progress-bar>
+        </div>
+    </div>
+
+    <!-- Users -->
+    <div class="mx-6 mt-10">
+        <div class="flex items-center">
+            <mat-icon class="mr-2 icon-size-5" [svgIcon]="'heroicons_solid:users'"></mat-icon>
+            <div class="text-lg font-semibold">Users</div>
+        </div>
+        <div class="mt-4 flex flex-auto flex-col">
+            <span class="mb-3 text-sm leading-none">8 of 20 users used</span>
+            <mat-progress-bar [mode]="'determinate'" [color]="'accent'" [value]="40"></mat-progress-bar>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="flex w-full flex-col">
+    <!-- Header -->
+    <div class="flex w-full items-center bg-white p-3 shadow dark:bg-transparent">
+        <div (click)="backToListing()">
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:arrow-left'"
+            ></mat-icon>
+        </div>
+        @if (PriceId !== null) {
+            <p
+                class="status ml-3 flex flex-none items-center rounded bg-primary-100 px-3 py-1.5 text-xs font-medium text-accent-600"
+            >
+                {{ PriceId }}
+            </p>
+        }
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"></fuse-horizontal-navigation>
+    </div>
+
+    <div class="ar-history w-full">
+        <!-- Form -->
+        <form class="w-full" [formGroup]="addLocationForm">
+            <!-- Section 1 Wide -->
+            <div class="w-full p-1 pb-0">
+                <div class="w-full border bg-white p-3 shadow dark:bg-transparent md:w-full">
+                    <div class="mt-2">
+                        <!-- Second Row -->
+                        <div class="flex w-full flex-col gap-2 md:flex-row md:flex-wrap lg:flex-nowrap">
+                            <div class="flex items-center gap-x-2 pr-2">
+                                <label class="w-32 text-right">Item code:</label>
+                                <div class="flex items-center">
+                                    <mat-form-field class="m-0">
+                                        <input
+                                            class="uppercase"
+                                            [readonly]="false"
+                                            matInput
+                                            [formControlName]="'itemcode'"
+                                        />
+                                    </mat-form-field>
+                                    <mat-icon
+                                        matPrefix
+                                        class="icon-size-1 ml-1 hidden cursor-pointer sm:flex"
+                                        [svgIcon]="'heroicons_solid:download'"
+                                        (click)="openItemList()"
+                                    ></mat-icon>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <label appearance="outline" class="w-32 text-right">Description:</label>
+                                <mat-form-field class="m-0 w-96">
+                                    <input class="uppercase" matInput [formControlName]="'description'" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="gap-2lg:flex-nowrap mt-2 flex w-full flex-col gap-2 md:flex-row md:flex-wrap">
+                            <div class="flex items-center gap-x-2 pr-2">
+                                <label class="w-32 text-right">Location:</label>
+                                <div class="flex items-center">
+                                    <mat-form-field class="m-0">
+                                        <input
+                                            class="uppercase"
+                                            [readonly]="false"
+                                            matInput
+                                            [formControlName]="'itemcode'"
+                                        />
+                                    </mat-form-field>
+                                    <mat-icon
+                                        matPrefix
+                                        class="icon-size-1 ml-1 hidden cursor-pointer sm:flex"
+                                        [svgIcon]="'heroicons_solid:download'"
+                                        (click)="openLocationCodeList()"
+                                    ></mat-icon>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <label appearance="outline" class="w-32 text-right"></label>
+                                <mat-form-field class="m-0 w-96">
+                                    <input class="uppercase" matInput [formControlName]="'description'" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <!-- Third Row -->
+                        <div class="mt-2 flex w-full flex-col gap-2 md:flex-row md:flex-wrap lg:flex-nowrap">
+                            <div class="flex items-center gap-x-2 pr-2">
+                                <label class="w-32 text-right">Bin:</label>
+                                <div class="flex items-center">
+                                    <mat-form-field class="m-0">
+                                        <input
+                                            class="uppercase"
+                                            [readonly]="false"
+                                            matInput
+                                            [formControlName]="'binCode'"
+                                        />
+                                    </mat-form-field>
+                                    <mat-icon
+                                        matPrefix
+                                        class="icon-size-1 ml-1 hidden cursor-pointer sm:flex"
+                                        [svgIcon]="'heroicons_solid:download'"
+                                        (click)="openLocationBinList()"
+                                    ></mat-icon>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <mat-label class="w-32 text-right">Location Type:</mat-label>
+                                <!-- <mat-form-field class="m-0 w-30">
+                                    <mat-select
+                                        [formControlName]="'billtype'"
+                                        [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                    >
+                                        <mat-select-trigger>{{ selectedBillType }}</mat-select-trigger>
+                                        @for (status of billType$ | async; track status) {
+                                            <mat-option [value]="status.billType">
+                                                <div class="flex gap-6">
+                                                    <h2 class="font-extrabold">{{ status.billType }}</h2>
+                                                    {{ status.description }}
+                                                </div>
+                                            </mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field> -->
+                            </div>
+                        </div>
+
+                        <!-- Fourth Row -->
+                        <div class="mt-2 flex w-full flex-col gap-[2.9rem] md:flex-row md:flex-wrap lg:flex-nowrap">
+                            <div class="flex items-center gap-x-2">
+                                <label class="w-32 text-right">Quantity On Hand:</label>
+                                <mat-form-field appearance="outline" class="m-0 w-30">
+                                    <input class="uppercase" matInput formControlName="onHand" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex items-center gap-x-2">
+                                    <label class="w-32 text-right">Allocated:</label>
+                                    <mat-form-field appearance="outline" class="m-0 w-30">
+                                        <input class="uppercase" matInput formControlName="allocated" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="ml-4 flex items-center gap-x-2">
+                                    <label class="w-30 text-right">On Order:</label>
+                                    <mat-form-field appearance="outline" class="m-0 w-30">
+                                        <input class="uppercase" matInput formControlName="onOrder" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

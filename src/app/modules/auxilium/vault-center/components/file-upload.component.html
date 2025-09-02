@@ -1,0 +1,58 @@
+<div class="mat-dialog-title flex w-full items-center">
+    <div class="flex w-full justify-end">
+        <span class="flex items-center rounded-full bg-primary px-4 py-2 text-white"
+            ><ic-icon [inline]="true" [icon]="icFolder" class="mr-2" size="18px"></ic-icon>
+            {{ data.folder?.folderName }}</span
+        >
+    </div>
+</div>
+<div class="mat-dialog-content my-4 flex flex-wrap">
+    @if (!data.files?.length) {
+        <div class="flex w-full justify-center p-3 text-sm text-gray-500">No files selected</div>
+    }
+    <mat-list class="w-full">
+        @for (file of data.files; track file; let index = $index) {
+            <mat-list-item class="mb-2 w-full">
+                <div class="flex items-center">
+                    <img
+                        mat-list-avatar
+                        src="fileTypeIcons/file-pdf-box.svg"
+                        height="40"
+                        width="40"
+                        class="mr-4"
+                        style="width: 40px; height: 40px"
+                    />
+                    <div class="flex w-full items-center justify-between">
+                        <span>{{ file.displayName }}</span>
+                        <span>
+                            <button
+                                mat-icon-button
+                                (click)="deleteFile(index)"
+                                color="warn"
+                                class="flex items-center justify-center"
+                            >
+                                <ic-icon [icon]="icTrash" size="18px"></ic-icon>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </mat-list-item>
+        }
+    </mat-list>
+    <div class="mt-6 w-full">
+        <input
+            #filepicker
+            hidden="true"
+            type="file"
+            onclick="this.value=null"
+            (change)="addFilesClicked($event)"
+            accept=".pdf"
+            [multiple]="true"
+        />
+        <button mat-button color="primary" (click)="filepicker.click()" class="w-full">
+            <ic-icon [icon]="icOutlineLibraryAdd" [inline]="true" size="18px" class="mr-2"></ic-icon>
+            <span>Add Files</span>
+        </button>
+    </div>
+</div>
+<ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>

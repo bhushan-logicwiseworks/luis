@@ -1,0 +1,13 @@
+<!-- Timeline -->
+<div class="flex w-full flex-col" style="height: 695px; overflow-y: scroll">
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"></fuse-horizontal-navigation>
+    </div>
+
+    <div class="relative overflow-auto rounded bg-white shadow dark:bg-transparent">
+        <span #shadowElem></span>
+    </div>
+
+    <ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>
+</div>

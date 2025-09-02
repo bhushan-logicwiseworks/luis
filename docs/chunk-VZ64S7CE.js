@@ -1,0 +1,1 @@
+import{c as r,i as e,j as g,k as o,l as s}from"./chunk-M4WH542H.js";function t(n){return r("stagger",[e("* => *",[o(":enter",s(n,g()),{optional:!0})])])}var i=t(80),m=t(60),p=t(40),c=t(20);export{p as a};

@@ -1,0 +1,529 @@
+<div class="model-contain w-full">
+    <!-- Header -->
+    <div class="mb-2 flex w-full items-center bg-white p-3 shadow dark:bg-transparent">
+        <div (click)="backToListing()">
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:arrow-left'"
+            ></mat-icon>
+        </div>
+        @if (workOrderId !== null) {
+            <p
+                class="status ml-3 flex flex-none items-center rounded bg-primary-100 px-3 py-1.5 text-xs font-medium text-accent-600"
+            >
+                {{ workOrderId }}
+            </p>
+        }
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"></fuse-horizontal-navigation>
+    </div>
+    <div class="w-full">
+        <!-- Form -->
+        <form class="w-full" [formGroup]="workOrderForm">
+            <!-- Section 1 Wide -->
+            <div class="mt-2.5 w-full border bg-white p-3 shadow dark:bg-transparent md:w-full">
+                <div class="mt-2">
+                    <div class="flex w-full">
+                        <mat-form-field class="pr-2">
+                            <mat-label>Invoice #</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'invoiceno'" />
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Branch</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                tabindex="4"
+                                class="uppercase"
+                                [formControl]="branchName"
+                                [placeholder]="'Branch'"
+                                [matAutocomplete]="auto2"
+                                #autoInput
+                            />
+                            <mat-autocomplete
+                                #auto2="matAutocomplete"
+                                (optionSelected)="onBranchSelected($event.option.value)"
+                            >
+                                <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                                    {{ option.branchcode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Confirm Status</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'confirm'" />
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Next Bill Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="nextBillDate"
+                                [placeholder]="dateFormat"
+                                (change)="onDateChange($event, 'lastdatebilled')"
+                                [formControlName]="'lastdatebilled'"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="nextBillDate"></mat-datepicker-toggle>
+                            <mat-datepicker #nextBillDate="matDatepicker"></mat-datepicker>
+                            @if (workOrderForm.get('lastdatebilled').hasError('notValidDate')) {
+                                <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Service Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="serviceDate"
+                                [placeholder]="dateFormat"
+                                (change)="onDateChange($event, 'svcdate')"
+                                [formControlName]="'svcdate'"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="serviceDate"></mat-datepicker-toggle>
+                            <mat-datepicker #serviceDate="matDatepicker"></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Thru Date</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="thruDate"
+                                [placeholder]="dateFormat"
+                                (change)="onDateChange($event, 'todate')"
+                                [formControlName]="'todate'"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="thruDate"></mat-datepicker-toggle>
+                            <mat-datepicker #thruDate="matDatepicker"></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Notes Expire</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="notesExpDate"
+                                [placeholder]="dateFormat"
+                                (change)="onDateChange($event, 'notesexpiredate')"
+                                [formControlName]="'notesexpiredate'"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="notesExpDate"></mat-datepicker-toggle>
+                            <mat-datepicker #notesExpDate="matDatepicker"></mat-datepicker>
+                            @if (workOrderForm.get('notesexpiredate').hasError('notValidDate')) {
+                                <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                            }
+                        </mat-form-field>
+                        <div class="flex flex-col">
+                            <span>Roll up</span>
+                            <mat-checkbox [color]="'primary'" class="" [formControlName]="'isrollup'"></mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="flex w-full">
+                        <div class="flex items-center pr-2">
+                            <mat-form-field class="pr-0">
+                                <mat-label>Item code</mat-label>
+                                <input class="uppercase" [readonly]="false" matInput [formControlName]="'itemCode'" />
+                            </mat-form-field>
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-1 hidden cursor-pointer sm:flex"
+                                [svgIcon]="'heroicons_solid:download'"
+                                (click)="openItemList()"
+                            ></mat-icon>
+                        </div>
+                        <mat-form-field class="w-96 pr-2">
+                            <mat-label>Description</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'description'" />
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Quantity</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'quantity'" />
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Ship Qty</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'quantityshipped'" />
+                        </mat-form-field>
+                        <div class="flex items-center pr-2">
+                            <mat-form-field class="w-full pr-0">
+                                <mat-label>Serial#</mat-label>
+                                <input class="uppercase" matInput />
+                            </mat-form-field>
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-1 hidden cursor-pointer sm:flex"
+                                [svgIcon]="'heroicons_solid:download'"
+                            ></mat-icon>
+                        </div>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Rent/Purchase</mat-label>
+                            <mat-select
+                                [formControlName]="'billtype'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedBillType }}</mat-select-trigger>
+                                @for (status of billType$ | async; track status) {
+                                    <mat-option [value]="status.billType">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ status.billType }}</h2>
+                                            {{ status.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex w-full">
+                        <mat-form-field class="w-2/3 pr-2">
+                            <mat-label>Narrative</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'narrative'" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2 Wide -->
+            <div class="mt-2.5 w-full border bg-white p-3 shadow dark:bg-transparent md:w-full">
+                <div class="mt-4">
+                    <div class="flex w-full">
+                        <mat-form-field class="w-48 pr-2">
+                            <mat-label>Length of need (Months)</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'cmnfreq'" />
+                        </mat-form-field>
+                        <mat-form-field class="pr-2">
+                            <mat-label>Stop Rental/Recur</mat-label>
+                            <input
+                                matInput
+                                [matDatepicker]="rental"
+                                [placeholder]="dateFormat"
+                                defaultDate
+                                [formControlName]="'stopdate'"
+                                (change)="onDateChange($event, 'stopdate')"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="rental"></mat-datepicker-toggle>
+                            <mat-datepicker #rental="matDatepicker"></mat-datepicker>
+                            @if (workOrderForm.get('stopdate').hasError('notValidDate')) {
+                                <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field class="w-52 pr-2">
+                            <mat-label>Follow Up</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'followup'" />
+                        </mat-form-field>
+                        <mat-form-field class="w-64 pr-2">
+                            <mat-label>Stop Reason</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'pickupreason'" />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="mr-2" [formControlName]="'isoverride'"
+                            >Override</mat-checkbox
+                        >
+                        <mat-checkbox [color]="'primary'" class="mr-2">Use HAO</mat-checkbox>
+                    </div>
+                </div>
+                <div class="flex w-full">
+                    <mat-form-field class="w-64 pr-2">
+                        <mat-label>Reason</mat-label>
+                        <input class="uppercase" matInput [formControlName]="'deliverytype'" />
+                    </mat-form-field>
+                    <mat-form-field class="pr-2">
+                        <mat-label>Ship status</mat-label>
+                        <mat-select [formControlName]="'shipstatus'">
+                            <mat-option value="E">E</mat-option>
+                            <mat-option value="F">F</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="pr-2">
+                        <mat-label>Ship Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="shipDate"
+                            [placeholder]="dateFormat"
+                            defaultDate
+                            (change)="onDateChange($event, 'shipdate')"
+                            [formControlName]="'shipdate'"
+                        />
+                        <mat-datepicker-toggle matIconSuffix [for]="shipDate"></mat-datepicker-toggle>
+                        <mat-datepicker #shipDate="matDatepicker"></mat-datepicker>
+                        @if (workOrderForm.get('shipdate').hasError('notValidDate')) {
+                            <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field class="pr-2">
+                        <mat-label>Ship Method</mat-label>
+                        <mat-select [formControlName]="'shipvia'">
+                            <mat-option value="UPS">UPS</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="w-52 pr-2">
+                        <mat-label>Tracking No.</mat-label>
+                        <input class="uppercase" matInput [formControlName]="'trackingno'" />
+                    </mat-form-field>
+                    <mat-form-field class="pr-2">
+                        <mat-label>Date Delivered</mat-label>
+                        <input matInput [matDatepicker]="delivered" [placeholder]="dateFormat" defaultDate />
+                        <mat-datepicker-toggle matIconSuffix [for]="delivered"></mat-datepicker-toggle>
+                        <mat-datepicker #delivered="matDatepicker"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- Section 3 Wide -->
+            <div class="flex w-full">
+                <div class="mt-2.5 w-full border bg-white p-3 shadow dark:bg-transparent md:w-full">
+                    <div class="mt-2">
+                        <div class="flex w-full">
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Primary</mat-label>
+                                    <input class="uppercase" matInput [formControlName]="'PrimaryPayorsName'" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    (click)="openPayorsList('Primary')"
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Co-Pay</mat-label>
+                                    <input class="uppercase" [formControlName]="'coPayorsName'" matInput />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    (click)="openPayorsList('Co-Pay')"
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Physician</mat-label>
+                                    <input class="uppercase" matInput [formControlName]="'physicianFullName'" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    (click)="openAssignedPhysicianList()"
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-2">
+                                    <mat-label>Sales Rep</mat-label>
+                                    <mat-select
+                                        [formControlName]="'salesid'"
+                                        [panelClass]="'w-72 min-w-72 max-w-96 h-100 max-h-100'"
+                                    >
+                                        <mat-select-trigger>{{ selectedSalesRep }}</mat-select-trigger>
+                                        @for (sale of salesrepList; track sale) {
+                                            <mat-option [value]="sale.value">
+                                                <div class="state-select pr-2">
+                                                    {{ sale.name }}
+                                                </div>
+                                            </mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Referral</mat-label>
+                                    <input class="uppercase" [formControlName]="'referCode'" matInput />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    (click)="openReferralList()"
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                ></mat-icon>
+                            </div>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Auth Date</mat-label>
+                                <input
+                                    matInput
+                                    [matDatepicker]="AuthToDate"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                    [formControlName]="'authdate'"
+                                    (change)="onDateChange($event, 'authdate')"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="AuthToDate"></mat-datepicker-toggle>
+                                <mat-datepicker #AuthToDate="matDatepicker"></mat-datepicker>
+                                @if (workOrderForm.get('authdate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                                }
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Authorization #</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'paponumber'" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex w-full">
+                            <mat-form-field class="pr-2">
+                                <mat-label>Price Code</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'priceid'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Procedure</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'hcpcscode'" />
+                            </mat-form-field>
+                            <mat-form-field class="w-24 pr-2">
+                                <mat-label>Mod1</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'mod1'" />
+                            </mat-form-field>
+                            <mat-form-field class="w-24 pr-2">
+                                <mat-label>Mod2</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'mod2'" />
+                            </mat-form-field>
+                            <mat-form-field class="w-24 pr-2">
+                                <mat-label>Mod3</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'mod3'" />
+                            </mat-form-field>
+                            <mat-form-field class="w-24 pr-2">
+                                <mat-label>Mod4</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'mod4'" />
+                            </mat-form-field>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Place of Service</mat-label>
+                                    <mat-select
+                                        [formControlName]="'pos'"
+                                        [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-70'"
+                                    >
+                                        <mat-select-trigger>{{ selectedPlaceOfService }}</mat-select-trigger>
+                                        @for (service of placeOfServiceReps$ | async; track service) {
+                                            <mat-option [value]="service.code">
+                                                <div class="flex gap-6">
+                                                    <h2 class="font-extrabold">{{ service.code }}</h2>
+                                                    {{ service.description }}
+                                                </div>
+                                            </mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field class="pr-2">
+                                <mat-label>TOS</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'tos'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Diag24E</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'diag24e'" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex w-full">
+                            <mat-form-field class="pr-2">
+                                <mat-label>CMN(Y/N)</mat-label>
+                                <mat-select [formControlName]="'cmnreq'">
+                                    <mat-option value="Y">Y</mat-option>
+                                    <mat-option value="N">N</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Form</mat-label>
+                                    <input class="uppercase" matInput />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                ></mat-icon>
+                            </div>
+                            <mat-form-field class="pr-2">
+                                <mat-label>CMN Exp Date</mat-label>
+                                <input
+                                    matInput
+                                    [matDatepicker]="expDate"
+                                    [placeholder]="dateFormat"
+                                    [formControlName]="'cmnexpire'"
+                                    defaultDate
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="expDate"></mat-datepicker-toggle>
+                                <mat-datepicker #expDate="matDatepicker"></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Mo.Rented</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'monthsrented'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Letter</mat-label>
+                                <input class="uppercase" matInput />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Inv. VendorID</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'inventoryvendorid'" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex w-full">
+                            <mat-form-field class="pr-2">
+                                <mat-label>Submitted</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'submitted'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Allowed</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'allowed'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Due Primary</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'dueprimary'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Co-Pay</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'duesecondary'" />
+                            </mat-form-field>
+                            <mat-form-field class="pr-2">
+                                <mat-label>Pre-Paid</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'prepaid'" />
+                            </mat-form-field>
+                        </div>
+                        <div class="flex w-full">
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Dignosis 1</mat-label>
+                                    <input class="uppercase" matInput [formControlName]="'icdc10code1'" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                    (click)="openDiagnosisCodePopup('patienticdid1')"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Dignosis 2</mat-label>
+                                    <input class="uppercase" matInput [formControlName]="'icdc10code2'" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                    (click)="openDiagnosisCodePopup('patienticdid2')"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Dignosis 3</mat-label>
+                                    <input class="uppercase" matInput [formControlName]="'icdc10code3'" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                    (click)="openDiagnosisCodePopup('patienticdid3')"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center pr-2">
+                                <mat-form-field class="pr-0">
+                                    <mat-label>Dignosis 4</mat-label>
+                                    <input class="uppercase" matInput [formControlName]="'icdc10code4'" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                    (click)="openDiagnosisCodePopup('patienticdid4')"
+                                ></mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

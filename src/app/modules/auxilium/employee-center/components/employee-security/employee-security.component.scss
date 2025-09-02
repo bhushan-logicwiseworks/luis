@@ -1,0 +1,11 @@
+::ng-deep .role-select {
+    .mat-mdc-text-field-wrapper {
+        .mat-mdc-form-field-flex {
+            .mat-mdc-form-field-infix {
+                padding: 0;
+                display: flex;
+                min-height: 45px;
+            }
+        }
+    }
+}

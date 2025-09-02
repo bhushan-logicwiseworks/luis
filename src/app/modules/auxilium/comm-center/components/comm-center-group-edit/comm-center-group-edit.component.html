@@ -1,0 +1,50 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+    <div class="relative pb-80 pl-4 pt-1">
+        <div class="mt-3 flex">
+            <mat-form-field appearance="outline" class="w-8/12" [subscriptSizing]="'dynamic'">
+                <mat-label>Owner</mat-label>
+                <mat-select formControlName="owner">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-checkbox [color]="'primary'" formControlName="isOwnerClear">Clear Data</mat-checkbox>
+        </div>
+        <div class="mt-3 flex">
+            <mat-form-field appearance="outline" class="w-8/12" [subscriptSizing]="'dynamic'">
+                <mat-label>Label</mat-label>
+                <input class="uppercase" matInput formControlName="label" />
+            </mat-form-field>
+            <mat-checkbox [color]="'primary'" formControlName="isLabelClear">Clear Data</mat-checkbox>
+        </div>
+        <div class="mt-3 flex">
+            <mat-form-field
+                appearance="outline"
+                class="w-8/12"
+                [subscriptSizing]="'dynamic'"
+                [ngClass]="{ 'mb-2': form.get('duedate').hasError('notValidDate') }"
+            >
+                <mat-label>Due Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="duedate"
+                    formControlName="duedate"
+                    (change)="onDateChange($event, 'duedate')"
+                    placeholder="MM/DD/YYYY"
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="duedate"></mat-datepicker-toggle>
+                <mat-datepicker #duedate="matDatepicker"></mat-datepicker>
+                @if (form.get('duedate').hasError('notValidDate')) {
+                    <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                }
+                @if (form.get('duedate').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Due date cannot be in the past.</mat-error>
+                }
+            </mat-form-field>
+            <mat-checkbox [color]="'primary'" formControlName="isDueDateClear">Clear Data</mat-checkbox>
+        </div>
+    </div>
+
+    <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay>
+</form>

@@ -1,0 +1,46 @@
+<ac-secondary-toolbar current="">
+    <div class="flex items-center" (click)="back()"><mat-icon svgIcon="mat_outline:arrow_back"></mat-icon> Back</div>
+</ac-secondary-toolbar>
+
+<div class="p-4">
+    <div class="relative overflow-auto rounded bg-white shadow dark:bg-transparent">
+        <div class="sticky left-0 flex h-16 items-center rounded-t border-b bg-gray-100 bg-white px-4 dark:bg-gray-800">
+            <mat-icon svgIcon="mat_outline:search"></mat-icon>
+            <input
+                [formControl]="searchCtrl"
+                class="w-full flex-1 border-0 bg-transparent px-4 py-3 outline-none"
+                placeholder="Search..."
+                type="search"
+            />
+        </div>
+        <div class="flex flex-auto flex-col overflow-hidden">
+            <div class="relative overflow-auto bg-white shadow">
+                <aux-ag-grid
+                    [gridOptions]="options"
+                    [component]="'patientcenter'"
+                    [rowData]="rowData"
+                    [columnDefs]="columnDefs"
+                    [visibleColumns]="visibleColumns"
+                    [isCsvExport]="false"
+                    [agGridHeight]="'calc(100vh - 292px)'"
+                    [loading]="loading$ | async"
+                >
+                </aux-ag-grid>
+            </div>
+        </div>
+        <ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>
+    </div>
+</div>
+
+<mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
+    <ng-template let-user="user" matMenuContent>
+        <button mat-menu-item>
+            <mat-icon [icIcon]="icSecurity" size="24px"></mat-icon>
+            <span>Reset Password</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon [icIcon]="icDelete" size="24px"></mat-icon>
+            <span>Delete</span>
+        </button>
+    </ng-template>
+</mat-menu>

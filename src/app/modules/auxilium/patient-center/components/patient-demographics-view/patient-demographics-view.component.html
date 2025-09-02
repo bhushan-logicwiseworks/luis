@@ -1,0 +1,563 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="patientForm" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </div>
+
+        <!-- Patient Demographics Component -->
+        <!-- @if (prismAuthorizationResp?.response == "NOT_FOUND") {
+            <div
+              class="mt-2 ml-2 mr-2 bg-red-200 border border-red-300 dark:bg-gray-700 dark:border-gray-600 text-green-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
+              <span class="block sm:inline text-red-500 text-lg dark:text-white font-medium">
+                Patient has not authorized PRISM yet!
+              </span>
+              <div>
+                <button
+                  class="bg-red-500 hover:bg-red-700 text-white font-normal py-2 px-4 mt-4 rounded"
+                  (click)="handleAuthorizePrism(prismAuthorizationResp.patientId)"
+
+                >
+                  Authorize
+                </button>
+              </div>
+            </div>
+        } -->
+
+        <div class="w-full pb-2 pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- Patient Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        Patient Details1
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- Patient Full Name -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>First Name</mat-label>
+                                <input class="uppercase" [formControlName]="'firstName'" matInput tabindex="2" />
+                            </mat-form-field>
+                            <mat-form-field class="w-1/6 pr-2">
+                                <mat-label>Middle</mat-label>
+                                <input matInput [formControlName]="'mi'" tabindex="3" />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12 pr-2">
+                                <mat-label>Last Name</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'lastName'" tabindex="4" />
+                            </mat-form-field>
+                            <mat-form-field class="w-1/6">
+                                <mat-label>Suffix</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'suffix'" tabindex="5" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Address Line 1 & 2 -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-8/12 pr-2">
+                                <mat-label>Address</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'address'" tabindex="6" />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Address 2</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'address2'" tabindex="7" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- City / State / Zip -->
+                        <div class="flex w-full">
+                            <!-- City: still takes up the most space -->
+                            <mat-form-field class="w-1/2 pr-2">
+                                <mat-label>City</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'city'" type="text" tabindex="9" />
+                            </mat-form-field>
+
+                            <!-- State: slightly wider -->
+                            <mat-form-field
+                                class="state-select w-1/4 pr-2"
+                                [appearance]="'outline'"
+                                bindLabel="abbreviation"
+                            >
+                                <mat-label>State</mat-label>
+                                <input
+                                    matInput
+                                    tabindex="10"
+                                    aria-label="State"
+                                    [matAutocomplete]="auto"
+                                    [formControlName]="'state'"
+                                />
+                                <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                                <mat-autocomplete #auto="matAutocomplete" [panelWidth]="285">
+                                    @for (state of filteredStates | async; track state.abbreviation) {
+                                        <mat-option [value]="state.abbreviation">
+                                            <span class="mr-1 font-bold">{{ state.abbreviation }}</span>
+                                            <span>{{ state.name }}</span>
+                                        </mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <!-- Zip: slightly smaller -->
+                            <mat-form-field class="w-1/4">
+                                <mat-label>Zip</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'zip'" tabindex="8" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Sex / Date of Birth / Next Appointment Date -->
+                        <div class="flex w-full">
+                            <div class="w-1/3 pr-2">
+                                <aux-select-dropdown
+                                    [className]="'w-full'"
+                                    [label]="'Sex'"
+                                    [tabindex]="11"
+                                    [selectOption]="dropDownOption['sex']"
+                                    [controlName]="'sex'"
+                                    [matForm]="patientForm"
+                                ></aux-select-dropdown>
+                            </div>
+                            <mat-form-field
+                                class="w-1/3 pr-2"
+                                [ngClass]="{ 'mb-12': patientForm.get('dob').hasError('notValidDate') }"
+                            >
+                                <mat-label>Date of Birth</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'dob'"
+                                    [matDatepicker]="datepicker3"
+                                    (change)="onDateChange($event, 'dob')"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                    tabindex="12"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker3"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker3="matDatepicker"></mat-datepicker>
+                                @if (patientForm.get('dob').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                                }
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3">
+                                <mat-label>Last Satisfaction Score</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'rating'" tabindex="13" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Added By / Added TS / Last Satisfaction Score -->
+                        <div class="w-full">
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>Added By</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'adduserid'" tabindex="-1" />
+                            </mat-form-field>
+                            <mat-form-field class="w-1/3 pr-2">
+                                <mat-label>Added Date</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'entryDate'"
+                                    [readonly]="true"
+                                    tabindex="-1"
+                                    defaultDate
+                                />
+                            </mat-form-field>
+                            <mat-form-field
+                                class="w-1/3 pr-2"
+                                [ngClass]="{ 'mb-12': patientForm.get('datesent').hasError('notValidDate') }"
+                            >
+                                <mat-label>Next Appt Date</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'datesent'"
+                                    [matDatepicker]="datepicker4"
+                                    (change)="onDateChange($event, 'datesent')"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                    tabindex="14"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker4"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker4="matDatepicker"></mat-datepicker>
+                                @if (patientForm.get('datesent').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Send Email / Send Text / Send Mail / Call -->
+                        <div class="flex w-full pl-1">
+                            <mat-checkbox
+                                [formControlName]="'call'"
+                                [checked]="patient?.call === 'Y'"
+                                tabindex="15"
+                                [color]="'primary'"
+                                class=""
+                                >Call</mat-checkbox
+                            >
+                            <mat-checkbox
+                                [formControlName]="'sendemail'"
+                                [checked]="patient?.sendemail === 'Y'"
+                                tabindex="16"
+                                [color]="'primary'"
+                                class="mat-color mr-2"
+                                >Send Email</mat-checkbox
+                            >
+                            <mat-checkbox
+                                [formControlName]="'sendtext'"
+                                [checked]="patient?.sendtext === 'Y'"
+                                tabindex="17"
+                                [color]="'primary'"
+                                class="mr-2"
+                                >Send Text</mat-checkbox
+                            >
+                            <mat-checkbox
+                                [formControlName]="'sendmail'"
+                                [checked]="patient?.sendmail === 'Y'"
+                                tabindex="18"
+                                [color]="'primary'"
+                                class="mr-2"
+                                >Send Mail</mat-checkbox
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flash Notes Section -->
+                <div class="mt-2 flex flex-col bg-white p-2 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'flash_on'" class="mr-2"></mat-icon>
+                        Flash Notes
+                    </div>
+
+                    <!-- Flash notes textbox -->
+                    <div class="mt-5 flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full">
+                                <mat-label>Notes</mat-label>
+                                <textarea
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'terms'"
+                                    rows="3"
+                                    placeholder="Your Message Here"
+                                    tabindex="19"
+                                ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Contact Information Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        Contact Information
+                    </div>
+
+                    <!-- Phone / Cell / Email -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Phone</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'phone'"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    tabindex="20"
+                                />
+                                <mat-icon
+                                    matSuffix
+                                    class="text-hint icon-size-5"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                ></mat-icon>
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Cell</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'cellphone'"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    tabindex="21"
+                                />
+                                <mat-icon
+                                    matSuffix
+                                    class="text-hint icon-size-5"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                ></mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <mat-form-field class="w-full">
+                        <mat-label>Email</mat-label>
+                        <input class="uppercase" matInput [formControlName]="'email'" tabindex="22" />
+                    </mat-form-field>
+
+                    <!-- Language / Best Time to Contact / Preferred Contact Method -->
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <aux-select-dropdown
+                                class="w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [tabindex]="23"
+                                [label]="'Language'"
+                                [selectOption]="dropDownOption['language']"
+                                [controlName]="'language'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                            <aux-select-dropdown
+                                class="w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [label]="'Preferred Contact Method'"
+                                [tabindex]="24"
+                                [controlName]="'contactmethod'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                            <aux-select-dropdown
+                                class="w-1/3"
+                                [className]="'w-full'"
+                                [label]="'Best Time to Contact'"
+                                [tabindex]="25"
+                                [selectOption]="bestTime"
+                                [controlName]="'besttime'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status and Source Information Section -->
+                <div class="mt-2 flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        Status and Source
+                    </div>
+
+                    <!-- Patient Status / Category / Manufacturer -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <!-- Patient Status -->
+                            <aux-select-dropdown
+                                class="w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [label]="'Patient Status'"
+                                [controlName]="'patientstatus'"
+                                [tabindex]="26"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                            <!-- Patient Category -->
+                            <aux-select-dropdown
+                                class="w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [label]="'Patient Category'"
+                                [controlName]="'patientcategory'"
+                                [tabindex]="27"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                            <!-- Incomplete -->
+                            <mat-checkbox
+                                [formControlName]="'delete'"
+                                [checked]="patient?.delete === 'Y'"
+                                [color]="'primary'"
+                                class="mr-1 w-3/12"
+                                tabindex="28"
+                                >Incomplete</mat-checkbox
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Incomplete / Inactive Date / Inactive Reason -->
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <!-- InactiveDate -->
+                            <mat-form-field
+                                class="w-3/12 pr-2"
+                                [ngClass]="{ 'mb-12': patientForm.get('inactiveDate').hasError('notValidDate') }"
+                            >
+                                <mat-label>Inactive Date</mat-label>
+                                <input
+                                    matInput
+                                    [formControlName]="'inactiveDate'"
+                                    [matDatepicker]="datepicker1"
+                                    (change)="onDateChange($event, 'inactiveDate')"
+                                    [placeholder]="dateFormat"
+                                    defaultDate
+                                    tabindex="29"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker1="matDatepicker"></mat-datepicker>
+                                @if (patientForm.get('inactiveDate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                                }
+                            </mat-form-field>
+                            <!-- Inactive Reason -->
+                            <mat-form-field class="w-9/12">
+                                <mat-label>Inactive Reason</mat-label>
+                                <!-- <mat-select [formControlName]="'inactiveReason'" tabindex="30">
+                                    <mat-select-trigger>{{ selectedInActiveReason }}</mat-select-trigger>
+                                    @for (option of inactiveReasonList; track trackByIndex(i); let i = $index) {
+                                        <mat-option [value]="option.code">
+                                            <div class="flex gap-6">
+                                                <h2 class="code-font font-extrabold">{{ option.code }}</h2>
+                                                <span class="description">{{ option.description }}</span>
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select> -->
+                                <input class="uppercase" [formControlName]="'inactiveReason'" matInput tabindex="30" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- Contact Note -->
+                    @if (showContactNote) {
+                        <div class="flex flex-col">
+                            <mat-form-field class="specific-yellow">
+                                <mat-label>Contact Note</mat-label>
+                                <input matInput [formControlName]="'contactNote'" class="uppercase" tabindex="31" />
+                            </mat-form-field>
+                        </div>
+                    }
+
+                    <!-- Referral Method / Branch / Intake -->
+                    <div class="flex flex-col">
+                        <div class="flex w-full items-baseline">
+                            <!-- Referral Method -->
+                            <aux-select-dropdown
+                                class="w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [tabindex]="32"
+                                [label]="'Referral Method'"
+                                [controlName]="'inventorylocation'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                            <!-- Branch -->
+                            <mat-form-field class="w-1/3 pr-2" [subscriptSizing]="'dynamic'">
+                                <mat-label>Branch</mat-label>
+                                <input
+                                    matInput
+                                    type="text"
+                                    tabindex="33"
+                                    class="uppercase"
+                                    [formControl]="branchName"
+                                    [placeholder]="'Branch'"
+                                    #autoInput
+                                />
+                                <!-- <mat-autocomplete
+                                    #auto2="matAutocomplete"
+                                    (optionSelected)="onBranchSelected($event.option.value)"
+                                >
+                                    <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                                        {{ option.branchcode }}
+                                    </mat-option>
+                                </mat-autocomplete> -->
+                            </mat-form-field>
+                            <!-- Manufacturer -->
+                            <aux-select-dropdown
+                                class="w-1/3"
+                                [className]="'w-full'"
+                                [label]="'Manufacturer'"
+                                [tabindex]="34"
+                                [selectOption]="manufacturerList"
+                                [controlName]="'county'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+                        </div>
+                    </div>
+
+                    <!-- Referral From / SalesRep / Field Service -->
+                    <div class="flex flex-col">
+                        <div class="flex flex-col">
+                            <div class="flex w-full">
+                                <mat-form-field class="w-2/3 pr-2">
+                                    <mat-label>Referral From</mat-label>
+                                    <input matInput [readonly]="true" [formControlName]="'referCode'" tabindex="35" />
+                                </mat-form-field>
+                                @if (!disableReferCode) {
+                                    <mat-icon
+                                        matTooltip="Select Referral"
+                                        matPrefix
+                                        class="icon-size-1 mr-1.5 mt-2 cursor-pointer sm:flex"
+                                        [svgIcon]="'heroicons_solid:download'"
+                                        (click)="openReferralList()"
+                                        tabindex="36"
+                                    ></mat-icon>
+                                }
+                                <mat-icon
+                                    matPrefix
+                                    matTooltip="Edit Referral"
+                                    class="icon-size-1 mr-1.5 mt-2 cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:pencil'"
+                                    tabindex="37"
+                                ></mat-icon>
+                            </div>
+                        </div>
+                        <div class="flex w-full">
+                            <!-- <ng-select [items]="salesrepList" [tabIndex]="33" class="w-1/3 pr-2 state-select"
+                            [appearance]="'outline'" [selectOnTab]="true" bindLabel="name" formControlName="salesid"
+                            bindValue="value" [trackByFn]="trackByFn" [placeholder]="'SalesRep'">
+                        </ng-select> -->
+                            <aux-select-dropdown
+                                class="state-select w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [tabindex]="38"
+                                [label]="'SalesRep'"
+                                [selectOption]="salesrepList"
+                                [controlName]="'salesid'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+
+                            <!-- <ng-select [items]="salesrepList" class="w-1/3 state-select" [appearance]="'outline'"
+                          [selectOnTab]="true" bindLabel="name" formControlName="fieldservicerepid" bindValue="value"
+                          [trackByFn]="trackByFn" [placeholder]="'Field Service'" [tabIndex]="34">
+                        </ng-select> -->
+                            <aux-select-dropdown
+                                class="state-select w-1/3 pr-2"
+                                [className]="'w-full'"
+                                [tabindex]="39"
+                                [label]="'Field Service'"
+                                [selectOption]="salesrepList"
+                                [controlName]="'fieldservicerepid'"
+                                [matForm]="patientForm"
+                            ></aux-select-dropdown>
+
+                            <mat-form-field class="w-1/3">
+                                <mat-label>Remaining Deductible</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'deductibleamount'"
+                                    tabindex="40"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

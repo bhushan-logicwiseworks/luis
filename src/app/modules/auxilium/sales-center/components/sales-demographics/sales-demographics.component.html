@@ -1,0 +1,235 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="salesForm" (ngSubmit)="save()" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Sales Demographics Component -->
+        <div class="w-full pb-2 pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- Sales Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        Sales Details
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- Patient Full Name -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>First Name</mat-label>
+                                <input class="uppercase" [formControlName]="'firstname'" matInput tabindex="1" />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Last Name</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'lastname'" tabindex="2" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Address Line 1 & 2 -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-8/12 pr-2">
+                                <mat-label>Address</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'address'" tabindex="3" />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12">
+                                <mat-label>Address 2</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'address2'" tabindex="4" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- City / State / Zip -->
+                        <div class="flex w-full">
+                            <!-- City: still takes up the most space -->
+                            <mat-form-field class="w-1/2 pr-2">
+                                <mat-label>City</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'city'" type="text" tabindex="6" />
+                            </mat-form-field>
+
+                            <!-- State: slightly wider -->
+                            <mat-form-field
+                                class="state-select w-1/4 pr-2"
+                                [appearance]="'outline'"
+                                bindLabel="abbreviation"
+                            >
+                                <mat-label>State</mat-label>
+                                <input
+                                    matInput
+                                    tabindex="7"
+                                    aria-label="State"
+                                    [matAutocomplete]="auto"
+                                    [formControlName]="'state'"
+                                />
+                                <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                                <mat-autocomplete #auto="matAutocomplete" [panelWidth]="285">
+                                    @for (state of filteredStates | async; track state.abbreviation) {
+                                        <mat-option [value]="state.abbreviation">
+                                            <span class="mr-1 font-bold">{{ state.abbreviation }}</span>
+                                            <span>{{ state.name }}</span>
+                                        </mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <!-- Zip: slightly smaller -->
+                            <mat-form-field class="w-1/4">
+                                <mat-label>Zip</mat-label>
+                                <input class="uppercase" matInput [formControlName]="'zip'" tabindex="5" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="mt-4">
+                            <mat-checkbox class="-ml-2" [color]="'primary'" tabIndex="8" [formControlName]="'isactive'">
+                                <span>Is Active?</span>
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Contact Information Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        Contact Information
+                    </div>
+
+                    <!-- Phone / Cell / Fax -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                                <mat-label>Cell</mat-label>
+                                <mat-icon
+                                    matSuffix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                    (click)="makeCall('Cell')"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    [formControlName]="'cell'"
+                                    [value]="salesDetails?.cell || '' | phone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    tabindex="9"
+                                    [placeholder]="'Cell'"
+                                    numbers
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                                <mat-label>Phone</mat-label>
+                                <mat-icon
+                                    matSuffix
+                                    (click)="makeCall('Phone')"
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:phone'"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    [formControlName]="'phone'"
+                                    tabindex="10"
+                                    [value]="salesDetails?.phone || '' | phone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    [placeholder]="'Phone'"
+                                    numbers
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                                <mat-label>Fax</mat-label>
+                                <mat-icon
+                                    matSuffix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    [formControlName]="'fax'"
+                                    tabindex="11"
+                                    [value]="salesDetails?.fax || '' | phone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    [placeholder]="'Fax'"
+                                    numbers
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mt-4 flex w-full">
+                        <mat-form-field class="w-full pr-2" [subscriptSizing]="'dynamic'">
+                            <mat-label>Email</mat-label>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'email'"
+                                tabindex="12"
+                                [placeholder]="'Email'"
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Territory -->
+                    <div class="mt-4 flex w-full">
+                        <mat-form-field class="w-1/3 pr-2">
+                            <mat-label>Territory</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                class="uppercase"
+                                tabindex="13"
+                                [formControlName]="'territory'"
+                                [placeholder]="'Territory'"
+                                [matAutocomplete]="auto1"
+                                #autoInput
+                            />
+                            <mat-autocomplete
+                                #auto1="matAutocomplete"
+                                tabindex="12"
+                                (optionSelected)="categoryhandler($event)"
+                            >
+                                @for (option of filteredCategories | async; track option) {
+                                    <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                                }
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <!-- Branch -->
+                        <mat-form-field class="w-1/3">
+                            <mat-label>Branch</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                tabindex="14"
+                                class="uppercase"
+                                [formControl]="branchName"
+                                [placeholder]="'Branch'"
+                                [matAutocomplete]="auto2"
+                                #autoInput
+                            />
+                            <mat-autocomplete
+                                #auto2="matAutocomplete"
+                                (optionSelected)="onBranchSelected($event.option.value)"
+                            >
+                                <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                                    {{ option.branchcode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

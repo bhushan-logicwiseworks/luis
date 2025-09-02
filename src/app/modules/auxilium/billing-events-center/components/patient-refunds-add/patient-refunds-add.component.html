@@ -1,0 +1,102 @@
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <form [formGroup]="billingForm" class="w-full max-w-3xl">
+        <!-- Date Assigned / Assigned To / Serviced By -->
+        <div class="mt-4">
+            <!-- Today’s Date -->
+            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Today’s Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="todayPicker"
+                    [formControlName]="'todaysDate'"
+                    [readonly]="true"
+                    required
+                />
+                <mat-datepicker-toggle matSuffix [for]="todayPicker"></mat-datepicker-toggle>
+                <mat-datepicker #todayPicker></mat-datepicker>
+                <!-- @if (careForm.get('todaysDate').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Today’s Date cannot be in the past.</mat-error>
+                } -->
+            </mat-form-field>
+
+            <!-- Claim Date of Service -->
+            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Claim Date of Service</mat-label>
+                <input matInput [matDatepicker]="claimPicker" [formControlName]="'claimDateOfService'" required />
+                <mat-datepicker-toggle matSuffix [for]="claimPicker"></mat-datepicker-toggle>
+                <mat-datepicker #claimPicker></mat-datepicker>
+                <!-- @if (careForm.get('claimDateOfService').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Claim Date of Service cannot be in the past.</mat-error>
+                } -->
+            </mat-form-field>
+        </div>
+
+        <!-- Assigned To/Serviced By -->
+        <div class="mt-4">
+            <!-- Assigned To -->
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Owner</mat-label>
+                <mat-select formControlName="owner">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <!-- <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay> -->
+
+            <!-- Serviced By -->
+            <mat-form-field class="w-6/12" [subscriptSizing]="'dynamic'">
+                <mat-label>Additional Information</mat-label>
+                <mat-select [formControlName]="'additionalInfo'" required>
+                    <mat-option
+                        class="uppercase"
+                        *ngFor="let option of additionalInformationOptions"
+                        [value]="option.value"
+                    >
+                        {{ option.value }} - {{ option.description }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <!-- <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay> -->
+        </div>
+
+        <!-- Billing Details -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Reason for Refund</mat-label>
+                <mat-select [formControlName]="'reasonCode'" required>
+                    <mat-option class="uppercase" *ngFor="let option of reasonCodeOptions" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Amount being refunded</mat-label>
+                <input class="uppercase" [formControlName]="'amount'" matInput name="amount" type="text" />
+            </mat-form-field>
+        </div>
+
+        <!-- Contact Note (Visible only when adding a new record) -->
+        <div class="mt-4" *ngIf="!billingevents">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Contact Note</mat-label>
+                <textarea class="uppercase" matInput [formControlName]="'contactNote'" rows="2"></textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- Alert -->
+        <fuse-alert
+            *ngIf="alert"
+            [appearance]="'outline'"
+            [type]="alert.type"
+            [showIcon]="false"
+            [@shake]="true"
+            class="mt-4"
+        >
+            {{ alert.message }}
+        </fuse-alert>
+    </form>
+</div>

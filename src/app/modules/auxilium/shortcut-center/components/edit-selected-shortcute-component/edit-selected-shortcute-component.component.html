@@ -1,0 +1,413 @@
+<form
+    class="flex max-h-[400px] flex-auto flex-col overflow-x-scroll overflow-y-scroll p-6 sm:p-6 sm:pb-0 xl:max-h-none xl:overflow-y-scroll"
+    [formGroup]="editShortcutForm"
+>
+    <!-- <div class="shadow bg-white overflow-auto relative"> -->
+    <div class="mt-0 min-w-[577px] p-3 md:w-full">
+        <div class="flex w-full">
+            <mat-form-field class="w-120 max-w-120 pr-5">
+                <mat-label>Title</mat-label>
+                <input class="uppercase" matInput formControlName="title" />
+                @if (editShortcutForm.get('title').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="w-full max-w-full">
+                <mat-label>Description</mat-label>
+                <input class="uppercase" matInput formControlName="description" />
+                @if (editShortcutForm.get('description').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+    </div>
+
+    <!-- Item code 1 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 1</mat-label>
+                <input class="uppercase" matInput formControlName="itemId1" />
+                @if (editShortcutForm.get('itemId1').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 1</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode1" />
+                @if (editShortcutForm.get('itemCode1').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(1)"
+            ></mat-icon>
+        </div>
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 1</mat-label>
+            <input class="uppercase" matInput formControlName="description1" />
+            @if (editShortcutForm.get('description1').hasError('required')) {
+                <mat-error></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 1</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity1" min="0" />
+            @if (editShortcutForm.get('quantity1').hasError('required')) {
+                <mat-error></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 1</mat-label>
+            <mat-select formControlName="billType1" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType1').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+                @if (editShortcutForm.get('billType1').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(1)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <!-- Item code 2 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 2</mat-label>
+                <input class="uppercase" matInput formControlName="itemId2" />
+                @if (editShortcutForm.get('itemId2').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 2</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode2" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(2)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 2</mat-label>
+            <input class="uppercase" matInput formControlName="description2" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 2</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity2" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 2</mat-label>
+            <mat-select formControlName="billType2" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType2').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(2)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <!-- Item code 3 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 3</mat-label>
+                <input class="uppercase" matInput formControlName="itemId3" />
+                @if (editShortcutForm.get('itemId3').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 3</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode3" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(3)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 3</mat-label>
+            <input class="uppercase" matInput formControlName="description3" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 3</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity3" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 3</mat-label>
+            <mat-select formControlName="billType3" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType3').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(3)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <!-- Item code 4 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 4</mat-label>
+                <input class="uppercase" matInput formControlName="itemId4" />
+                @if (editShortcutForm.get('itemId4').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 4</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode4" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(4)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 4</mat-label>
+            <input class="uppercase" matInput formControlName="description4" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 4</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity4" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 4</mat-label>
+            <mat-select formControlName="billType4" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType4').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(4)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <!-- Item code 5 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 5</mat-label>
+                <input class="uppercase" matInput formControlName="itemId5" />
+                @if (editShortcutForm.get('itemId5').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 5</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode5" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(5)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 5</mat-label>
+            <input class="uppercase" matInput formControlName="description5" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 5</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity5" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 5</mat-label>
+            <mat-select formControlName="billType5" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType5').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(5)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <!-- Item code 6 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 6</mat-label>
+                <input class="uppercase" matInput formControlName="itemId6" />
+                @if (editShortcutForm.get('itemId6').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 6</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode6" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(6)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 6</mat-label>
+            <input class="uppercase" matInput formControlName="description6" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 6</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity6" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 6</mat-label>
+            <mat-select formControlName="billType6" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType6').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(6)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <!-- Item code 7 -->
+    <div class="ml-3 mt-0 flex min-w-[577px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 7</mat-label>
+                <input class="uppercase" matInput formControlName="itemId7" />
+                @if (editShortcutForm.get('itemId7').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 7</mat-label>
+                <input class="uppercase" matInput formControlName="itemCode7" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(7)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description 7</mat-label>
+            <input class="uppercase" matInput formControlName="description7" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity 7</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity7" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type 7</mat-label>
+            <mat-select formControlName="billType7" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ editShortcutForm.get('billType7').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center text-sm text-blue-500"
+            (click)="handleOnclickClearField(7)"
+        >
+            CLEAR
+        </a>
+    </div>
+</form>

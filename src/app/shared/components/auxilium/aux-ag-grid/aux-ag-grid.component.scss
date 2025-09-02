@@ -1,0 +1,29 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+ag-grid-angular {
+    width: 100%;
+    height: 100%;
+}
+
+.checkbox-column-wrapper {
+    overflow: hidden;
+}
+
+.ag-header-cell[col-id='ag-Grid-SelectionColumn'],
+.ag-cell[col-id='ag-Grid-SelectionColumn'] {
+    max-width: 100px;
+    transition:
+        max-width 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
+}
+
+.ag-header-cell[col-id='ag-Grid-SelectionColumn'][style*='visibility: hidden'],
+.ag-cell[col-id='ag-Grid-SelectionColumn'][style*='visibility: hidden'] {
+    max-width: 0 !important;
+    opacity: 0;
+    overflow: hidden;
+}

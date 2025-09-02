@@ -1,0 +1,356 @@
+<mat-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="patientGroupEditForm" label="General">
+        <form [formGroup]="patientGroupEditForm">
+            <div class="group-edit-order flex max-h-screen flex-col">
+                <form [formGroup]="patientGroupEditForm" class="relative h-full" (ngSubmit)="submit()">
+                    <div class="w-full md:flex">
+                        <div class="mt-4 flex w-full flex-col md:w-1/2">
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{ 'mb-2': patientGroupEditForm.get('svcdate').hasError('notValidDate') }"
+                                >
+                                    <mat-label>Service Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="svcdate"
+                                        formControlName="svcdate"
+                                        (change)="onDateChange($event, 'svcdate')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="svcdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #svcdate="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('svcdate').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isSvsdateClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{ 'mb-2': patientGroupEditForm.get('todate').hasError('notValidDate') }"
+                                >
+                                    <mat-label>To Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="todate"
+                                        formControlName="todate"
+                                        (change)="onDateChange($event, 'todate')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="todate"></mat-datepicker-toggle>
+                                    <mat-datepicker #todate="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('todate').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isTodateClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{
+                                        'mb-2': patientGroupEditForm.get('nextbill').hasError('notValidDate'),
+                                    }"
+                                >
+                                    <mat-label>Next Bill Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="nextbill"
+                                        formControlName="nextbill"
+                                        (change)="onDateChange($event, 'nextbill')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="nextbill"></mat-datepicker-toggle>
+                                    <mat-datepicker #nextbill="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('nextbill').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isNextbillClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{
+                                        'mb-2': patientGroupEditForm.get('shipdate').hasError('notValidDate'),
+                                    }"
+                                >
+                                    <mat-label>Ship Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="shipdate"
+                                        formControlName="shipdate"
+                                        (change)="onDateChange($event, 'shipdate')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="shipdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #shipdate="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('shipdate').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isShipdateClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{
+                                        'mb-2': patientGroupEditForm.get('cmnexpire').hasError('notValidDate'),
+                                    }"
+                                >
+                                    <mat-label>CMN Expire Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="cmnExpireDate"
+                                        formControlName="cmnexpire"
+                                        (change)="onDateChange($event, 'cmnexpire')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="cmnExpireDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #cmnExpireDate="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('cmnexpire').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isCmnexpireClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{
+                                        'mb-2': patientGroupEditForm.get('notesexpiredate').hasError('notValidDate'),
+                                    }"
+                                >
+                                    <mat-label>Notes Expire Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="expireDate"
+                                        formControlName="notesexpiredate"
+                                        (change)="onDateChange($event, 'notesexpiredate')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="expireDate"></mat-datepicker-toggle>
+                                    <mat-datepicker #expireDate="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('notesexpiredate').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox
+                                    [color]="'primary'"
+                                    class="mr-2 mt-1 items-center"
+                                    formControlName="isNotesexpiredateClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                        </div>
+                        <div class="mt-4 flex w-full flex-col md:w-1/2">
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field class="w-1/2 pr-1" [subscriptSizing]="'dynamic'">
+                                    <mat-label>Ship Status</mat-label>
+                                    <input
+                                        matInput
+                                        type="text"
+                                        class="uppercase"
+                                        [placeholder]="'Ship Status'"
+                                        [matAutocomplete]="auto"
+                                        formControlName="shipstatus"
+                                    />
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        @for (option of filteredOptions; track option) {
+                                            <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                                        }
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isShipstatusClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field class="w-1/2 pr-1">
+                                    <mat-label>Invoice#</mat-label>
+                                    <input class="uppercase" matInput formControlName="invoiceno" />
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isInvoicenoClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field
+                                    class="w-1/2 pr-1"
+                                    [ngClass]="{
+                                        'mb-2': patientGroupEditForm.get('authdate').hasError('notValidDate'),
+                                    }"
+                                >
+                                    <mat-label>Auth Date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="authdate"
+                                        formControlName="authdate"
+                                        (change)="onDateChange($event, 'authdate')"
+                                        placeholder="MM/DD/YYYY"
+                                    />
+                                    <mat-datepicker-toggle matIconSuffix [for]="authdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #authdate="matDatepicker"></mat-datepicker>
+                                    @if (patientGroupEditForm.get('authdate').hasError('notValidDate')) {
+                                        <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                                    }
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isAuthdateClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                            <div class="mb-2 flex w-full items-center">
+                                <mat-form-field class="w-1/2 pr-1">
+                                    <mat-label>Authorization #</mat-label>
+                                    <input class="uppercase" matInput formControlName="authno" />
+                                </mat-form-field>
+                                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isAuthnoClear"
+                                    >Clear Data</mat-checkbox
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="patientGroupEditForm" label="Billing">
+        <form [formGroup]="patientGroupEditForm">
+            <div class="w-full md:flex">
+                <div class="mt-4 flex w-full flex-col md:w-1/2">
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-form-field class="w-1/2 pr-1" [subscriptSizing]="'dynamic'">
+                            <mat-label>Mode1</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                class="uppercase"
+                                [placeholder]="'Mod 1'"
+                                formControlName="mod1"
+                            />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isMode1Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-form-field class="w-1/2 pr-1" [subscriptSizing]="'dynamic'">
+                            <mat-label>Mode2</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                class="uppercase"
+                                [placeholder]="'Mod 2'"
+                                formControlName="mod2"
+                            />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isMode2Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-form-field class="w-1/2 pr-1" [subscriptSizing]="'dynamic'">
+                            <mat-label>Mode3</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                class="uppercase"
+                                [placeholder]="'Mod 3'"
+                                formControlName="mod3"
+                            />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isMode3Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-form-field class="w-1/2 pr-1" [subscriptSizing]="'dynamic'">
+                            <mat-label>Mode4</mat-label>
+                            <input
+                                matInput
+                                type="text"
+                                class="uppercase"
+                                [placeholder]="'Mod 4'"
+                                formControlName="mod4"
+                            />
+                        </mat-form-field>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isMode4Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                </div>
+                <div class="mt-4 flex w-full flex-col md:w-1/2">
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-form-field class="w-1/3 pr-0">
+                            <mat-label>Primary</mat-label>
+                            <input class="uppercase" matInput [formControlName]="'PrimaryPayorsName'" />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            (click)="openPayorsList('Primary')"
+                            class="icon-size-1 hidden cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                        ></mat-icon>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="IsPayor1Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                    <div class="mb-2 flex w-full items-center">
+                        <mat-form-field class="w-1/3 pr-0">
+                            <mat-label>Co-Pay</mat-label>
+                            <input class="uppercase" [formControlName]="'CoPayorsName'" matInput />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            (click)="openPayorsList('Co-Pay')"
+                            class="icon-size-1 hidden cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                        ></mat-icon>
+                        <mat-checkbox [color]="'primary'" class="mr-2" formControlName="IsPayor2Clear"
+                            >Clear Data</mat-checkbox
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="mb-2 flex w-full items-center">
+                <mat-form-field class="w-9/12 pr-1">
+                    <mat-label>Narrative</mat-label>
+                    <input class="uppercase" matInput formControlName="narrative" placeholder="Narrative" />
+                </mat-form-field>
+                <mat-checkbox [color]="'primary'" class="mr-2" formControlName="isNarrativeClear"
+                    >Clear Data</mat-checkbox
+                >
+            </div>
+            <div class="align-center mb-2 flex items-baseline">
+                <mat-form-field class="w-9/12 pr-1">
+                    <mat-label>Physician</mat-label>
+                    <input [readonly]="true" class="uppercase" matInput [formControlName]="'physicianFullName'" />
+                    @if (patientGroupEditForm.get('physicianFullName').hasError('required')) {
+                        <mat-error>Physician Filed Is Required </mat-error>
+                    }
+                </mat-form-field>
+                <mat-icon
+                    matPrefix
+                    class="icon-size-1 cursor-pointer sm:flex"
+                    [svgIcon]="'heroicons_solid:download'"
+                    (click)="openPhysicianList()"
+                ></mat-icon>
+            </div>
+        </form>
+        <!-- <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" mat-button matStepperPrevious>
+            Back
+        </button> -->
+    </mat-step>
+</mat-stepper>

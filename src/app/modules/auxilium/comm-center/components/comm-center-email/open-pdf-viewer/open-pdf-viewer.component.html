@@ -1,0 +1,164 @@
+<!-- <div #viewer></div> -->
+
+<div class="m-1 flex w-full flex-col">
+    <!-- Toolbar -->
+    <div class="mb-2 flex bg-white p-1 shadow">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'pdf-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+
+    <div class="pdf-view flex w-full md:flex">
+        <!-- LEFT COLUMN -->
+        <div class="flex w-full flex-col items-center overflow-auto bg-white shadow md:w-1/3">
+            @for (item of pages; track item) {
+                <div class="text-center">
+                    <div
+                        class="image-section relative mt-4 rounded-lg border"
+                        [ngClass]="{
+                            active: totalPage === item.page,
+                            'border-2 border-primary-500': isPageSelected(item.page),
+                        }"
+                    >
+                        <div class="absolute right-2 top-2 z-10">
+                            <mat-checkbox
+                                [checked]="isPageSelected(item.page)"
+                                (change)="togglePageSelection(item.page)"
+                                color="primary"
+                            >
+                            </mat-checkbox>
+                        </div>
+                        <img [src]="item.url" class="w-11/12 cursor-pointer" (click)="redirectToPage(item.page)" />
+                        @if (item.url === null) {
+                            <div class="loader-block absolute">
+                                <svg
+                                    class="-ml-1 mr-3 h-5 w-5 animate-spin"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        class="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="4"
+                                    ></circle>
+                                    <path
+                                        class="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        }
+                    </div>
+                    <span class="mb-4 mt-1 block">{{ item.page }}</span>
+                </div>
+            }
+        </div>
+
+        <!-- CENTER COLUMN -->
+        <div class="ml-1.5 mr-1.5 flex w-full flex-col bg-white pr-1 shadow">
+            <div class="flex flex-col p-4">
+                <pdf-viewer
+                    [page]="pageSize"
+                    [(page)]="currentPage"
+                    [src]="previewUrl$ | async"
+                    [rotation]="0"
+                    [original-size]="false"
+                    [show-all]="true"
+                    [fit-to-page]="true"
+                    [zoom-scale]="'page-width'"
+                    [stick-to-page]="false"
+                    [render-text]="true"
+                    [external-link-target]="'blank'"
+                    [autoresize]="true"
+                    [show-borders]="true"
+                    (page-rendered)="render($event)"
+                    (after-load-complete)="loadComplete($event)"
+                    style="width: 100%; height: 600px"
+                ></pdf-viewer>
+            </div>
+            <ac-loading-overlay [diameter]="30" [show]="loadingAttachments$ | async" type="spinner">
+            </ac-loading-overlay>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="flex w-full flex-col bg-white shadow md:w-1/3">
+            <div class="flex flex-col p-4">
+                <h2 class="text-secondary mb-3 font-bold uppercase">Link document to patient</h2>
+                <form [formGroup]="searchForm" (ngSubmit)="searchPatient()">
+                    <mat-form-field class="w-full">
+                        <mat-label>Patient #</mat-label>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [formControlName]="'id'"
+                            [placeholder]="'Patient id'"
+                            [spellcheck]="false"
+                        />
+                        @if (searchForm.get('id').hasError('required')) {
+                            <mat-error>Please enter id</mat-error>
+                        }
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit">OK</button>
+                </form>
+                @if (searchPatientInfo && !(loading$ | async)) {
+                    <div class="mt-1.5">
+                        <div class="my-3">
+                            <p class="font-bold">{{ searchPatientInfo.firstName }} {{ searchPatientInfo.lastName }}</p>
+                            <p>
+                                {{ searchPatientInfo.city }}, {{ searchPatientInfo.state }}
+                                {{ searchPatientInfo.zipcode }}
+                            </p>
+                        </div>
+                        <form [formGroup]="contactForm">
+                            <mat-form-field class="mt-2 w-full">
+                                <mat-label>File Name</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'fileName'"
+                                    [placeholder]="'File Name'"
+                                    [spellcheck]="false"
+                                />
+                                @if (contactForm.get('fileName').hasError('required')) {
+                                    <mat-error>Please enter File Name</mat-error>
+                                }
+                            </mat-form-field>
+                            <mat-form-field class="mt-2 w-full">
+                                <mat-label>Description</mat-label>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'description'"
+                                    [placeholder]="'Description'"
+                                    [spellcheck]="false"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-full">
+                                <mat-label>Contact Notes</mat-label>
+                                <textarea
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'contactNotes'"
+                                    [placeholder]="'Contact Note'"
+                                    [rows]="7"
+                                    [spellcheck]="false"
+                                    cdkTextareaAutosize
+                                ></textarea>
+                                @if (contactForm.get('contactNotes').hasError('required')) {
+                                    <mat-error>Please enter Contact Notes</mat-error>
+                                }
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+                        </form>
+                    </div>
+                } @else {
+                    <p class="mt-3">No Patient</p>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Left Column -->
+</div>

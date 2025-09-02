@@ -1,0 +1,151 @@
+<!-- Retention Rate form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="retentionRateForm">
+            <!-- Year -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Year</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'year'"
+                        [placeholder]="'Year'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Month -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Month</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'month'"
+                        [placeholder]="'Month'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Initial -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Initial</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'initial'"
+                        [placeholder]="'Initial'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- New -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>New</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'new'"
+                        [placeholder]="'New'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Total -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Total</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'total'"
+                        [placeholder]="'Total'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Created Date -->
+            <!-- <div class="mt-4">
+                <mat-form-field
+                  class="w-full custom-datepicker-toggle"
+                  [subscriptSizing]="'dynamic'">
+                  <mat-label>Created Date</mat-label>
+                  <div class="input-container">
+                    <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                    <input matInput [formControlName]="'createdDate'" [matDatepicker]="datepicker1"
+                      defaultDate [placeholder]="dateFormat" (change)="onDateChange($event,'createdDate')">
+                    </div>
+                    <mat-datepicker #datepicker1="matDatepicker"></mat-datepicker>
+                    <mat-error *ngIf="retentionRateForm.get('createdDate').hasError('notValidDate')">Please enter valid date!! It should be {{dateFormat}}.</mat-error>
+                  </mat-form-field>
+                </div> -->
+
+            <!-- Created By -->
+            <!-- <div class="mt-4">
+                <mat-form-field
+                  class="w-full"
+                  [subscriptSizing]="'dynamic'">
+                  <mat-label>Created By</mat-label>
+                  <input
+                    class="uppercase"
+                    matInput
+                    [formControlName]="'createdBy'"
+                    [placeholder]="'Created By'"
+                    [spellcheck]="false">
+                  </mat-form-field>
+                </div> -->
+
+            <!-- Modified Date -->
+            <!-- <div class="mt-4">
+                <mat-form-field
+                  class="w-full custom-datepicker-toggle"
+                  [subscriptSizing]="'dynamic'">
+                  <mat-label>Modified Date</mat-label>
+                  <div class="input-container">
+                    <mat-datepicker-toggle matIconSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                    <input matInput [formControlName]="'modifiedDate'" [matDatepicker]="datepicker2"
+                      defaultDate [placeholder]="dateFormat" (change)="onDateChange($event,'modifiedDate')">
+                    </div>
+                    <mat-datepicker #datepicker2="matDatepicker"></mat-datepicker>
+                    <mat-error *ngIf="retentionRateForm.get('modifiedDate').hasError('notValidDate')">Please enter valid date!! It should be {{dateFormat}}.</mat-error>
+                  </mat-form-field>
+                </div> -->
+
+            <!-- Modified By -->
+            <!-- <div class="mt-4">
+                <mat-form-field
+                  class="w-full"
+                  [subscriptSizing]="'dynamic'">
+                  <mat-label>Modified By</mat-label>
+                  <input
+                    class="uppercase"
+                    matInput
+                    [formControlName]="'modifiedBy'"
+                    [placeholder]="'Modified By'"
+                    [spellcheck]="false">
+                  </mat-form-field>
+                </div> -->
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

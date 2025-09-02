@@ -1,0 +1,95 @@
+<div class="flex w-full flex-col">
+    <ac-loading-overlay [diameter]="50" type="spinner"></ac-loading-overlay>
+    <!-- View mode -->
+    @if (!editMode) {
+        <!-- Header -->
+        <div class="relative w-full">
+            <div class="flex items-center" mat-dialog-title>
+                <ng-container>
+                    <mat-icon [svgIcon]="'mat_outline:assignment'" [color]="'primary'"></mat-icon>
+                    <h2 class="text-secondary flex-1 pl-2 font-bold uppercase">Physician Details</h2>
+                </ng-container>
+                <button
+                    class="text-secondary"
+                    matTooltip="Close"
+                    mat-dialog-close
+                    mat-icon-button
+                    type="button"
+                    tabindex="-1"
+                >
+                    <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+                </button>
+            </div>
+        </div>
+        <!-- <Detailed info> -->
+        <div class="relative flex flex-auto flex-col items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- Edit -->
+                <div class="flex flex-auto items-end">
+                    <div class="mb-1 ml-auto flex items-center">
+                        <button mat-flat-button [color]="'primary'" (click)="toggleEditMode(true)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Edit</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Main Section -->
+                <div class="mt-4 flex flex-col space-y-8 border-t pt-6">
+                    <!--Rank -->
+                    @if (physicianData.order) {
+                        <div class="flex">
+                            <button matTooltip="Order">
+                                <mat-icon [svgIcon]="'mat_outline:description'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ physicianData.order }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Policy -->
+                    @if (physicianData.firstName) {
+                        <div class="flex">
+                            <button matTooltip="First name">
+                                <mat-icon [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ physicianData.firstName }}
+                            </div>
+                        </div>
+                    }
+                    @if (physicianData.lastName) {
+                        <div class="flex">
+                            <button matTooltip="Last Name">
+                                <mat-icon [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ physicianData.lastName }}
+                            </div>
+                        </div>
+                    }
+                    @if (physicianData.phone) {
+                        <div class="flex">
+                            <button matTooltip="Phone">
+                                <mat-icon [svgIcon]="'mat_outline:edit_note'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ physicianData.phone }}
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Edit mode -->
+    @if (editMode) {
+        <app-patient-physician-edit
+            [physicianData]="physicianData"
+            showDeleteButton="true"
+            (cancel)="toggleEditMode(event)"
+            (delete)="deletePayrol()"
+            (save)="updatePayrol()"
+        ></app-patient-physician-edit>
+    }
+</div>

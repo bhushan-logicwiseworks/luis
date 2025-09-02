@@ -1,0 +1,202 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="validationForm" (ngSubmit)="save()" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Patient Demographics Component -->
+        <div class="w-full pb-2 pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- Patient Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        Validation Details
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- Patient Full Name -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Entity</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input class="uppercase" [formControlName]="'entity'" matInput tabindex="1" />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Title</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input class="uppercase" matInput [formControlName]="'title'" tabindex="2" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Facility -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label>Fail Code</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input class="uppercase" matInput [formControlName]="'failcode'" tabindex="3" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Address Line 1 & 2-->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Fail Message</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:location-marker'"
+                                ></mat-icon>
+                                <input class="uppercase" matInput [formControlName]="'failmessage'" tabindex="4" />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Bypass For Payors</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:location-marker'"
+                                ></mat-icon>
+                                <input class="uppercase" matInput [formControlName]="'bypassforpayors'" tabindex="5" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="mt-4">
+                            <mat-checkbox class="-ml-2" [color]="'primary'" [formControlName]="'isactive'" tabindex="6">
+                                <span>Is Active?</span>
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Contact Information Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <!-- <div class="flex items-center text-xl text-secondary font-semibold my-2">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        Contact Information
+                    </div> -->
+
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label>Execute For Payors</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <input matInput [formControlName]="'executeforpayors'" tabindex="7" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="flex w-full">
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Added User Id</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input class="uppercase" [formControlName]="'adduserid'" readonly matInput tabindex="8" />
+                        </mat-form-field>
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Added Date</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input class="uppercase" [formControlName]="'adddate'" readonly matInput tabindex="9" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex w-full">
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Columns</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input class="uppercase" [formControlName]="'columns'" matInput [tabindex]="10" />
+                        </mat-form-field>
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Severity</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input class="uppercase" matInput [formControlName]="'severity'" [tabindex]="11" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex w-full">
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Validate For Mode</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input class="uppercase" [formControlName]="'validateformode'" matInput tabindex="12" />
+                        </mat-form-field>
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Bill Forms To Skip</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input class="uppercase" [formControlName]="'billformstoskip'" matInput tabindex="13" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label>Notes</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden pb-16 icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <textarea
+                                    class="h-20 resize-none uppercase"
+                                    matInput
+                                    [formControlName]="'notes'"
+                                    [placeholder]="'MEMO'"
+                                    tabindex="14"
+                                    matTextareaAutosize
+                                    matAutosizeMinRows="10"
+                                ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+<div class="flex w-full items-center justify-between px-8 py-4" id="file-action-bar">
+    <div class="flex w-full flex-1 items-center justify-between">
+        <div class="right flex items-center">
+            <mat-divider [vertical]="true" class="mx-2" style="height: 30px; border-right-color: blue"></mat-divider>
+            <span
+                [ngTemplateOutlet]="viewModeToggle"
+                [ngTemplateOutletContext]="{ viewMode: viewMode$ | async }"
+            ></span>
+        </div>
+    </div>
+</div>
+
+<ng-template #viewModeToggle let-viewMode="viewMode">
+    <div
+        (click)="setViewMode(viewMode)"
+        style="width: 42px"
+        class="flex cursor-pointer items-center justify-center rounded-full px-3 py-1 hover:shadow-xl"
+        matRipple
+        matRippleColor="rgba(250,250,250,.2)"
+        @fadeInUp
+    >
+        <ic-icon
+            [icon]="viewMode === 'list' ? icGallery : icList"
+            color="#2563eb"
+            [inline]="true"
+            size="24px"
+            class="font-light text-white"
+        ></ic-icon>
+    </div>
+</ng-template>

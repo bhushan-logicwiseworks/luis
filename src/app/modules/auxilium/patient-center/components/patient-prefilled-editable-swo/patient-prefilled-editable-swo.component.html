@@ -1,0 +1,433 @@
+<div class="center w-full">
+    <form [formGroup]="swoForm" (ngSubmit)="onSave()">
+        <div class="flex items-center justify-between gap-3 bg-white pb-6 dark:bg-transparent">
+            <!-- Input fields -->
+            <div class="ml-8 space-y-4">
+                <div class="flex items-center">
+                    <label for="swoTo" class="mr-4 w-32 text-left">Send SWO To:</label>
+                    <input
+                        type="text"
+                        id="swoTo"
+                        formControlName="sendToName"
+                        class="w-64 rounded border border-gray-300 px-2 py-1"
+                    />
+                </div>
+                <div class="flex items-center">
+                    <label for="sendToFax" class="mr-4 w-32 text-left">Fax Number:</label>
+                    <input
+                        type="text"
+                        id="sendToFax"
+                        mask="(000) 000-0000"
+                        [showMaskTyped]="true"
+                        formControlName="sendToFax"
+                        class="w-64 rounded border border-gray-300 px-2 py-1"
+                    />
+                </div>
+            </div>
+
+            <!-- Send button -->
+            <div class="mr-auto">
+                <button
+                    class="rounded-full bg-purple-600 px-6 py-2 font-bold text-white transition duration-300 hover:bg-purple-700"
+                >
+                    Send
+                </button>
+            </div>
+        </div>
+
+        <div class="ml-10 mt-4 space-y-4" *ngIf="this.showError">
+            <div class="flex items-center">
+                <label class="text-left text-lg font-bold text-red-600">{{ errorMessage }}</label>
+            </div>
+        </div>
+
+        <div class="bg-white-100 p-8">
+            <div class="max-w-4xl border border-gray-300 bg-white p-8 dark:bg-transparent" #contentToConvert>
+                <div class="mb-8 text-center">
+                    <img src="images/logo/acentus_logo.png" alt="Acentus Logo" class="mx-auto mb-6 w-60" />
+                    <h1 class="text-2xl font-bold">Standard Written Order for Continuous Glucose Monitoring</h1>
+                </div>
+                <table class="w-full border-collapse border border-gray-500">
+                    <tbody>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Patient's Name</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="text uppercase"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('patientName').invalid && swoForm.get('patientName').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    formControlName="patientName"
+                                    name="patientName"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Patient's Date of Birth</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="date"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('dob').invalid && swoForm.get('dob').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    (click)="openDatePicker($event)"
+                                    #dateInput
+                                    formControlName="dob"
+                                    name="patientDOB"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Patient's Phone Number</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('patientPhone').invalid && swoForm.get('patientPhone').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    formControlName="patientPhone"
+                                    name="patientPhone"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="my-4 text-center font-semibold">
+                    Send patient demographic sheet or complete the following
+                </div>
+
+                <table class="mb-4 w-full border-collapse border border-gray-500">
+                    <tbody>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 p-1 pl-3 font-semibold">Primary Insurance</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase"
+                                    formControlName="primaryInsurance"
+                                    name="primaryInsurance"
+                                />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Insurance ID Number</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase"
+                                    formControlName="primaryId"
+                                    name="primaryId"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Secondary Insurance</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase"
+                                    formControlName="secondaryInsurance"
+                                    name="secondaryInsurance"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Insurance ID Number</td>
+                            <td class="border border-gray-500">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase"
+                                    formControlName="secondaryId"
+                                    name="secondaryInsuranceIdNumber"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="w-full border-collapse border border-gray-500">
+                    <tbody>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Physician's Name</td>
+                            <td class="border border-gray-500" colspan="3">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('physicianName').invalid && swoForm.get('physicianName').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    formControlName="physicianName"
+                                    name="physicianName"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">NPI</td>
+                            <td class="border border-gray-500" colspan="3">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('npi').invalid && swoForm.get('npi').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    formControlName="npi"
+                                    name="npi"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Address, City, State, ZIP</td>
+                            <td class="border border-gray-500" colspan="3">
+                                <input
+                                    type="text"
+                                    formControlName="physicianAddress"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('physicianAddress').invalid &&
+                                        swoForm.get('physicianAddress').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Phone</td>
+                            <td class="border border-gray-500" colspan="3">
+                                <input
+                                    type="text"
+                                    formControlName="physicianPhone"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('physicianPhone').invalid && swoForm.get('physicianPhone').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    name="phone"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Fax</td>
+                            <td class="border border-gray-500" colspan="3">
+                                <input
+                                    type="text"
+                                    formControlName="physicianFax"
+                                    mask="(000) 000-0000"
+                                    [showMaskTyped]="true"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('physicianFax').invalid && swoForm.get('physicianFax').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    name="fax"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-1/3 border border-gray-500 pl-3 font-semibold">Office Contact</td>
+                            <td class="border border-gray-500" colspan="3">
+                                <input
+                                    type="text"
+                                    class="w-full p-1 uppercase {{
+                                        swoForm.get('officeContact').invalid && swoForm.get('officeContact').touched
+                                            ? 'border border-red-500'
+                                            : ''
+                                    }}"
+                                    formControlName="officeContact"
+                                    name="officeContact"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="mt-4 w-full border-collapse border border-gray-500">
+                    <thead>
+                        <tr>
+                            <th class="w-1/4 border border-gray-500 px-4 py-2 text-left">Choose System</th>
+                            <th class="w-1/3 border border-gray-500 px-4 py-2 text-left">Quantity</th>
+                            <th class="w-1/4 border border-gray-500 px-4 py-2 text-left">Directions for use</th>
+                            <th class="w-1/2 border border-gray-500 px-4 py-2 text-left">HCPCS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border-gray-500 px-2">
+                                <label class="container flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        class="mr-2 uppercase"
+                                        formControlName="freestyleLibre3System"
+                                    />
+                                    <span
+                                        class="checkmark {{
+                                            swoForm.get('freestyleLibre3System').invalid &&
+                                            swoForm.get('freestyleLibre3System').touched
+                                                ? 'checkmark-error'
+                                                : ''
+                                        }}"
+                                    ></span>
+                                    <p class="text-sm font-semibold">
+                                        Freestyle Libre 3 System
+                                        <span class="block text-xs font-normal">(May Substitute Libre 2)</span>
+                                    </p>
+                                </label>
+                            </td>
+                            <td class="border-gray-500 px-2 py-1 text-xs font-semibold">
+                                <p>1 Reader/Monitor</p>
+                                <p>1 Unit/30 Days - Sensor(1 unit=1 mo sensors)</p>
+                            </td>
+                            <td class="border-gray-500 px-2 py-1 text-xs">
+                                <span class="font-semibold">Use to scan Libre 3 Sensor</span>/Change Every 14 Days
+                            </td>
+                            <td class="border-gray-500 px-2 py-1 text-sm font-semibold">E2103 & A4239</td>
+                        </tr>
+                        <tr>
+                            <td class="border-gray-500 px-2">
+                                <label class="container flex items-center">
+                                    <input type="checkbox" class="mr-2 uppercase" formControlName="dexcomG7System" />
+                                    <span
+                                        class="checkmark {{
+                                            swoForm.get('dexcomG7System').invalid &&
+                                            swoForm.get('dexcomG7System').touched
+                                                ? 'checkmark-error'
+                                                : ''
+                                        }}"
+                                    ></span>
+                                    <p class="text-sm font-semibold">Dexcom G7 System</p>
+                                </label>
+                            </td>
+                            <td class="border-gray-500 px-2 py-1 text-xs font-semibold">
+                                <p>1 Unit/30 Days - Sensor(1 unit=1 mo sensors)</p>
+                                <p>1 Reader/Monitor</p>
+                            </td>
+                            <td class="border-gray-500 px-2 py-1 text-xs font-bold">
+                                Use to view automatic sensor readings. Change every 10 days.
+                            </td>
+                            <td class="border-gray-500 px-2 py-1 text-sm font-semibold">E2103 & A4239</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="w-1/3 border border-gray-500 pl-3 font-semibold">
+                                Length of need – 99 (Lifetime) unless otherwise noted
+                            </td>
+                            <td colspan="2" class="border border-gray-500 text-sm">
+                                <input type="text" class="w-full p-1 uppercase" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="mt-4 w-full border-collapse border border-gray-500">
+                    <thead>
+                        <th class="border border-gray-500 px-4 py-2" [vAlign]="'top'">Physician’s Signature</th>
+                        <th class="px-4 py-2" [vAlign]="'top'">Signature/Order Date</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-500 p-4 text-center font-semibold"></td>
+                            <td class="border border-gray-500 p-4 text-center font-semibold">
+                                <ng-template>
+                                    <div class="relative h-24 w-full overflow-hidden bg-gray-100">
+                                        <img alt="Order Date Signature" class="h-full w-full object-contain" />
+                                    </div>
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border-gray-500">
+                                <p class="mb-1 border-gray-500 text-center font-semibold">
+                                    Signature stamps are not acceptable
+                                </p>
+                            </td>
+                            <td>
+                                <p class="mb-1 border-gray-500 text-center font-semibold">
+                                    Date Stamps are not acceptable
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="mt-4 w-full border-collapse">
+                    <tr>
+                        <td class="border-0">
+                            <div class="mt-4">
+                                <p class="text-xs">
+                                    I certify that I am the physician identified on this form. I have reviewed the
+                                    Standard Written Order. I certify medical necessity information is true, accurate
+                                    and complete to the best of my knowledge. I certify that the patient / caregiver is
+                                    capable and has successfully completed training or will be trained on the proper use
+                                    of the products prescribed on this order. The patient's medical record contains
+                                    supporting documentation that substantiates the utilization and medical necessity of
+                                    the items listed and supporting documentation will be provided to Acentus upon
+                                    request.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="mt-4 w-full border-collapse">
+                    <tr>
+                        <td class="border-0 text-2xl font-semibold text-red-600" align="center">
+                            Fax to: <span>866-695-2183</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border-0 font-semibold text-red-600" align="center">
+                            IMPORTANT!!&nbsp;&nbsp;&nbsp;&nbsp;Referral
+                            <span class="underline">MUST</span> include <span class="underline">demographics</span> &
+                            <span class="underline">most recent chart notes</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="border-0 text-sm">
+                            For questions, please contact us at
+                            <b>866-684-2507</b>. You can also email us at
+                            <a href="mailto:Service&#64;Acentus365.com" class="text-black"
+                                ><b>Service&#64;Acentus365.com</b></a
+                            >
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="mt-4 w-full border-collapse">
+                    <tr>
+                        <td class="border-0">
+                            <span class="text-sm">Form: AMS-SWO-021324</span>
+                        </td>
+                        <td class="w-1/3 border border-gray-500 p-1">
+                            <div class="flex items-center">
+                                <span>Rep:</span>
+                                <input
+                                    type="text"
+                                    class="w-full rounded px-2 py-1 uppercase outline-none"
+                                    placeholder=""
+                                />
+                            </div>
+                            <div class="flex items-center">
+                                <span>Cell:</span>
+                                <input
+                                    type="text"
+                                    class="w-full rounded px-2 py-1 uppercase outline-none"
+                                    placeholder=""
+                                />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>

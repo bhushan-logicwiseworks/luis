@@ -1,0 +1,22 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Title -->
+    <div class="flex w-full bg-white pl-2 pt-2 font-bold dark:bg-transparent">Payor Overrides</div>
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'payor-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'payor-override'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            (rowSelectionChange)="onChangeSelection($event)"
+            (cellClicked)="onSelectionChanged($event)"
+            [agGridHeight]="'calc(100vh - 378px)'"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

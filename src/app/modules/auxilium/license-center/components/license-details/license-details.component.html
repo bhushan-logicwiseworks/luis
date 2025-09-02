@@ -1,0 +1,278 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="licenseForm" (ngSubmit)="save()" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- License Details Component -->
+        <div class="w-full pb-2 pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- License Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        License Details
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <!-- State -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>State</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:exclamation-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'state'"
+                                    readonly="true"
+                                    [placeholder]="'State'"
+                                    tabindex="1"
+                                />
+                            </mat-form-field>
+                            <!-- Category -->
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Category</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'mat_outline:category'"
+                                ></mat-icon>
+                                <input
+                                    matInput
+                                    type="text"
+                                    tabindex="2"
+                                    class="uppercase"
+                                    [formControlName]="'category'"
+                                    [placeholder]="'Category'"
+                                    [matAutocomplete]="auto1"
+                                    #autoInput
+                                />
+                                <mat-autocomplete #auto1="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredCategories | async" [value]="option.name">
+                                        {{ option.name }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <!-- Is License Required -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>License Required</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:document-text'"
+                                ></mat-icon>
+                                <mat-select
+                                    [formControlName]="'isLicenseRequired'"
+                                    placeholder="Select True or False"
+                                    tabindex="3"
+                                >
+                                    <mat-option [value]="true">True</mat-option>
+                                    <mat-option [value]="false">False</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex w-full pt-5">
+                            <!-- License Number -->
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>License Number</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'licenseNumber'"
+                                    [placeholder]="'License Number'"
+                                    tabindex="4"
+                                />
+                            </mat-form-field>
+
+                            <!-- Branch -->
+                            <div class="w-6/12 pr-2">
+                                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                                    <mat-label>Branch</mat-label>
+                                    <mat-icon
+                                        matPrefix
+                                        class="hidden icon-size-5 sm:flex"
+                                        [svgIcon]="'heroicons_solid:office-building'"
+                                    ></mat-icon>
+                                    <input
+                                        matInput
+                                        type="text"
+                                        tabindex="4"
+                                        class="uppercase"
+                                        [formControl]="branchName"
+                                        [placeholder]="'Branch'"
+                                        [matAutocomplete]="auto2"
+                                        #autoInput
+                                    />
+                                    <mat-autocomplete
+                                        #auto2="matAutocomplete"
+                                        (optionSelected)="onBranchSelected($event.option.value)"
+                                    >
+                                        <mat-option *ngFor="let option of licenseBranch$ | async" [value]="option">
+                                            {{ option.branchcode }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="flex w-full pt-5">
+                            <!-- Start Date -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Start Date</mat-label>
+                                <input
+                                    tabindex="7"
+                                    matInput
+                                    [matDatepicker]="statrtDate"
+                                    [placeholder]="'Start Date'"
+                                    formControlName="statrtDate"
+                                    (change)="onDateChange($event, 'statrtDate')"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="statrtDate"></mat-datepicker-toggle>
+                                <mat-datepicker #statrtDate="matDatepicker"></mat-datepicker>
+                                @if (licenseForm.get('statrtDate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid start date</mat-error>
+                                }
+                            </mat-form-field>
+
+                            <!-- Expiration Date -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Expiration Date</mat-label>
+                                <input
+                                    tabindex="8"
+                                    matInput
+                                    [matDatepicker]="expirationDate"
+                                    [placeholder]="'Expiration Date'"
+                                    formControlName="expirationDate"
+                                    (change)="onDateChange($event, 'expirationDate')"
+                                />
+                                <mat-datepicker-toggle matIconSuffix [for]="expirationDate"></mat-datepicker-toggle>
+                                <mat-datepicker #expirationDate="matDatepicker"></mat-datepicker>
+                                @if (licenseForm.get('expirationDate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid expiration date</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex w-full pt-5">
+                            <!-- Added By -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Added By</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'addedBy'"
+                                    readonly="true"
+                                    [placeholder]="'Added By'"
+                                />
+                            </mat-form-field>
+
+                            <!-- Added Date -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Added Date</mat-label>
+                                <input
+                                    matInput
+                                    [matDatepicker]="addedDate"
+                                    [placeholder]="'Added Date'"
+                                    readonly="true"
+                                    formControlName="addedDate"
+                                    (change)="onDateChange($event, 'addedDate')"
+                                />
+                                <mat-datepicker-toggle matIconSuffix></mat-datepicker-toggle>
+                                <mat-datepicker #addedDate="matDatepicker"></mat-datepicker>
+                                @if (licenseForm.get('addedDate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid expiration date</mat-error>
+                                }
+                            </mat-form-field>
+
+                            <!-- Modified By -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Modified By</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'modifiedBy'"
+                                    readonly="true"
+                                    [placeholder]="'Modified By'"
+                                />
+                            </mat-form-field>
+
+                            <!-- Modified Date -->
+                            <mat-form-field class="w-3/12 pr-2">
+                                <mat-label>Modified Date</mat-label>
+                                <input
+                                    matInput
+                                    [matDatepicker]="modifiedDate"
+                                    [placeholder]="'Modified Date'"
+                                    readonly="true"
+                                    formControlName="modifiedDate"
+                                    (change)="onDateChange($event, 'modifiedDate')"
+                                />
+                                <mat-datepicker-toggle matIconSuffix></mat-datepicker-toggle>
+                                <mat-datepicker #modifiedDate="matDatepicker"></mat-datepicker>
+                                @if (licenseForm.get('modifiedDate').hasError('notValidDate')) {
+                                    <mat-error>Please enter valid modified date</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Notes Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Section Title -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'email'" class="mr-2"></mat-icon>
+                        License Notes
+                    </div>
+
+                    <!-- Flash notes textbox -->
+                    <div class="mt-4 flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full">
+                                <mat-label>Notes</mat-label>
+                                <textarea
+                                    tabindex="9"
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'note'"
+                                    rows="13"
+                                    placeholder="Your notes Here"
+                                ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

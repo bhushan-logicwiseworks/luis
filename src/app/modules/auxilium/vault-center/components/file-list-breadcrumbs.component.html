@@ -1,0 +1,22 @@
+<div class="flex flex-auto select-none overflow-hidden px-6 pb-4 pt-5">
+    @for (crumb of breadcrumbs$ | async; track crumb; let last = $last; let first = $first) {
+        <div class="relative flex">
+            <div
+                class="item-center flex cursor-pointer text-lg text-black hover:text-blue-500"
+                (click)="setCurrentFolder(crumb)"
+                [class.dark:text-gray-400]="!last"
+                [class.text-blue-300]="last"
+            >
+                <!-- <mat-icon class="mr-2" [svgIcon]="'heroicons_outline:home'" *ngIf="first"></mat-icon> -->
+                {{
+                    crumb.folderName.toString().indexOf('Root') === 0
+                        ? (selectedVault$ | async)?.vaultName
+                        : crumb.folderName
+                }}
+            </div>
+            @if (!last) {
+                <span class="mx-2 text-gray-400"> > </span>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,30 @@
+<div class="p-6">
+    <h2 class="text-xl font-bold">{{ data.title }}</h2>
+    <p class="mt-2">{{ data.message }}</p>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mt-4">
+            <mat-form-field class="w-full">
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="startPicker" formControlName="startDate" required />
+                <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+                <mat-error *ngIf="form.get('startDate').hasError('required')">Start Date is required</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="mt-4">
+            <mat-form-field class="w-full">
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="endPicker" formControlName="endDate" required />
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+                <mat-error *ngIf="form.get('endDate').hasError('required')">End Date is required</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="mt-6 flex justify-end gap-2">
+            <button mat-button type="button" (click)="onCancel()">{{ data.actions.cancel.label }}</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+                {{ data.actions.confirm.label }}
+            </button>
+        </div>
+    </form>
+</div>

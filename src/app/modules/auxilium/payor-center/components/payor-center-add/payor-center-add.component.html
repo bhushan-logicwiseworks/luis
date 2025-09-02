@@ -1,0 +1,25 @@
+<div class="mb-1 flex h-48 max-h-screen flex-col md:min-w-160">
+    <!-- Compose form -->
+    <form class="flex flex-auto flex-col p-6 sm:p-6 sm:pb-0" [formGroup]="payorAddEditForm">
+        <!-- Bill To -->
+        <mat-form-field class="w-full px-4" [subscriptSizing]="'dynamic'">
+            <mat-label>Bill To</mat-label>
+            <input class="uppercase" matInput formControlName="billTo" [placeholder]="'Bill To'" [spellcheck]="false" />
+            @if (payorAddEditForm.get('billTo').hasError('required')) {
+                <mat-error>Bill To filed is required</mat-error>
+            }
+        </mat-form-field>
+
+        <!-- Name -->
+        <mat-form-field class="mt-4 w-full px-4" [subscriptSizing]="'dynamic'">
+            <mat-label>Name</mat-label>
+            <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+            <input class="uppercase" matInput formControlName="name" [placeholder]="'Name'" [spellcheck]="false" />
+            @if (payorAddEditForm.get('name').hasError('required')) {
+                <mat-error>Name filed is required</mat-error>
+            }
+        </mat-form-field>
+
+        <!-- Actions -->
+    </form>
+</div>

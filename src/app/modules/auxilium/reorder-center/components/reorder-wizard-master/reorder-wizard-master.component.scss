@@ -1,0 +1,13 @@
+::ng-deep {
+    .mat-step-icon-state-edit {
+        background: green !important;
+    }
+}
+.mat-medablue {
+    background-color: #b3e5fc;
+    color: #000;
+}
+
+::ng-deep .mdc-radio {
+    display: none !important;
+}

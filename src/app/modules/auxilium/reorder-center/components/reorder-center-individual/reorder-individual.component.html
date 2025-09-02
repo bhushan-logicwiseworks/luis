@@ -1,0 +1,29 @@
+<div class="flex items-center" mat-dialog-title>
+    <ng-container>
+        <h2 class="flex-1">Add Contact Note - PID: {{ pid }}</h2>
+    </ng-container>
+    <button class="text-secondary ml-4" type="button" mat-icon-button matDialogClose tabindex="-1">
+        <mat-icon [icIcon]="icClose" size="24px"></mat-icon>
+    </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-dialog-content>
+        <div class="p-4">
+            <textarea
+                #patientcontactnote
+                class="mb-6 mt-2 w-full rounded-lg border px-6 py-3 text-lg uppercase text-gray-700 focus:outline-none dark:text-white"
+                returnKeyType="send"
+                rows="10"
+                formControlName="note"
+            >
+            </textarea>
+            @if (form.get('note').hasError('required')) {
+                <mat-error> Note is <strong>required</strong> </mat-error>
+            }
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button type="button" matDialogClose mat-button>CANCEL</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid">SAVE</button>
+    </mat-dialog-actions>
+</form>

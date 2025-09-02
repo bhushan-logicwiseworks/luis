@@ -1,0 +1,11 @@
+:host {
+    display: block;
+}
+
+.highlight {
+    background-color: rgba(var(--color-primary), 0.1);
+}
+
+.mat-mdc-table .mdc-data-table__row:not(.mdc-data-table__row--selected):hover {
+    background: #e11d48 !important;
+}

@@ -1,0 +1,207 @@
+<div class="flex min-w-0 flex-auto flex-col">
+    <!-- Main -->
+    <div class="-mt-px flex-auto border-t p-4 sm:p-6">
+        <div class="mx-auto w-full max-w-screen-xl">
+            <div class="grid w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                <!-- Column 1 -->
+                <div class="w-full min-w-0">
+                    <!-- COLUMN 1 COUNTER 1 : CGM PATIENT REORDERS CONFIRMED TODAY -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                CGM Patient Reorders Confirmed Today
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-orange-500 sm:text-8xl">
+                                {{ CGMPatientsShippedToday?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 1 COUNTER 2 : CGM REFERRALS ENTERED TODAY -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">CGM Referrals Entered Today</div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-orange-500 sm:text-8xl">
+                                {{ CGMReferralsEnteredToday?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 1 COUNTER 3 : NEW CGM PATIENTS SHIPPED TODAY -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                New CGM Patients Shipped Today
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-orange-500 sm:text-8xl">
+                                {{ NewCGMReferralsShippedToday?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 1 COUNTER 4 : PENDING CGM PATIENT REFERRALS RECONCILED -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                Pending CGM Patient Referrals Reconciled
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-orange-500 sm:text-8xl">
+                                {{ PendingCGMPatientReferralsReconciled?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="w-full min-w-0">
+                    <!-- COLUMN 2 COUNTER 1 : TOTAL CGM PATIENTS CONFIRMED FOR AN ORDER THIS MONTH -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                Total CGM Patients Confirmed For An Order This Month
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-purple-500 sm:text-8xl">
+                                {{ CGMPatientsShippedThisMonth?.count || '0' }}
+                            </div>
+                            <div class="text-secondary flex w-full items-baseline justify-center">
+                                <div class="ml-1.5 bg-yellow-200 text-xl font-bold">
+                                    {{ CGMPatientsShippedThisMonth?.percent }}% of Potential
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 2 COUNTER 5 : CGM REFERRALS ENTERED THIS MONTH -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">QUARTERLY GOAL</div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-purple-500 sm:text-8xl">
+                                {{ goalValue }}%
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 2 COUNTER 3 : CGM REFERRALS ENTERED THIS MONTH -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                CGM Referrals Entered This Month
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-purple-500 sm:text-8xl">
+                                {{ CGMReferralsEnteredThisMonth?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 2 COUNTER 4 : NEW CGM PATIENTS SHIPPED THIS MONTH -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                New CGM Patients Shipped This Month
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-purple-500 sm:text-8xl">
+                                {{ NewCGMReferralsShippedThisMonth?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="w-full min-w-0">
+                    <!-- COLUMN 3 COUNTER 1 : TOTAL ACTIVE CGM PATIENTS -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">Total Active CGM Patients</div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                {{ CGMTotalActivePatientsThisYear?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 3 COUNTER 2 : TOTAL PENDING CGM REFERRALS -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">Total Pending CGM Referrals</div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                {{ TotalPendingCGMReferrals?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 3 COUNTER 3 : EXPIRED VISIT NOTES, SWO’S AND PA’S -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                EXPIRED & 35 DAYS OUT VISIT NOTES & SWO’S & PA’S
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                {{ ActiveCMNExpiration14Days?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 3 COUNTER 4 : 12-WEEK AVERAGE # OF DAYS FROM REFERRAL ENTRY TO SHIPPED -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                12-Week Average # of Days From Referral Entry to Shipped
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                {{ AverageDaysFromReferralEntryToActiveStatus?.count || '0' }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 3 COUNTER 5 : % CGM REFERRALS TURNED INTO ACTIVE PATIENTS LAST 12 WEEKS -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                % CGM Referrals Turned Active in Last 12 Weeks
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                {{ PercentCGMReferralsTurnedIntoActivePatients?.count || '0' }}%
+                            </div>
+                            <div class="text-secondary flex w-full items-baseline justify-center">
+                                <div class="ml-1.5 text-lg font-semibold"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- COLUMN 3 COUNTER 6 : PATIENTS USING ANSWERS REORDER PORTAL -->
+                    <div class="rounded-1xl bg-card my-4 flex h-36 flex-auto flex-col overflow-hidden p-2 shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="text-lg font-medium leading-6 tracking-tight">
+                                PATIENTS USING ANSWERS REORDER PORTAL
+                            </div>
+                        </div>
+                        <div class="mt-2 flex flex-col items-center">
+                            <div class="text-7xl font-bold leading-none tracking-tight text-green-500 sm:text-8xl">
+                                {{ PatientsUsingAnswersReorderPortal?.count || '0' }}
+                            </div>
+                            <div class="text-secondary flex w-full items-baseline justify-center">
+                                <div class="ml-1.5 bg-yellow-200 text-xl font-bold">
+                                    {{ PatientsUsingAnswersReorderPortal?.percent }}% of Total Active Reorder Patients
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

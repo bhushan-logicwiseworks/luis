@@ -1,0 +1,1 @@
+import{g as a,qa as r}from"./chunk-3Q5CJMKA.js";var s=(()=>{class t{constructor(){this.valueSubject=new a("Initial Value"),this.value$=this.valueSubject.asObservable()}setValue(e){this.valueSubject.next(e)}static{this.\u0275fac=function(i){return new(i||t)}}static{this.\u0275prov=r({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{s as a};

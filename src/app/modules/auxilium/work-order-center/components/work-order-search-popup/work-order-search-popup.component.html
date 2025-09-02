@@ -1,0 +1,92 @@
+<h2 class="ml-6 text-xl font-bold">{{ data.title }}</h2>
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <div class="grid grid-cols-1 gap-4">
+            <!-- <mat-form-field appearance="outline">
+                <mat-label>Next Bill</mat-label>
+                <input matInput formControlName="nextBill">
+            </mat-form-field> -->
+            <mat-form-field
+                appearance="outline"
+                [ngClass]="{ 'mb-2': searchForm.get('nextBill').hasError('notValidDate') }"
+            >
+                <mat-label>Next Bill</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="nextbill"
+                    formControlName="nextBill"
+                    (change)="onDateChange($event, 'nextBill')"
+                    placeholder="MM/DD/YYYY"
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="nextbill"></mat-datepicker-toggle>
+                <mat-datepicker #nextbill="matDatepicker"></mat-datepicker>
+                @if (searchForm.get('nextBill').hasError('required')) {
+                    <mat-error>Next Bill is required</mat-error>
+                }
+                @if (searchForm.get('nextBill').hasError('notValidDate')) {
+                    <mat-error>Please enter valid date!! It should be MM/DD/YYYY.</mat-error>
+                }
+            </mat-form-field>
+            <div class="align-center flex">
+                <mat-form-field class="w-full pr-2" [subscriptSizing]="'dynamic'" appearance="outline">
+                    <mat-label>Item ID</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        formControlName="itemCode"
+                        [placeholder]="'Item ID'"
+                        [spellcheck]="false"
+                    />
+                    @if (searchForm.get('itemCode').hasError('required')) {
+                        <mat-error>Item ID is required</mat-error>
+                    }
+                </mat-form-field>
+                <mat-icon
+                    matPrefix
+                    class="icon-size-1 mt-4 cursor-pointer sm:flex"
+                    [svgIcon]="'heroicons_solid:download'"
+                    (click)="openItemList()"
+                ></mat-icon>
+            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <input matInput formControlName="description" />
+                @if (searchForm.get('description').hasError('required')) {
+                    <mat-error>Description is required</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>State</mat-label>
+                <input matInput formControlName="state" />
+                @if (searchForm.get('state').hasError('required')) {
+                    <mat-error>State is required</mat-error>
+                }
+            </mat-form-field>
+            <div class="align-center flex">
+                <mat-form-field class="w-full pr-2" [subscriptSizing]="'dynamic'" appearance="outline">
+                    <mat-label>Payor</mat-label>
+                    <input
+                        class="uppercase"
+                        matInput
+                        formControlName="payor"
+                        [placeholder]="'Payor ID'"
+                        [spellcheck]="false"
+                    />
+                    @if (searchForm.get('payor').hasError('required')) {
+                        <mat-error>Payor ID is required</mat-error>
+                    }
+                </mat-form-field>
+                <mat-icon
+                    matPrefix
+                    class="icon-size-1 mt-4 cursor-pointer sm:flex"
+                    [svgIcon]="'heroicons_solid:download'"
+                    (click)="openPayorList()"
+                ></mat-icon>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="searchForm.invalid">Search</button>
+    </mat-dialog-actions>
+</form>

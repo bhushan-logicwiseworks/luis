@@ -1,0 +1,439 @@
+<div class="model-contain w-full" [formGroup]="InquiryChangesForm">
+    <!-- Header -->
+    <div class="flex w-full items-center bg-white p-3 shadow dark:bg-transparent">
+        <div (click)="backToListing()">
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:arrow-left'"
+            ></mat-icon>
+        </div>
+        @if (workOrderId !== null) {
+            <p
+                class="status ml-3 flex flex-none items-center rounded bg-primary-100 px-3 py-1.5 text-xs font-medium text-accent-600"
+            >
+                {{ workOrderId }}
+            </p>
+        }
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"></fuse-horizontal-navigation>
+    </div>
+    <div class="patient-inquiry w-full p-1 md:flex md:flex-wrap lg:flex-nowrap">
+        <!-- LEFT COLUM -->
+        <div class="mr-2 w-full">
+            <div class="bg-white p-2 shadow dark:bg-transparent">
+                <div class="grid gap-y-1">
+                    <div class="pb-2 pt-2"></div>
+
+                    <!-- Clearinghouse -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Print Status:</label>
+                        <mat-form-field appearance="outline" class="w-1/6">
+                            <mat-select
+                                [formControlName]="'printstatus'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedPrintStatus }}</mat-select-trigger>
+                                @for (PrintStatus of PrintStatusDropDown$ | async; track PrintStatus) {
+                                    <mat-option [value]="PrintStatus.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ PrintStatus.code }}</h2>
+                                            {{ PrintStatus.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- ISA03 Security Info Qualifier -->
+                    <div class="flex items-center gap-x-2">
+                        <mat-label class="w-56 text-right">Bill Type:</mat-label>
+                        <mat-form-field appearance="outline" class="w-1/6">
+                            <mat-select
+                                [formControlName]="'billtype'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedBillType }}</mat-select-trigger>
+                                @for (status of billType$ | async; track status) {
+                                    <mat-option [value]="status.billType">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ status.billType }}</h2>
+                                            {{ status.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- ISA06 Sender ID -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Tran Type:</label>
+                        <mat-form-field appearance="outline" class="w-1/6">
+                            <mat-select
+                                [formControlName]="'trantype'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedTranType }}</mat-select-trigger>
+                                @for (status of tranType$ | async; track status) {
+                                    <mat-option [value]="status.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ status.code }}</h2>
+                                            {{ status.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- ISA07 ID Qualifier -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Biling Form #:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-1/6">
+                            <mat-select
+                                [formControlName]="'billform'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                                [tabindex]="31"
+                            >
+                                <mat-select-trigger>{{ selectedPrimaryBillForm }}</mat-select-trigger>
+                                @for (form of primaryBillForm$ | async; track form) {
+                                    <mat-option [value]="form.value">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ form.value }}</h2>
+                                            {{ form.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- ISA08 Receiver ID -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Service Date:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-36">
+                            <input
+                                matInput
+                                [matDatepicker]="serviceDate"
+                                [placeholder]="dateFormat"
+                                (change)="onDateChange($event, 'svcdate')"
+                                [formControlName]="'svcdate'"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="serviceDate"></mat-datepicker-toggle>
+                            <mat-datepicker #serviceDate="matDatepicker"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- GS02 Sender Code -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">To Date:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-36">
+                            <input
+                                matInput
+                                [matDatepicker]="toDate"
+                                [placeholder]="dateFormat"
+                                (change)="onDateChange($event, 'todate')"
+                                [formControlName]="'todate'"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="toDate"></mat-datepicker-toggle>
+                            <mat-datepicker #toDate="matDatepicker"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- GS03 Receiver Code -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Bill To:</label>
+                        <div class="flex items-center">
+                            <mat-form-field appearance="outline" class="m-0 w-60">
+                                <input class="uppercase" [readonly]="false" matInput [formControlName]="'payorName'" />
+                            </mat-form-field>
+                            <mat-icon
+                                matPrefix
+                                class="icon-size-1 ml-1 hidden cursor-pointer sm:flex"
+                                [svgIcon]="'heroicons_solid:download'"
+                                (click)="openPayorsList()"
+                            ></mat-icon>
+                        </div>
+                    </div>
+
+                    <!-- 1000A NM109 Plan Qualifier -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Branch:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-36">
+                            <input
+                                matInput
+                                type="text"
+                                tabindex="4"
+                                class="uppercase"
+                                [formControl]="branchName"
+                                [matAutocomplete]="auto2"
+                                #autoInput
+                            />
+                            <mat-autocomplete
+                                #auto2="matAutocomplete"
+                                (optionSelected)="onBranchSelected($event.option.value)"
+                            >
+                                <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                                    {{ option.branchcode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- 1000A NM109 Submitter -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">MOD1:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-2/12">
+                            <input class="uppercase" matInput formControlName="mod1" />
+                        </mat-form-field>
+                    </div>
+                    <!-- 1000B NM109 Plan ID -->
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">MOD2:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-2/12">
+                            <input class="uppercase" matInput formControlName="mod2" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">MOD3:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-2/12">
+                            <input class="uppercase" matInput formControlName="mod3" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">MOD4:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-2/12">
+                            <input class="uppercase" matInput formControlName="mod4" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Quantity:</label>
+                        <mat-form-field appearance="outline" class="w-2/12">
+                            <input class="uppercase" matInput formControlName="quantity" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">Claim Type:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-2/12">
+                            <mat-select
+                                [formControlName]="'claimtype'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedClaimType }}</mat-select-trigger>
+                                @for (claim of claimType$ | async; track claim) {
+                                    <mat-option [value]="claim.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ claim.code }}</h2>
+                                            {{ claim.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-56 text-right">ICN:</label>
+                        <mat-form-field appearance="outline" class="m-0 w-2/6">
+                            <input class="uppercase" matInput formControlName="icn" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <mat-label class="w-56 text-right">Place of Service:</mat-label>
+                        <mat-form-field class="m-0 w-2/6">
+                            <mat-select
+                                [formControlName]="'pos'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-70'"
+                            >
+                                <mat-select-trigger>{{ selectedPlaceOfService }}</mat-select-trigger>
+                                @for (service of placeOfServiceReps$ | async; track service) {
+                                    <mat-option [value]="service.code">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ service.code }}</h2>
+                                            {{ service.description }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="pb-2 pt-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUM -->
+        <!-- COMPACT FORM COLUMN -->
+        <div class="mt-2 w-full md:mr-2 md:mt-2 lg:mr-0 lg:mt-0">
+            <div class="bg-white p-2 shadow dark:bg-transparent">
+                <div class="grid gap-y-1">
+                    <div class="pb-2 pt-2"></div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Item code:</label>
+                        <mat-form-field class="m-0">
+                            <input class="uppercase" [readonly]="false" matInput [formControlName]="'itemcode'" />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            class="icon-size-1 ml-1 hidden cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                            (click)="openItemList()"
+                        ></mat-icon>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Item ID:</label>
+                        <mat-form-field class="m-0">
+                            <input class="uppercase" [readonly]="true" matInput [formControlName]="'itemid'" />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Description:</label>
+                        <mat-form-field class="m-0 w-4/12">
+                            <input class="uppercase" matInput [formControlName]="'description'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Auth #:</label>
+                        <mat-form-field class="w-1/6 pr-2">
+                            <input class="uppercase" matInput [formControlName]="'paponumber'" />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">ICD Code:</label>
+                        <mat-form-field class="w-4/12 pr-0">
+                            <input
+                                [readonly]="true"
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'icd10code'"
+                                [readonly]="true"
+                            />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            class="icon-size-1 cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                            (click)="openDiagnosisCodePopup()"
+                        ></mat-icon>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Procedure:</label>
+                        <mat-form-field class="w-1/6 pr-2">
+                            <input class="uppercase" matInput [formControlName]="'hcpcscode'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Sales Rep:</label>
+                        <mat-form-field class="w-6/12 pr-0">
+                            <mat-select [formControlName]="'salesid'">
+                                @for (status of salesrep$ | async; track status) {
+                                    <mat-option [value]="status.value">
+                                        <div class="flex gap-6">
+                                            <h2 class="font-extrabold">{{ status.value }}</h2>
+                                            {{ status.name }}
+                                        </div>
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Referral ID:</label>
+                        <mat-form-field class="w-6/12 pr-0">
+                            <input matInput [readonly]="true" [formControlName]="'referCode'" tabindex="32" />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            class="icon-size-1 mr-1.5 mt-2 cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                            (click)="openReferralList()"
+                        ></mat-icon>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Physician:</label>
+
+                        <mat-form-field class="w-6/12 pr-0">
+                            <input class="uppercase" matInput [formControlName]="'physician'" />
+                        </mat-form-field>
+                        <mat-icon
+                            matPrefix
+                            (click)="openAssignedPhysicianList()"
+                            class="icon-size-1 hidden cursor-pointer sm:flex"
+                            [svgIcon]="'heroicons_solid:download'"
+                        ></mat-icon>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">PWK Type:</label>
+                        <mat-form-field class="w-6/12 pr-0">
+                            <mat-select [formControlName]="'pwktypecode'">
+                                <mat-select-trigger>{{ selectedPwkType }}</mat-select-trigger>
+                                @for (pwktypecode of pwkType$ | async; track pwktypecode) {
+                                    <mat-option [value]="pwktypecode.code">
+                                        <h2 class="font-extrabold">{{ pwktypecode.code }}</h2>
+                                        {{ pwktypecode.description }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">PWK Method:</label>
+
+                        <mat-form-field class="m-0 w-1/6 pr-2">
+                            <mat-select
+                                [formControlName]="'pwktransmissioncode'"
+                                [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'"
+                            >
+                                <mat-select-trigger>{{ selectedPwkMethod }}</mat-select-trigger>
+                                @for (pwktransmissioncode of pwkMethod$ | async; track pwktransmissioncode) {
+                                    <mat-option [value]="pwktransmissioncode.code">
+                                        {{ pwktransmissioncode.description }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Submitted:</label>
+                        <mat-form-field class="w-1/6 pr-2">
+                            <input class="uppercase" matInput [formControlName]="'submitted'" />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Allowed:</label>
+                        <mat-form-field class="w-1/6 pr-2">
+                            <input class="uppercase" matInput [formControlName]="'allowed'" />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Balance:</label>
+
+                        <mat-form-field class="w-1/6 pr-2">
+                            <input class="uppercase" matInput [formControlName]="'balance'" />
+                        </mat-form-field>
+                    </div>
+                    <div class="flex items-center gap-x-2">
+                        <label class="w-36 text-right">Amount Billed:</label>
+                        <mat-form-field class="w-1/6 pr-2">
+                            <input class="uppercase" matInput [formControlName]="'tranamount'" />
+                        </mat-form-field>
+                    </div>
+
+                    <div class="pb-2 pt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

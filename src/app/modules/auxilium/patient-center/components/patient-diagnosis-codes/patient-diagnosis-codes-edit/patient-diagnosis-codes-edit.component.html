@@ -1,0 +1,18 @@
+<!-- UPLOAD DOCUMENT VIEW -->
+<div class="flex max-h-screen max-w-240 flex-col md:min-w-160">
+    <!-- Payors Form -->
+    <form
+        class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8"
+        [formGroup]="patientDiagnosisForm"
+        (ngSubmit)="submitCodes()"
+    >
+        <!-- order -->
+        <aux-select-dropdown
+            [className]="'w-full'"
+            [label]="'Order'"
+            [selectOption]="order"
+            [controlName]="'order'"
+            [matForm]="patientDiagnosisForm"
+        ></aux-select-dropdown>
+    </form>
+</div>

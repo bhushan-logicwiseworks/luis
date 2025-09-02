@@ -1,0 +1,21 @@
+<div class="py-1">
+    <!-- Add any extra content that might be supplied with the component -->
+    <div class="extra-content">
+        <ng-content></ng-content>
+    </div>
+
+    <!-- Aux Sidebar Title -->
+    @if (showTitle) {
+        <div class="mx-6 pt-10 text-3xl font-bold tracking-tighter">{{ title }}</div>
+    }
+
+    <!-- Aux Sidebar List -->
+    <fuse-vertical-navigation
+        [appearance]="'default'"
+        [navigation]="menuData"
+        [inner]="true"
+        [mode]="'side'"
+        [name]="'aux-sidebar-navigation'"
+        [opened]="true"
+    ></fuse-vertical-navigation>
+</div>

@@ -1,0 +1,85 @@
+<!-- Compose form -->
+<form
+    class="flex max-h-[400px] flex-auto flex-col overflow-y-scroll p-3 xl:max-h-none xl:overflow-y-visible"
+    [formGroup]="searchForm"
+    (ngSubmit)="searchPatient()"
+>
+    <!-- Patient# -->
+    <mat-form-field class="w-full">
+        <mat-label>Patient #</mat-label>
+        <input class="uppercase" matInput [formControlName]="'id'" [placeholder]="'Patient id'" [spellcheck]="false" />
+    </mat-form-field>
+
+    <!-- First Name -->
+    <mat-form-field class="w-full">
+        <mat-label>First Name</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'firstName'"
+            [placeholder]="'First Name'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field class="w-full">
+        <mat-label>Last Name</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'lastName'"
+            [placeholder]="'Last Name'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Date Of Birth -->
+    <mat-form-field class="w-full" [ngClass]="{ 'mb-12': searchForm.get('dob').hasError('notValidDate') }">
+        <mat-label>Date of Birth</mat-label>
+        <input
+            matInput
+            [formControlName]="'dob'"
+            [matDatepicker]="datepicker"
+            (change)="onDateChange($event, 'dob')"
+            [placeholder]="dateFormat"
+            defaultDate
+        />
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker="matDatepicker"></mat-datepicker>
+        @if (searchForm.get('dob').hasError('notValidDate')) {
+            <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- City -->
+    <mat-form-field class="w-full">
+        <mat-label>City</mat-label>
+        <input class="uppercase" matInput [formControlName]="'city'" [placeholder]="'City'" [spellcheck]="false" />
+    </mat-form-field>
+
+    <!-- Zip -->
+    <mat-form-field class="w-full">
+        <mat-label>Zip</mat-label>
+        <input class="uppercase" matInput [formControlName]="'zip'" />
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field class="w-full">
+        <mat-label>Phone</mat-label>
+        <input matInput [formControlName]="'phone'" mask="(000) 000-0000" [showMaskTyped]="true" />
+    </mat-form-field>
+
+    <!-- Cell -->
+    <mat-form-field class="w-full">
+        <mat-label>Cell</mat-label>
+        <input matInput [formControlName]="'cell'" mask="(000) 000-0000" [showMaskTyped]="true" />
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput [formControlName]="'email'" />
+    </mat-form-field>
+</form>
+<!-- </div> -->

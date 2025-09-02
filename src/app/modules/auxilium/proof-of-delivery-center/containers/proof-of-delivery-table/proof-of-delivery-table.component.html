@@ -1,0 +1,15 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [columnDefs]="columnDefs"
+            [rowData]="rowData"
+            [component]="'patientPortalTable'"
+            [visibleColumns]="visibleColumns"
+            [loading]="loading$ | async"
+            [paginatorOption]="paginatorOptions"
+            [agGridHeight]="'calc(100vh - 292px)'"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

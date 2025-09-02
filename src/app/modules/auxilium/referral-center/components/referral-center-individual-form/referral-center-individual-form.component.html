@@ -1,0 +1,372 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- Refer Code -->
+            <!-- <div class="mt-4">
+                <mat-form-field
+                    class="w-full"
+                    [subscriptSizing]="'dynamic'">
+                    <mat-label>Refer Code</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden sm:flex icon-size-5"
+                        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'referCode'"
+                        [placeholder]="'Refer Code'"
+                        [spellcheck]="false">
+                </mat-form-field>
+            </div> -->
+
+            <!-- First Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>First Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'firstName'"
+                        tabindex="1"
+                        [placeholder]="'First Name'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Last Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Last Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        tabindex="2"
+                        [formControlName]="'lastName'"
+                        [placeholder]="'Last Name'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Sales Representative -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Sales Representative</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <mat-select [formControlName]="'salesId'" tabindex="3">
+                        @for (value of salesRepList; track value) {
+                            <mat-option [value]="value.id">{{ value.firstName }} {{ value.lastName }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Company -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Company</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:office-building'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        tabindex="4"
+                        [formControlName]="'company'"
+                        [placeholder]="'Company'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Title -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Title</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:office-building'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        tabindex="5"
+                        matInput
+                        [formControlName]="'title'"
+                        [placeholder]="'Title'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Status -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Status</mat-label>
+                    <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'mat_outline:traffic'"></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        tabindex="6"
+                        [formControlName]="'status'"
+                        [placeholder]="'Status'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Link ID -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Link ID</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_outline:link'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        tabindex="7"
+                        [formControlName]="'taxid'"
+                        [placeholder]="'Link ID'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Category -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Categories</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'mat_outline:category'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        type="text"
+                        tabindex="8"
+                        class="uppercase"
+                        [formControlName]="'territory'"
+                        [placeholder]="'Categories'"
+                        [matAutocomplete]="auto1"
+                        #autoInput
+                    />
+                    <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="categoryhandler($event)">
+                        @for (option of filteredCategories | async; track option) {
+                            <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!-- Address -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Address</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        tabindex="9"
+                        matInput
+                        [formControlName]="'address'"
+                        [placeholder]="'Address'"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- City -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>City</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input class="uppercase" matInput tabindex="11" [formControlName]="'city'" [placeholder]="'City'" />
+                </mat-form-field>
+            </div>
+
+            <!-- State -->
+            <div class="mt-4">
+                <mat-label class="state-label">State</mat-label>
+                <div class="relative w-full">
+                    <mat-icon
+                        matPrefix
+                        class="fix-icon hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <ng-select
+                        [items]="usstates"
+                        [tabindex]="12"
+                        class="state-select state w-full uppercase"
+                        [appearance]="'outline'"
+                        [formControlName]="'state'"
+                        bindLabel="abbreviation"
+                        [clearable]="true"
+                        bindValue="abbreviation"
+                        [selectOnTab]="true"
+                    >
+                        <ng-template ng-option-tmp let-item="item">
+                            <div class="flex w-auto gap-3">
+                                <span class="font-bold text-black">
+                                    {{ item.abbreviation }}
+                                </span>
+                                <span>
+                                    {{ item.name }}
+                                </span>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+
+            <!-- Zip -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Zip</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input matInput tabindex="10" [formControlName]="'zip'" [placeholder]="'Zip'" numbers />
+                </mat-form-field>
+            </div>
+
+            <!-- Email -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:mail'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        tabindex="13"
+                        [formControlName]="'email'"
+                        [placeholder]="'Email'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Phone -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Phone</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:phone'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        tabindex="14"
+                        [formControlName]="'phone'"
+                        [value]="contact?.phone || '' | phone"
+                        mask="(000) 000-0000"
+                        [showMaskTyped]="true"
+                        [placeholder]="'Phone'"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Fax -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Fax</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        tabindex="15"
+                        [formControlName]="'fax'"
+                        [value]="contact?.fax || '' | phone"
+                        mask="(000) 000-0000"
+                        [showMaskTyped]="true"
+                        [placeholder]="'Fax'"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Does OptIn -->
+            <div class="mt-4">
+                <mat-checkbox class="-ml-2" tabindex="16" [color]="'primary'" [formControlName]="'doesOptIn'">
+                    <span>Opt In?</span>
+                </mat-checkbox>
+            </div>
+
+            <!-- Notes -->
+            <div class="mb-4 mt-8">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Notes</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:menu-alt-2'"
+                    ></mat-icon>
+                    <textarea
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'notes'"
+                        [placeholder]="'Notes'"
+                        [rows]="5"
+                        tabindex="17"
+                        [spellcheck]="false"
+                        cdkTextareaAutosize
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+
+            <!-- Actions -->
+        </form>
+    </div>
+</div>

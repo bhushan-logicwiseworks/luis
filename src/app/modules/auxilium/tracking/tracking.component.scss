@@ -1,0 +1,114 @@
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    .wrap {
+        background-color: white;
+        color: black;
+    }
+}
+.wrap {
+    margin-top: 2rem;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 0px solid #ccc;
+}
+/* Flex */
+.flex {
+    display: flex;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.flex-item-1 {
+    flex: 1;
+}
+/* Flex Item */
+.item {
+    margin: 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+.b-all {
+    border: 0.5px solid #ccc;
+    border-collapse: collapse;
+}
+.b-radius {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.b-sides {
+    border-left: 0.5px solid #ccc;
+    border-right: 0.5px solid #ccc;
+}
+.b-top {
+    border-top: 0.5px solid #ccc;
+}
+.title {
+    font-size: 30px;
+    font-weight: bolder;
+}
+.subtitle {
+    font-size: 14px;
+}
+.p5 {
+    padding: 0;
+}
+.p20 {
+    padding: 20px;
+}
+.p-tb {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.FieldName {
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    padding-bottom: 5px;
+    color: #707070;
+    text-align: left;
+}
+.content {
+    display: block;
+    font-weight: 500;
+    font-size: 22px;
+    text-align: left;
+    color: black;
+}
+.content a {
+    text-decoration: none;
+    color: black;
+}
+.footer {
+    padding-top: 25px;
+}
+.footer a {
+    font-size: 11px;
+    color: #bebebe;
+    text-align: center;
+    text-decoration: none;
+}
+.logo {
+    max-width: 150px;
+}
+.timezone {
+    font-size: 14px;
+    color: #707070;
+}
+@media only screen and (max-width: 665px) {
+    .wrap {
+        margin-top: 1rem;
+        padding: 10px;
+    }
+    .logo {
+        width: 65px;
+        height: auto;
+    }
+    .content {
+        font-size: 16px;
+    }
+    .FieldName {
+        font-size: 12px;
+    }
+}

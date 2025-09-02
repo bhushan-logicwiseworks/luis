@@ -1,0 +1,9 @@
+// .addForm{
+//     height: calc(100vh - 105px);
+//     overflow-y: hidden;
+//     overflow-x: hidden;
+// }
+
+::ng-deep .app-aux-popup .mdc-dialog__content {
+    overflow-x: unset !important;
+}

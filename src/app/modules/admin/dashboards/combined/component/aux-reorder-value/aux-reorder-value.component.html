@@ -1,0 +1,41 @@
+<div class="NAN flex flex-auto flex-col justify-center">
+    <div class="text-center">
+        <div>
+            @if (!percentage) {
+                <p class="text-4xl font-bold md:text-7xl" [ngClass]="color">{{ value }}&nbsp;</p>
+            }
+            @if (percentage) {
+                <p class="text-4xl font-bold md:text-7xl" [ngClass]="color">{{ value }}%&nbsp;</p>
+            }
+            <p class="text-secondary text-sm">{{ label }}</p>
+        </div>
+    </div>
+    @if (gaugeSeries.length) {
+        <div class="mt-4 flex flex-col">
+            <aux-chart [options]="gaugeOptions" [series]="gaugeSeries"></aux-chart>
+        </div>
+    }
+    @if (kpiLabel.length) {
+        <div class="flex justify-around">
+            @for (item of kpiLabel; track item) {
+                <div class="flex columns-4 flex-col">
+                    <div class="mt-8 text-center">
+                        <p class="m-0 text-sm text-primary" [ngClass]="customClass">
+                            <span
+                                class="word-break: break align-baseline inline-block rounded px-2.5 py-1.5 text-center font-bold leading-none text-white"
+                                [ngClass]="item.color"
+                                >{{ item.label }}</span
+                            >
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <p class="m-0 text-lg text-primary">{{ item.total }}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="m-0 text-lg text-primary">{{ item.percent }}%</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,1 @@
+import{a as e}from"./chunk-YCMFPTNH.js";var t=[{name:"CGM",icon:e.green.text},{name:"ENTERAL",icon:e.blue.text},{name:"INCONTINENCE",icon:e.orange.text},{name:"OSTOMY",icon:e.purple.text},{name:"UROLOGY",icon:e.pink.text},{name:"WOUND",icon:e.yellow.text}];export{t as a};

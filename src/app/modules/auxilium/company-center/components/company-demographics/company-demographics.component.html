@@ -1,0 +1,239 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="companyForm" (ngSubmit)="save()" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Patient Demographics Component -->
+        <div class="company-demographics w-full pb-1 pl-1 pr-1 pt-1 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="w-full">
+                <!-- Bill Options Details -->
+                <div class="grid grid-cols-1 gap-1 md:grid-cols-2">
+                    <!-- LEFT COLUMN -->
+                    <div class="bg-white p-4 shadow dark:bg-transparent">
+                        <div class="flex flex-col space-y-4">
+                            <!-- Payment Batch -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">company#:</label>
+                                <mat-form-field appearance="outline" class="w-16">
+                                    <input class="uppercase" matInput formControlName="type" />
+                                </mat-form-field>
+                            </div>
+
+                            <!-- Check # -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Company Name:</label>
+                                <mat-form-field appearance="outline" class="w-2/6">
+                                    <input class="uppercase" matInput formControlName="name" />
+                                </mat-form-field>
+                            </div>
+
+                            <!-- Check # -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Address:</label>
+                                <mat-form-field appearance="outline" class="w-2/6">
+                                    <input class="uppercase" matInput formControlName="address" />
+                                </mat-form-field>
+                            </div>
+
+                            <!-- Check # -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">City:</label>
+                                <mat-form-field appearance="outline" class="w-22">
+                                    <input class="uppercase" matInput formControlName="city" />
+                                </mat-form-field>
+                                <mat-form-field bindLabel="abbreviation" class="w-28 pl-2">
+                                    <!-- <input class="uppercase" matInput formControlName="state" /> -->
+                                    <input
+                                        matInput
+                                        tabindex="7"
+                                        aria-label="State"
+                                        [matAutocomplete]="auto"
+                                        [formControl]="state"
+                                    />
+                                    <!-- <mat-icon matSuffix class="flex-auto text-3xl">arrow_drop_down</mat-icon> -->
+                                    <mat-autocomplete #auto="matAutocomplete" [panelWidth]="285">
+                                        @for (state of filteredStates | async; track state) {
+                                            <mat-option [value]="state.abbreviation">
+                                                <span class="mr-1 font-bold">
+                                                    {{ state.abbreviation }}
+                                                </span>
+                                                <span>{{ state.name }}</span>
+                                            </mat-option>
+                                        }
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-30 pl-2">
+                                    <input class="uppercase" matInput formControlName="zip" />
+                                </mat-form-field>
+                            </div>
+                            <!-- Check # -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Phone:</label>
+                                <mat-form-field appearance="outline" class="w-30">
+                                    <input class="uppercase" matInput formControlName="phone" />
+                                </mat-form-field>
+                            </div>
+                            <!-- Check # -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Fax:</label>
+                                <mat-form-field appearance="outline" class="w-30">
+                                    <input class="uppercase" matInput formControlName="fax" />
+                                </mat-form-field>
+                            </div>
+                            <!-- Check # -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Taxonomy Code:</label>
+                                <mat-form-field appearance="outline" class="w-30">
+                                    <input class="uppercase" matInput formControlName="taxonomy" />
+                                </mat-form-field>
+                            </div>
+
+                            <!-- ISA03 Security Info Qualifier -->
+                            <div class="flex items-center gap-x-2">
+                                <label class="w-1/3 pr-4 text-right">Multibranch:</label>
+                                <mat-checkbox [color]="'primary'" formControlName="multibranch"> </mat-checkbox>
+                            </div>
+
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Participating (Y/N):</label>
+                                <mat-form-field appearance="outline" class="w-8">
+                                    <input class="uppercase" matInput formControlName="participat" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">DMERC (Y/N):</label>
+                                <mat-form-field appearance="outline" class="w-8">
+                                    <input class="uppercase" matInput formControlName="dmerc" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Default Patient Payor:</label>
+                                <mat-form-field appearance="outline" class="w-24">
+                                    <input class="uppercase" matInput formControlName="payorName" />
+                                </mat-form-field>
+                                <mat-icon
+                                    matPrefix
+                                    (click)="openPayorList()"
+                                    class="icon-size-1 hidden cursor-pointer sm:flex"
+                                    [svgIcon]="'heroicons_solid:download'"
+                                ></mat-icon>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Default Adjesment Code:</label>
+                                <mat-form-field appearance="outline" class="w-24">
+                                    <input class="uppercase" matInput formControlName="defaultadjustmentcode" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Company Email:</label>
+                                <mat-form-field appearance="outline" class="w-2/6">
+                                    <input class="uppercase" matInput formControlName="email" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Company Website:</label>
+                                <mat-form-field appearance="outline" class="w-2/6">
+                                    <input class="uppercase" matInput formControlName="website" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Sql Server:</label>
+                                <mat-form-field appearance="outline" class="w-2/6">
+                                    <input class="uppercase" matInput formControlName="sqlserver" />
+                                </mat-form-field>
+                            </div>
+
+                            <!-- <div class="pb-2 pt-2"></div> -->
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN -->
+                    <div class="bg-white p-4 shadow dark:bg-transparent">
+                        <div class="flex flex-col space-y-4">
+                            <!-- Submitted and Quantity -->
+                            <!-- <div class="flex items-center justify-center gap-4">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 pr-4 text-right">Submitted:</label>
+                                    <mat-form-field appearance="outline" class="w-2/6">
+                                        <input class="uppercase" matInput formControlName="submitted" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 pr-4 text-right">Quantity:</label>
+                                    <mat-form-field appearance="outline" class="w-2/6">
+                                        <input class="uppercase" matInput formControlName="quantity" />
+                                    </mat-form-field>
+                                </div>
+                            </div> -->
+
+                            <!-- Amount fields -->
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">NPI:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="npi" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">NPI only Billing:</label>
+                                <mat-checkbox [color]="'primary'" formControlName="npionly"> </mat-checkbox>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Max User:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="amountpaid" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Federal ID:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="fedid" />
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-2/12 pl-1">
+                                    <input class="uppercase" matInput formControlName="kct" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Tax %:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="tax" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Special Prefix:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="specialpfx" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Default RX Intial:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="rxinitials" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Diaboco Account:</label>
+                                <mat-form-field appearance="outline" class="w-2/12">
+                                    <input class="uppercase" matInput formControlName="diabcoaccount" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center">
+                                <label class="w-1/3 pr-4 text-right">Medicaid Id:</label>
+                                <mat-form-field appearance="outline" class="m-0 w-2/12">
+                                    <input class="uppercase" matInput formControlName="medicaidexportpath" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

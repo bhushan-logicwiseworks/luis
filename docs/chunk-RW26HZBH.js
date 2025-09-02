@@ -1,0 +1,1 @@
+import{c as n,d as r,f as t,i as a}from"./chunk-M4WH542H.js";function i(e){return n("fadeInUp",[a(":enter",[t({transform:"translateY(20px)",opacity:0}),r(`${e}ms cubic-bezier(0.35, 0, 0.25, 1)`,t({transform:"translateY(0)",opacity:1}))])])}var p=i(400);export{p as a};

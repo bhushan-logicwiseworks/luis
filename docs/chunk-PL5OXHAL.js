@@ -1,0 +1,1 @@
+var r=function(t){return t.id="id",t.patientId="patientId",t}(r||{}),n=function(t){return t.Boolean="boolean",t.Date="date",t.Number="number",t.String="string",t}(n||{}),a=[{fields:[r.id,r.patientId],type:n.Number}];export{a};

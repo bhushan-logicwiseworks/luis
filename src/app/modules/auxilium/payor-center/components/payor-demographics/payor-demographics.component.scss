@@ -1,0 +1,47 @@
+:host ::ng-deep.state-select {
+    &.ng-select {
+        .ng-select-container {
+            overflow: unset;
+            &.ng-appearance-outline {
+                .ng-clear-wrapper {
+                    display: block !important;
+                    bottom: 20px !important;
+                }
+                .ng-arrow-wrapper {
+                    bottom: 22px;
+                }
+                &:hover {
+                    &::after {
+                        border: solid 1px rgba(0, 0, 0, 0.12);
+                    }
+                }
+                &::after {
+                    height: 100%;
+                }
+            }
+            .ng-value-container {
+                .ng-input {
+                    bottom: 50%;
+                    transform: translateY(50%);
+                    padding: 0 10px;
+                }
+            }
+        }
+        &.ng-select-focused {
+            .ng-select-container {
+                .ng-value-container {
+                    .ng-placeholder {
+                        transform: translateY(-25px) scale(0.75) perspective(100px) translateZ(0.001px);
+                    }
+                }
+            }
+        }
+        &.ng-select-opened .ng-placeholder,
+        .ng-has-value .ng-placeholder {
+            transform: translateY(-25px) scale(0.75) perspective(100px) translateZ(0.001px);
+        }
+        ng-dropdown-panel {
+            width: auto;
+        }
+    }
+}

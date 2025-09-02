@@ -1,0 +1,94 @@
+<!-- Compose form -->
+<form class="flex flex-auto flex-col p-6 sm:p-6 sm:pb-0" [formGroup]="searchForm" (ngSubmit)="searchItem()">
+    <!-- Patient# -->
+    <mat-form-field class="w-full">
+        <mat-label>Item Code</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'itemcode'"
+            [placeholder]="'Item Code'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- First Name -->
+    <mat-form-field class="w-full">
+        <mat-label>Alternate Code</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'alternatecode'"
+            [placeholder]="'Alternate Code'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field class="w-full">
+        <mat-label>Item Desc</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'description'"
+            [placeholder]="'Item Desc'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Type -->
+    <mat-form-field class="w-full">
+        <mat-label>Type</mat-label>
+        <input class="uppercase" matInput [formControlName]="'type'" [placeholder]="'Type'" [spellcheck]="false" />
+    </mat-form-field>
+
+    <!-- Category -->
+    <mat-form-field class="w-full">
+        <mat-label>Category</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'itemcategory'"
+            [placeholder]="'Category'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Hcpcs Code -->
+    <mat-form-field class="w-full">
+        <mat-label>Hcpcs Code</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'hcpcscode'"
+            [placeholder]="'Hcpcs Code'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- Mfg Part No -->
+    <mat-form-field class="w-full">
+        <mat-label>Mfg Part No</mat-label>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'manufacturerpartno'"
+            [placeholder]="'Mfg Part No'"
+            [spellcheck]="false"
+        />
+    </mat-form-field>
+
+    <!-- <div class="flex flex-0 justify-end items-center py-4 pb-8 pr-4 pl-1 sm:pr-8 sm:pl-7 dark:bg-transparent">
+
+            <button class="ml-2" mat-button [matTooltip]="'Cancel'" mat-dialog-close (click)="closeDocument()">
+                Cancel
+            </button>
+
+            <button class="ml-2" type="submit" mat-flat-button [color]="'primary'" [disabled]="searchForm.invalid"
+                [matTooltip]="'Save'">
+                Ok
+            </button>
+
+        </div> -->
+</form>
+<!-- </div> -->

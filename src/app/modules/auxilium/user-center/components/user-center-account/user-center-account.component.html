@@ -1,0 +1,207 @@
+<div class="w-full max-w-3xl">
+    <!-- Form -->
+    <form [formGroup]="accountForm" (ngSubmit)="saveAccountInfo()">
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Personal Information</div>
+            <div class="text-secondary">
+                Please make sure your personal information is displayed correctly. You can update it if needed.
+            </div>
+        </div>
+        <div class="mt-8 grid w-full gap-6 sm:grid-cols-4">
+            <div class="sm:col-span-4">
+                <div class="flex w-full">
+                    <!-- First Name -->
+                    <div class="w-1/3 pr-4">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>First Name</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:user'" matPrefix></mat-icon>
+                            <input [formControlName]="'firstname'" [spellcheck]="false" matInput />
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="w-1/3 pr-4">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Last Name</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:briefcase'" matPrefix></mat-icon>
+                            <input [formControlName]="'lastname'" [spellcheck]="false" matInput />
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Display Name -->
+                    <div class="w-1/3">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Display Name</mat-label>
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:briefcase'" matPrefix></mat-icon>
+                            <input [formControlName]="'displayname'" [spellcheck]="false" matInput />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Address</mat-label>
+                    <input matInput [formControlName]="'address'" [placeholder]="'Address'" />
+                </mat-form-field>
+            </div>
+
+            <!-- Address 2 -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Address 2</mat-label>
+                    <input matInput [formControlName]="'address2'" [placeholder]="'Address2'" />
+                </mat-form-field>
+            </div>
+
+            <!-- City -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label class="mb-1">City</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input class="uppercase" matInput [formControlName]="'city'" [placeholder]="'City'" />
+                </mat-form-field>
+            </div>
+
+            <!-- State -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="state-select state w-full uppercase" bindLabel="abbreviation">
+                    <mat-label>State</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        tabindex="9"
+                        aria-label="State"
+                        [matAutocomplete]="auto"
+                        [formControlName]="'state'"
+                    />
+                    <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                    <mat-autocomplete #auto="matAutocomplete">
+                        @for (state of filteredStates | async; track state) {
+                            <mat-option [value]="state.abbreviation">
+                                <span class="mr-1 font-bold">
+                                    {{ state.abbreviation }}
+                                </span>
+                                <span>{{ state.name }}</span>
+                            </mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!-- Zip -->
+            <div class="sm:col-span-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Zip</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:location-marker'"
+                    ></mat-icon>
+                    <input matInput [formControlName]="'zip'" [placeholder]="'Zip'" numbers />
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- Divider -->
+        <div class="my-10 border-t"></div>
+
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl">Contact Info</div>
+            <div class="text-secondary">Communication details in case we want to connect with you. private.</div>
+        </div>
+        <div class="mt-8 grid w-full gap-6 sm:grid-cols-4">
+            <!-- Phone -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Phone</mat-label>
+                    <mat-icon
+                        matPrefix
+                        (click)="makeCall('Phone')"
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:phone'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'phone'"
+                        [placeholder]="'Phone'"
+                        mask="(000) 000-0000"
+                        [showMaskTyped]="true"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+            <!-- Cell -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Cell</mat-label>
+                    <mat-icon
+                        matPrefix
+                        (click)="makeCall('Cell')"
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:phone'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'cell'"
+                        [placeholder]="'Cell'"
+                        [showMaskTyped]="true"
+                        mask="(000) 000-0000"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+            <!-- Email -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Email</mat-label>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:briefcase'" matPrefix></mat-icon>
+                    <input [formControlName]="'email'" [spellcheck]="false" matInput [readonly]="true" />
+                </mat-form-field>
+            </div>
+            <!-- Fax -->
+            <div class="sm:col-span-2">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Fax</mat-label>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:office-building'" matPrefix></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'fax'"
+                        [placeholder]="'Fax'"
+                        mask="(000) 000-0000"
+                        [showMaskTyped]="true"
+                        numbers
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Pending Status -->
+            <div class="sm:col-span-2">
+                <div class="flex w-full">
+                    <mat-checkbox [formControlName]="'isactive'" [color]="'primary'" class="mr-2"
+                        >Is Active</mat-checkbox
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="mb-10 mt-11 border-t"></div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end">
+            <button class="ml-4" mat-flat-button type="submit" [color]="'primary'" [matTooltip]="'Save'">Save</button>
+        </div>
+    </form>
+    <ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>
+</div>

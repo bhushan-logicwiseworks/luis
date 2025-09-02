@@ -1,0 +1,7 @@
+:host {
+    @apply flex flex-auto flex-col overflow-hidden;
+}
+
+.highlight {
+    background-color: rgba(var(--color-primary), 0.1);
+}

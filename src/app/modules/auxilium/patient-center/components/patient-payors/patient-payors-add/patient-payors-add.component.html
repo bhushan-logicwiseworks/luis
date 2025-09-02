@@ -1,0 +1,41 @@
+<!-- UPLOAD DOCUMENT VIEW -->
+<!-- Payors Form -->
+<form class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8" [formGroup]="payorsForm">
+    <!-- Rank -->
+    <aux-select-dropdown
+        [className]="'w-full pr-2'"
+        [label]="'Rank'"
+        [selectOption]="rank"
+        [controlName]="'rank'"
+        [matForm]="payorsForm"
+    ></aux-select-dropdown>
+
+    <!-- Payors -->
+    <div class="align-center flex">
+        <mat-form-field class="w-11/12 pr-2">
+            <mat-label>Payor</mat-label>
+            <input [readonly]="true" class="uppercase" matInput [formControlName]="'payorName'" />
+            @if (payorsForm.get('payorName').hasError('required')) {
+                <mat-error> Payor Filed Is Required </mat-error>
+            }
+        </mat-form-field>
+        <mat-icon
+            matPrefix
+            class="icon-size-1 cursor-pointer sm:flex"
+            [svgIcon]="'heroicons_solid:download'"
+            (click)="openPayorList()"
+        ></mat-icon>
+    </div>
+    <!-- Other RP code -->
+    <!-- <aux-select-dropdown class="w-full" [className]="'w-full'" [label]="'Other RP code'" [selectOption]="dropDownOption"
+  [controlName]="'otherId'" [matForm]="payorsForm">
+</aux-select-dropdown> -->
+
+    <!-- Policy -->
+    <mat-form-field>
+        <mat-label>Policy</mat-label>
+        <input class="uppercase" matInput [formControlName]="'policy'" />
+    </mat-form-field>
+
+    <!-- Add Payor Button -->
+</form>

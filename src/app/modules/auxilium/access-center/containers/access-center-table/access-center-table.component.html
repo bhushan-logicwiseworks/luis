@@ -1,0 +1,16 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <div class="relative overflow-auto bg-white">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'accesscenter'"
+            [columnDefs]="columnDefs"
+            [rowData]="rowData"
+            [visibleColumns]="visibleColumns"
+            [loading]="loading$ | async"
+            [paginatorOption]="paginatorOptions"
+            [agGridHeight]="'calc(100vh - 292px)'"
+            (cellClicked)="selectedRowChange($event)"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

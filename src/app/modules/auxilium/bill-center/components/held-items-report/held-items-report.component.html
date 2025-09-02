@@ -1,0 +1,21 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Title -->
+    <div class="flex w-full bg-white pl-2 pt-2 font-bold dark:bg-transparent">Held Items Report</div>
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'heldItems'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            (cellClicked)="onChangeSelection($event)"
+            [agGridHeight]="'calc(100vh - 378px)'"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

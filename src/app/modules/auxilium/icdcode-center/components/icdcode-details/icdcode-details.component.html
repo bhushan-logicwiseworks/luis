@@ -1,0 +1,249 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="icdCodeDetailsForm" (ngSubmit)="save()" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Patient Demographics Component -->
+        <div class="w-full pb-2 pl-1 pr-1 pt-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-1/2">
+                <!-- Patient Details Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- IcdCode Details -->
+                    <div class="text-secondary my-2 flex items-center text-xl font-semibold">
+                        <mat-icon [svgIcon]="'person_outline'" class="mr-2"></mat-icon>
+                        IcdCode Details
+                    </div>
+
+                    <div class="mt-4 flex flex-col">
+                        <!-- Icd9 Code -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Icd9 Code</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    [formControlName]="'icd9code'"
+                                    placeholder="Icd9 Code"
+                                    matInput
+                                    tabindex="1"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Status</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'status'"
+                                    [placeholder]="'Status'"
+                                    tabindex="2"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label>Description</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:user-circle'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'description'"
+                                    [placeholder]="'Description'"
+                                    tabindex="3"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Change Indicator-->
+                        <div class="flex w-full">
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Change Indicator</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'changeindicator'"
+                                    [placeholder]="'Change Indicator'"
+                                    tabindex="4"
+                                />
+                            </mat-form-field>
+                            <mat-form-field class="w-6/12 pr-2">
+                                <mat-label>Code Status</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'codestatus'"
+                                    [placeholder]="'Code Status'"
+                                    tabindex="5"
+                                />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label>Short Description</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <input
+                                    class="uppercase"
+                                    matInput
+                                    [formControlName]="'shortdescription'"
+                                    [placeholder]="'Short Description'"
+                                    tabindex="6"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <div class="flex w-full flex-col pl-2 md:w-1/2">
+                <!-- Contact Information Section -->
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <div class="flex w-full">
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Icd10 Code</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'icd10code'"
+                                [placeholder]="'Icd10 Code'"
+                                tabindex="7"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Medium Description</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'mediumdescription'"
+                                [placeholder]="'Medium Description'"
+                                tabindex="9"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="w-full pr-2">
+                        <mat-label>Icd10 Description</mat-label>
+                        <mat-icon
+                            matPrefix
+                            class="hidden icon-size-5 sm:flex"
+                            [svgIcon]="'heroicons_solid:printer'"
+                        ></mat-icon>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [formControlName]="'icd10description'"
+                            [placeholder]="'Icd10 Description'"
+                            tabindex="8"
+                        />
+                    </mat-form-field>
+
+                    <div class="flex w-full">
+                        <mat-form-field class="w-6/12 pr-2">
+                            <mat-label>Flags</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:printer'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'flags'"
+                                [placeholder]="'Flags'"
+                                tabindex="10"
+                            />
+                        </mat-form-field>
+                        <mat-form-field
+                            class="w-6/12 pr-2"
+                            [ngClass]="{ 'mb-12': icdCodeDetailsForm.get('inactivedate').hasError('notValidDate') }"
+                        >
+                            <mat-label>Inactive Date </mat-label>
+                            <input
+                                matInput
+                                [formControlName]="'inactivedate'"
+                                [matDatepicker]="inactivedate"
+                                (change)="onDateChange($event, 'inactivedate')"
+                                [placeholder]="dateFormat"
+                                defaultDate
+                                tabindex="11"
+                            />
+                            <mat-datepicker-toggle matIconSuffix [for]="inactivedate"></mat-datepicker-toggle>
+                            <mat-datepicker #inactivedate="matDatepicker"></mat-datepicker>
+                            @if (icdCodeDetailsForm.get('inactivedate').hasError('notValidDate')) {
+                                <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <mat-form-field class="w-full pr-2">
+                                <mat-label>Long Description</mat-label>
+                                <mat-icon
+                                    matPrefix
+                                    class="hidden pb-16 icon-size-5 sm:flex"
+                                    [svgIcon]="'heroicons_solid:printer'"
+                                ></mat-icon>
+                                <textarea
+                                    class="h-20 resize-none uppercase"
+                                    matInput
+                                    [formControlName]="'longdescription'"
+                                    [tabIndex]="12"
+                                    [placeholder]="'Long Description'"
+                                    tabindex="20"
+                                    matTextareaAutosize
+                                    matAutosizeMinRows="10"
+                                ></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,290 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="inventoryCenter" class="wfull">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'patient-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+        <!-- Section 1 -->
+        <div class="m-2 border bg-white p-2 shadow dark:bg-transparent">
+            <div class="flex w-full flex-wrap justify-between">
+                <!-- ID field moved first -->
+                <div class="flex w-full items-center justify-center pr-2 sm:w-1/2 lg:mt-2 lg:w-1/4">
+                    <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">ID</label>
+                    <mat-form-field class="w-full">
+                        <input class="uppercase" matInput formControlName="id" />
+                    </mat-form-field>
+                </div>
+
+                <div class="mt-sm-0 mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:mt-2 lg:w-1/4">
+                    <label class="mr-2 w-fit min-w-[113px] whitespace-nowrap text-right font-medium">Item Code</label>
+                    <mat-form-field class="w-full">
+                        <input class="uppercase" matInput formControlName="itemcode" />
+                    </mat-form-field>
+                </div>
+
+                <div class="mt-xl-0 mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:mt-2 lg:w-1/4">
+                    <label class="mr-2 w-fit min-w-[113px] whitespace-nowrap text-right font-medium">NDC Number</label>
+                    <mat-form-field class="w-full">
+                        <input class="uppercase" matInput formControlName="alternatecode" />
+                    </mat-form-field>
+                </div>
+                <div class="mt-xl-0 mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:mt-2 lg:w-1/4">
+                    <label class="mr-2 w-fit min-w-[113px] whitespace-nowrap text-right font-medium">Class</label>
+                    <aux-select-dropdown
+                        class="mt-0 w-full"
+                        [className]="'w-full'"
+                        [selectOption]="classDropdownList$ | async"
+                        [controlName]="'inventorycategory'"
+                        [matForm]="inventoryCenter"
+                    >
+                    </aux-select-dropdown>
+                </div>
+            </div>
+
+            <div class="mt-2 flex w-full">
+                <div class="flex w-8/12 w-full items-center pr-2">
+                    <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Description</label>
+                    <mat-form-field class="w-full">
+                        <input class="uppercase" matInput formControlName="description" />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="mt-2 flex w-full flex-wrap">
+                <div class="flex w-8/12 w-full items-center pr-2">
+                    <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Description 2</label>
+                    <mat-form-field class="w-full">
+                        <input class="uppercase" matInput formControlName="description2" />
+                    </mat-form-field>
+                </div>
+
+                <div class="mt-sm-0 mt-2 flex w-full items-center sm:w-6/12 lg:w-4/12">
+                    <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Branch</label>
+                    <mat-form-field class="w-full pr-2">
+                        <input
+                            matInput
+                            type="text"
+                            tabindex="4"
+                            class="uppercase"
+                            [formControl]="branchName"
+                            [placeholder]="'Branch'"
+                            [matAutocomplete]="auto2"
+                            #autoInput
+                        />
+                        <mat-autocomplete
+                            #auto2="matAutocomplete"
+                            (optionSelected)="onBranchSelected($event.option.value)"
+                        >
+                            <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                                {{ option.branchcode }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <!-- Section 2 -->
+        <div class="m-2 border bg-white p-2 shadow dark:bg-transparent">
+            <!-- first row -->
+            <div class="flex flex-col">
+                <div class="flex flex-wrap justify-between">
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Shipping Units</label>
+                        <aux-select-dropdown
+                            class="w-full pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="shippingDropdownList$ | async"
+                            [controlName]="'unitofmeasure'"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Default Quantity</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="defaultquantity" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Level</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="level" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Span Months</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="span" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <!-- second row -->
+            <div class="mt-2 flex flex-col">
+                <div class="flex w-full flex-wrap justify-between">
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Category</label>
+                        <aux-select-dropdown
+                            class="w-1/3 pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="patientCategoryList$ | async"
+                            [controlName]="'itemcategory'"
+                            [tabindex]="27"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Question Group</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Delivery Divider</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="billingmultiplier" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/4">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Status</label>
+                        <aux-select-dropdown
+                            class="w-full pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="statusDropdownList$ | async"
+                            [controlName]="'itemstatus'"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                </div>
+            </div>
+            <!-- sixth row -->
+            <div class="m-4 flex w-full flex-wrap">
+                <div class="mr-4 flex flex-wrap items-center whitespace-nowrap">
+                    <span>Taxable</span>
+                    <mat-checkbox [color]="'primary'" formControlName="taxable"></mat-checkbox>
+                </div>
+                <div class="mr-4 flex flex-wrap items-center whitespace-nowrap">
+                    <span>Print DR Work Orders</span>
+                    <mat-checkbox [color]="'primary'" formControlName="printdrworkorders"></mat-checkbox>
+                </div>
+                <div class="mr-4 flex flex-wrap items-center whitespace-nowrap">
+                    <span>Discreet Packaging</span>
+                    <mat-checkbox [color]="'primary'" formControlName="discreetpackaging"></mat-checkbox>
+                </div>
+                <div class="mr-4 flex flex-wrap items-center whitespace-nowrap">
+                    <span>EPO item</span>
+                    <mat-checkbox [color]="'primary'" formControlName="isepoitem"></mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <!-- Section 3 -->
+        <div class="m-2 border bg-white p-2 shadow dark:bg-transparent">
+            <!-- first row -->
+            <div class="flex flex-col">
+                <div class="flex w-full flex-wrap justify-between">
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Last Cost</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="lastcost" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Make</label>
+                        <aux-select-dropdown
+                            class="w-full pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="makeDropdownList$ | async"
+                            [controlName]="'make'"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Avg Cost</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="averagecost" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <!-- second row -->
+            <div class="mt-2 flex flex-col">
+                <div class="flex w-full flex-wrap">
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Model</label>
+                        <aux-select-dropdown
+                            class="w-full pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="modelDropdownList$ | async"
+                            [controlName]="'model'"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Purchase Mult</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="purchasemultiplier" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Manufacturer</label>
+                        <aux-select-dropdown
+                            class="w-full pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="manufacturerDropdownList$ | async"
+                            [controlName]="'manufacturer'"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                </div>
+            </div>
+            <!-- fourth row -->
+            <div class="mt-2 flex flex-col">
+                <div class="flex w-full flex-wrap justify-between">
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Default Vendor</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="vendor" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Purch U/M</label>
+                        <aux-select-dropdown
+                            class="mt-0 w-full pr-2"
+                            [className]="'w-full'"
+                            [selectOption]="shippingDropdownList$ | async"
+                            [controlName]="'purchaseunitofmeasure'"
+                            [matForm]="inventoryCenter"
+                        ></aux-select-dropdown>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-1/2 lg:w-1/3">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">HCPCS</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="hcpcscode" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <!-- sixth row -->
+            <div class="mt-2 flex flex-col">
+                <div class="flex w-full flex-wrap justify-between">
+                    <div class="flex w-full items-center pr-2 sm:w-6/12">
+                        <label class="w-fit min-w-[113px] whitespace-nowrap font-medium">Vendor SKU</label>
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="vendorsku" />
+                        </mat-form-field>
+                    </div>
+                    <div class="mt-2 flex w-full items-center pr-2 sm:w-6/12">
+                        <label class="mr-2 w-fit min-w-[113px] whitespace-nowrap text-right font-medium"
+                            >Mfr Part#</label
+                        >
+                        <mat-form-field class="w-full">
+                            <input class="uppercase" matInput formControlName="manufacturerpartno" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

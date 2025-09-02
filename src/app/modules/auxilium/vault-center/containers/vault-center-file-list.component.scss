@@ -1,0 +1,64 @@
+// @import 'src/styles/mixins';
+
+// .mat-table .mat-header-cell {
+//   @apply bg-white text-gray-500;
+// }
+
+// .mat-row {
+//   @apply cursor-pointer;
+// }
+
+// .mat-row:not(.mat-header-row):not(.active) {
+//   &:hover {
+//     @apply bg-blue-100 transition cursor-pointer;
+//   }
+// }
+
+// .mat-row.active {
+//   @apply bg-blue-200 transition;
+// }
+
+// @include mat-table-columns((
+
+//   logo: (width: 5%),
+//   displayName: (width: 55%),
+//   contentSize: (width: 15%),
+//   modifiedDate: (width: 15%, align: flex-end)
+// ));
+
+// .vault-center-list {
+//   ::ng-deep .mat-progress-bar-fill::after {
+//     @apply bg-blue-500;
+//   }
+
+//   ::ng-deep .mat-progress-bar {
+//     border-radius: 0;
+//   }
+// }
+// .vault-center-list {
+//   .cdk-drag-placeholder {
+//     display: none;
+//   }
+// }
+// .cdk-drag-preview {
+
+// }
+
+// .gallery-items {
+//   @media only screen and (max-width: 600px) {
+//     width: 25%;
+//   }
+//   @media only screen and (min-width: 600px) and (max-width: 800px) {
+//     width: 20%;
+//   }
+//   @media only screen and (min-width: 800px) and (max-width: 1500px) {
+//     width: 12.5%;
+//   }
+//   @media only screen and (min-width: 1500px) and (max-width: 1800px) {
+//     width: 10%;
+//   }
+//   @media only screen and (min-width: 1800px) {
+//     width: 8.33%;
+//   }
+
+// }

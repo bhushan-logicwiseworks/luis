@@ -1,0 +1,32 @@
+<div style="min-width: 250px" class="rounded border-gray-800 bg-white py-2 shadow-xl" @scaleInOut>
+    @if (fileActions.type === 'file') {
+        <button mat-menu-item class="hover:text-blue-500" (click)="downloadFile()">
+            <ic-icon [icon]="icCloudDownload" [inline]="true" size="18px" class="mr-4"></ic-icon>
+            <span>Download</span>
+        </button>
+    }
+    @if (fileActions.type === 'file') {
+        <button mat-menu-item class="hover:text-blue-500" (click)="fileActions.previewFile()">
+            <ic-icon [icon]="icEye" [inline]="true" size="18px" class="mr-4"></ic-icon>
+            <span>Preview</span>
+        </button>
+    }
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="hover:text-blue-500" (click)="fileActions.generateLink()">
+        <ic-icon [icon]="icLink" [inline]="true" size="18px" class="mr-4"></ic-icon>
+        <span>Create direct link</span>
+    </button>
+    <!--  <button mat-menu-item class="hover:text-blue-500">-->
+    <!--    <ic-icon [icon]="icCopyAll" [inline]="true" size="18px" class="mr-4"></ic-icon>-->
+    <!--    <span>Copy/Move</span>-->
+    <!--  </button>-->
+    <button mat-menu-item class="hover:text-blue-500" (click)="fileActions.rename()">
+        <ic-icon [icon]="icEdit" [inline]="true" size="18px" class="mr-4"></ic-icon>
+        <span>Rename</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="text-red-500" (click)="fileActions.deleteFile()">
+        <ic-icon [icon]="icTrash" [inline]="true" size="18px" class="mr-4"></ic-icon>
+        <span>Remove</span>
+    </button>
+</div>

@@ -1,0 +1,1 @@
+import{c as r,d as i,f as t,i as n}from"./chunk-M4WH542H.js";function e(o){return r("growIn",[n(":enter",[t({width:0,overflow:"hidden"}),i(`${o}ms cubic-bezier(0.35, 0, 0.25, 1)`,t({width:"*"}))])])}var w=e(400);export{w as a};

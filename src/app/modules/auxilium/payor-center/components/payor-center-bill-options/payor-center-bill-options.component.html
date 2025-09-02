@@ -1,0 +1,254 @@
+<div class="payor-bill-options flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="payorBilloptionForm" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'payor-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Bill Options Details -->
+        <div class="w-full p-2 md:flex">
+            <!-- LEFT COLUM -->
+            <div class="flex w-full flex-col md:w-4/12">
+                <div class="flex flex-col bg-white p-4 shadow dark:bg-transparent">
+                    <!-- Bill-to Code / Bill-to Name -->
+                    <div class="flex flex-col">
+                        <div class="flex w-full">
+                            <div class="flex flex-col">
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="enablebranchbilling"
+                                        >Enable Branch Billing</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="printsocsec"
+                                        >Print SocSec</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="sendfacility4pos11"
+                                        >Send Facility 4 POS11</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="create0oi"
+                                        >Create =&lt;0 Bal Open Items
+                                    </mat-checkbox>
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="npionly"
+                                        >NPI Only Billing
+                                    </mat-checkbox>
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="realtimeedi"
+                                        >RealTime EDI</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="use5010"
+                                        >Use ANSI 5010 Format</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="useicd10"
+                                        >Use ICD10</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="taxable"
+                                        >Taxable</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="spandates"
+                                        >Span Dates</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="kitbilling"
+                                        >Send 0 Bal Open Items</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="usepayernpiandtaxid"
+                                        >Use Payer NPI and TaxID</mat-checkbox
+                                    >
+                                </div>
+                                <div class="flex w-full items-center">
+                                    <mat-checkbox [color]="'primary'" class="mr-2" formControlName="holdfrombilling">
+                                        Hold From Billing Until
+                                    </mat-checkbox>
+                                    <mat-form-field appearance="outline" class="m-0 ml-2 w-32">
+                                        <input
+                                            matInput
+                                            [matDatepicker]="datepicker"
+                                            formControlName="holdfrombillinguntildate"
+                                            placeholder="MM/DD/YYYY"
+                                            defaultDate
+                                        />
+                                        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #datepicker="matDatepicker"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="flex w-full">
+                                    <mat-checkbox
+                                        [color]="'primary'"
+                                        class="mr-2"
+                                        formControlName="holdprimaryifthisissecondary"
+                                        >Hold Primary if this is Secondary</mat-checkbox
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <!-- COMPACT FORM COLUMN -->
+            <div class="w-full pl-2">
+                <div class="bg-white p-2 shadow dark:bg-transparent">
+                    <div class="grid gap-y-1">
+                        <div class="pb-2 pt-2"></div>
+
+                        <!-- Claim Filing Indicator -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">SBR09 Claim Filing Indicator:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-32">
+                                <mat-select
+                                    [formControlName]="'claimindicator'"
+                                    [panelClass]="'w-72 min-w-72 max-w-96 h-60'"
+                                >
+                                    <mat-select-trigger>{{ selectedClaimIndicator }}</mat-select-trigger>
+                                    @for (indicator of claimIndicator$ | async; track indicator) {
+                                        <mat-option [value]="indicator.code">
+                                            <div class="flex gap-6">
+                                                <h2 class="font-extrabold">{{ indicator.code }}</h2>
+                                                {{ indicator.description }}
+                                            </div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Place of Service -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Place of Service:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="pos" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Suppress Referring Physician -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Suppress Referring Physician in 837 claims:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="tos" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Rental Cap Months -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Rental Cap Months:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="rentcap" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- EDI Test or Production -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">EDI Test or Production:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="testprodedi" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 5010 Test or Production -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">5010 Test or Production:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="testprod5010" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Recurring Orders Cycle Days -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Recurring Orders Cycle Days:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="recurcycledays" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Timely Filing Days -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Timely Filing Days - Initial:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="timelyfilingdays" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Resubmit -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Resubmit:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="resubmitdays" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- EDI Password -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">EDI Password:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="edipassword" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- EDI Sender -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">EDI Sender:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="edisender" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- EDI Receiver -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">EDI Receiver:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="edireceiver" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- PWK Fax Cover -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">PWK Fax Cover:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-80">
+                                <input class="uppercase" matInput formControlName="pwkfaxcover" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- Use Company Info -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right"></label>
+                            <mat-checkbox [color]="'primary'" formControlName="usecompanyinfoinbox33and2010ab">
+                                Use Company Info in Box 33 & Loop 2010AB
+                            </mat-checkbox>
+                        </div>
+
+                        <div class="pb-2 pt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payor-bill-info section -->
+        <div class="w-full bg-white shadow dark:bg-transparent md:flex">
+            <div class="flex w-full flex-col md:w-1/2"></div>
+            <div class="flex w-full flex-col pl-2 md:w-1/2"></div>
+        </div>
+    </form>
+</div>

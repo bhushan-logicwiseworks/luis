@@ -1,0 +1,136 @@
+<div class="flex w-full flex-col">
+    <!-- <Detailed info> -->
+    <form [formGroup]="contactForm" (ngSubmit)="updateUserDetails()">
+        <div class="relative flex flex-auto flex-col items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- Main Section -->
+                <div class="mt-2 flex flex-col space-y-8 border-t pt-4">
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>ID</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'id'"
+                                [placeholder]="'Id'"
+                                readonly
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Patient Id</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'patientId'"
+                                [placeholder]="'Patient Id'"
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <!-- GUID -->
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>GUID</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'mat_outline:qr_code_2'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'guid'"
+                                [placeholder]="'GUID'"
+                                readonly
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <!-- User Email -->
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>User Email</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_outline:mail'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'userEmail'"
+                                [placeholder]="'User Email'"
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <!-- Is Email Confirmed -->
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Email Confirmed</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'mat_outline:confirmation_number'"
+                            ></mat-icon>
+                            <mat-select [formControlName]="'isEmailConfirmed'" [placeholder]="'Electronic Consent'">
+                                <mat-option [value]="true">TRUE</mat-option>
+                                <mat-option [value]="false">FALSE</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Is Electronic Consent -->
+                    <div>
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Electronic Consent</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'mat_outline:confirmation_number'"
+                            ></mat-icon>
+                            <mat-select [formControlName]="'isElectronicConsent'" [placeholder]="'Electronic Consent'">
+                                <mat-option [value]="true">TRUE</mat-option>
+                                <mat-option [value]="false">FALSE</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <!-- Electronic Consent Date -->
+                    <div>
+                        <mat-form-field class="custom-datepicker-toggle w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Electronic Consent Date</mat-label>
+                            <div class="input-container">
+                                <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                                <input
+                                    matInput
+                                    [formControlName]="'electronicConsentDate'"
+                                    [matDatepicker]="datepicker1"
+                                    defaultDate
+                                    [placeholder]="dateFormat"
+                                    (change)="onDateChange($event, 'electronicConsentDate')"
+                                />
+                            </div>
+                            <mat-datepicker #datepicker1="matDatepicker"></mat-datepicker>
+                            @if (contactForm.get('electronicConsentDate').hasError('notValidDate')) {
+                                <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

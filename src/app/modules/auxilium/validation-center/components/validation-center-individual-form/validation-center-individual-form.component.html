@@ -1,0 +1,293 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- PHYKEY -->
+            <!-- <div class="mt-4">
+      <mat-form-field
+        class="w-full"
+        [subscriptSizing]="'dynamic'">
+        <mat-label>PHYKEY</mat-label>
+        <mat-icon
+          matPrefix
+          class="hidden sm:flex icon-size-5"
+        [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        <input
+          class="uppercase"
+          matInput
+          [formControlName]="'phykey'"
+          [placeholder]="'PHYKEY'"
+          [spellcheck]="false">
+        </mat-form-field>
+      </div> -->
+
+            <!-- First Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Entity</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'entity'"
+                        [placeholder]="'Entity'"
+                        [spellcheck]="false"
+                        tabindex="1"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Last Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Title</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'title'"
+                        [placeholder]="'Title'"
+                        [spellcheck]="false"
+                        tabindex="2"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Facility -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Fail Code</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'failcode'"
+                        [placeholder]="'Fail Code'"
+                        [spellcheck]="false"
+                        tabindex="2"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Address1 -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Fail Message</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'failmessage'"
+                        [placeholder]="'Fail Message'"
+                        tabindex="3"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Address2 -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Bypass For Payors</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'bypassforpayors'"
+                        [placeholder]="'Bypass For Payors'"
+                        tabindex="4"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- City -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Execute For Payors</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'executeforpayors'"
+                        [placeholder]="'Execute For Payors'"
+                        tabindex="6"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Email -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Add Date</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'adddate'"
+                        [placeholder]="'Add Date'"
+                        [spellcheck]="false"
+                        tabindex="10"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- UPIN -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Add User Id</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        [formControlName]="'adduserid'"
+                        [placeholder]="'Add User Id'"
+                        numbers
+                        tabindex="11"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Memo -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Notes</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <textarea
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'notes'"
+                        [placeholder]="'Notes'"
+                        tabindex="12"
+                        matTextareaAutosize
+                        matAutosizeMinRows="8"
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- MEDICAID NUMBER -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>columns</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input matInput [formControlName]="'columns'" [placeholder]="'Columns'" numbers tabindex="12" />
+                </mat-form-field>
+            </div>
+
+            <!-- STATEID -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Severity</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        maxlength="20"
+                        [formControlName]="'severity'"
+                        [placeholder]="'SEVERITY'"
+                        tabindex="15"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- NPI -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Validate For Mode</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        maxlength="15"
+                        [formControlName]="'validateformode'"
+                        [placeholder]="'Validate For Mode'"
+                        numbers
+                        tabindex="16"
+                    />
+                </mat-form-field>
+            </div>
+
+            <div class="mt-4 flex flex-col">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Bill Forms To Skip</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:printer'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        maxlength="15"
+                        [formControlName]="'billformstoskip'"
+                        [placeholder]="'Bill Forms To Skip'"
+                        numbers
+                        tabindex="17"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Is Active -->
+            <div class="mt-4">
+                <mat-checkbox class="-ml-2" [color]="'primary'" [formControlName]="'isActive'" tabindex="18">
+                    <span>Is Active?</span>
+                </mat-checkbox>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

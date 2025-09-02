@@ -1,0 +1,15 @@
+::ng-deep app-patient-group-edit-work-order .mat-mdc-form-field-bottom-align::before {
+    content: none;
+}
+.group-edit-order {
+    height: -webkit-fill-available;
+}
+::ng-deep app-patient-group-edit-work-order .group-edit-body {
+    .mat-mdc-tab-body-content {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+::ng-deep app-patient-group-edit-work-order .mat-mdc-tab-body-wrapper {
+    height: calc(100vh - 353px);
+}

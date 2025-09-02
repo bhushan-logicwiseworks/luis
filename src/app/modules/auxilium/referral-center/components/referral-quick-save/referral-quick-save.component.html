@@ -1,0 +1,69 @@
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- First Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>First Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'firstname'"
+                        tabindex="1"
+                        [placeholder]="'First Name'"
+                        [spellcheck]="false"
+                    />
+                    <mat-error *ngIf="contactForm.get('firstname').hasError('required')">
+                        First Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!-- Last Name -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Last Name</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'lastname'"
+                        tabindex="2"
+                        [placeholder]="'Last Name'"
+                        [spellcheck]="false"
+                    />
+                    <mat-error *ngIf="contactForm.get('lastname').hasError('required')">
+                        Last Name is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!-- Sales Representative -->
+            <div class="mb-4 mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Sales Representative</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <mat-select [formControlName]="'salesId'" tabindex="3">
+                        <mat-option *ngFor="let value of salesRepList" [value]="value.id"
+                            >{{ value.firstName }} {{ value.lastName }}</mat-option
+                        >
+                    </mat-select>
+                    <mat-error *ngIf="contactForm.get('salesId').hasError('required')">
+                        Sales Representative is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>

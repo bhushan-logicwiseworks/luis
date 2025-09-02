@@ -1,0 +1,60 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'employee-toolbar'">
+        </fuse-horizontal-navigation>
+    </div>
+
+    <div class="flex-auto px-12 pb-12 pt-4 md:p-8 md:pb-12 md:pr-0 lg:p-8 lg:pr-0">
+        <!-- Section -->
+        <div class="w-full">
+            <div class="text-xl font-bold">User Access</div>
+            <div class="text-secondary">This user has access to the following applications/centers:</div>
+        </div>
+
+        <div class="mr-8 flex flex-col divide-y border-b">
+            @for (employee of emplyeeAcessData; track employee) {
+                <div class="flex flex-col py-2 sm:flex-row sm:items-center">
+                    <div class="flex items-center">
+                        <div class="flex h-10 w-10 flex-0 items-center justify-center overflow-hidden rounded-full">
+                            @if (employee.appName) {
+                                <ngx-avatars [name]="employee.appName" size="75"></ngx-avatars>
+                            }
+                        </div>
+                        <div class="ml-4">
+                            <div class="font-medium">{{ employee.appName }}</div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center sm:ml-auto sm:mt-0">
+                        <div class="order-2 ml-4 bg-white dark:bg-transparent sm:order-1 sm:ml-0">
+                            <mat-form-field class="fuse-mat-dense role-select w-32" [subscriptSizing]="'dynamic'">
+                                <mat-select
+                                    [panelClass]="'w-72 min-w-72 max-w-72 h-auto max-h-none'"
+                                    [value]="employee.role"
+                                >
+                                    <mat-select-trigger class="text-md">
+                                        <span>Role:</span>
+                                        <span class="ml-1 font-medium">{{ securityRole[employee.role] }}</span>
+                                    </mat-select-trigger>
+                                    @for (role of roles; track role) {
+                                        <mat-option
+                                            [value]="role.value"
+                                            (click)="changeEmployeeRole(employee, role.value)"
+                                        >
+                                            <div class="font-medium">{{ role.label }}</div>
+                                        </mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="order-1 sm:order-2 sm:ml-3">
+                            <button mat-icon-button (click)="deleteEmployeeAccess(employee)">
+                                <mat-icon class="text-hint" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

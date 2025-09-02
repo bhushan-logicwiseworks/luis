@@ -1,0 +1,159 @@
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- State -->
+            <div class="mt-4">
+                <mat-form-field class="state-select w-full" [subscriptSizing]="'dynamic'" bindLabel="abbreviation">
+                    <mat-label>State</mat-label>
+                    <input
+                        matInput
+                        tabindex="1"
+                        aria-label="State"
+                        [matAutocomplete]="auto"
+                        [formControlName]="'state'"
+                    />
+                    <mat-icon matSuffix class="mr-2 flex-auto text-3xl">arrow_drop_down</mat-icon>
+                    <mat-autocomplete #auto="matAutocomplete">
+                        @for (state of filteredStates | async; track state) {
+                            <mat-option [value]="state.abbreviation">
+                                <span class="mr-1 font-bold">
+                                    {{ state.abbreviation }}
+                                </span>
+                                <span>{{ state.name }}</span>
+                            </mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!-- Category -->
+            <div class="mt-3">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Category</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'mat_outline:category'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        type="text"
+                        tabindex="2"
+                        class="uppercase"
+                        [formControlName]="'category'"
+                        [placeholder]="'Category'"
+                        [matAutocomplete]="auto1"
+                        #autoInput
+                    />
+                    <mat-autocomplete #auto1="matAutocomplete">
+                        @for (option of filteredCategories | async; track option) {
+                            <mat-option [value]="option.name">{{ option.name }}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!-- Is License Required -->
+            <div class="mt-3">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>License Required</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:office-building'"
+                    ></mat-icon>
+                    <mat-select [formControlName]="'isLicenseRequired'" placeholder="Select True or False" tabindex="3">
+                        <mat-option [value]="true">True</mat-option>
+                        <mat-option [value]="false">False</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Branch -->
+            <div class="mt-3">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Branch</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'mat_outline:apartment'"
+                    ></mat-icon>
+                    <input
+                        matInput
+                        type="text"
+                        tabindex="4"
+                        class="uppercase"
+                        [formControl]="branchName"
+                        [placeholder]="'Branch'"
+                        [matAutocomplete]="auto2"
+                        #autoInput
+                    />
+                    <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="onBranchSelected($event.option.value)">
+                        <mat-option *ngFor="let option of branch$ | async" [value]="option">
+                            {{ option.branchcode }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+            <!-- License Number -->
+            <div class="mt-3">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>License Number</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'licenseNumber'"
+                        [placeholder]="'License Number'"
+                        tabindex="5"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Start Date -->
+            <div class="mt-3">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Start Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="statrtDate"
+                        [placeholder]="'Start Date'"
+                        formControlName="statrtDate"
+                        (change)="onDateChange($event, 'statrtDate')"
+                        tabindex="6"
+                    />
+                    <mat-datepicker-toggle matIconSuffix [for]="statrtDate"></mat-datepicker-toggle>
+                    <mat-datepicker #statrtDate="matDatepicker"></mat-datepicker>
+                    @if (contactForm.get('statrtDate').hasError('notValidDate')) {
+                        <mat-error>Please enter valid start date!! It should be {{ statrtDate }} .</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Expiration Date -->
+            <div class="mb-3 mt-3">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Expiration Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="expirationDate"
+                        [placeholder]="'Expiration Date'"
+                        formControlName="expirationDate"
+                        (change)="onDateChange($event, 'expirationDate')"
+                        tabindex="7"
+                    />
+                    <mat-datepicker-toggle matIconSuffix [for]="expirationDate"></mat-datepicker-toggle>
+                    <mat-datepicker #expirationDate="matDatepicker"></mat-datepicker>
+                    @if (contactForm.get('expirationDate').hasError('notValidDate')) {
+                        <mat-error>Please enter valid expiration date!! It should be {{ expirationDate }} .</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>

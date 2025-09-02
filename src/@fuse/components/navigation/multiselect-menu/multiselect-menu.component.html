@@ -1,0 +1,45 @@
+@for (item of menuData; track item) {
+    <div class="menu-navigation">
+        <div class="item-group">
+            <div class="title-group">
+                <span class="title">{{ item.title }}</span>
+                <span class="subTitle">{{ item.subtitle }}</span>
+            </div>
+            <div class="item-body">
+                @for (data of item.children; track data) {
+                    @if (data.link && data.meta && !data.function) {
+                        <a
+                            [ngClass]="isActive(data.meta) == true ? 'dark:bg-gray-800' : ''"
+                            (click)="updateQueryParams(data.meta.key, data.meta.value)"
+                            [routerLink]="[data.link]"
+                            [queryParams]="queryParams"
+                            [class.active]="isActive(data.meta)"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                        >
+                            <mat-icon
+                                [ngClass]="isActive(data.meta) == true ? 'dark:text-white' : 'dark:text-gray-400'"
+                                class="multiple-vertical-navigation-item-icon"
+                                [svgIcon]="data?.icon"
+                            ></mat-icon>
+                            <span [ngClass]="isActive(data.meta) == true ? 'dark:text-white' : 'dark:text-gray-400'">{{
+                                data.title
+                            }}</span>
+                        </a>
+                    }
+                    @if (!data.link && !data.meta && data.function) {
+                        <a (click)="data.function(data)">
+                            <mat-icon
+                                [ngClass]="isActive(data.meta) == true ? 'dark:text-white' : 'dark:text-gray-400'"
+                                class="multiple-vertical-navigation-item-icon"
+                                [svgIcon]="data?.icon"
+                            ></mat-icon>
+                            <span [ngClass]="isActive(data.meta) == true ? 'dark:text-white' : 'dark:text-gray-400'">{{
+                                data.title
+                            }}</span>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}

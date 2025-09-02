@@ -1,0 +1,38 @@
+<!-- UPLOAD DOCUMENT VIEW -->
+<div class="flex max-h-screen max-w-240 flex-col md:min-w-160">
+    <!-- Payors Form -->
+    <form class="flex flex-auto flex-col p-6 sm:p-8" [formGroup]="patientDiagnosisForm" (ngSubmit)="submitCodes()">
+        <!-- order -->
+        <aux-select-dropdown
+            [className]="'w-full'"
+            [label]="'Order'"
+            [selectOption]="order"
+            [controlName]="'order'"
+            [matForm]="patientDiagnosisForm"
+        ></aux-select-dropdown>
+
+        <div class="flex items-baseline">
+            <mat-form-field class="w-11/12 pr-2">
+                <mat-label>Code</mat-label>
+                <input [readonly]="true" class="uppercase" matInput [formControlName]="'name'" [readonly]="true" />
+                @if (patientDiagnosisForm.get('name').hasError('required')) {
+                    <mat-error> Code Filed Is Required </mat-error>
+                }
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openDiagnosisCode()"
+            ></mat-icon>
+        </div>
+
+        <!-- Upload Button -->
+        <div class="mt-4 flex items-center sm:mt-0">
+            <!-- Send -->
+            <!-- <button class="order-first sm:order-last" mat-flat-button [color]="'primary'" type="submit">
+      Add Diagnosis Codes
+    </button> -->
+        </div>
+    </form>
+</div>

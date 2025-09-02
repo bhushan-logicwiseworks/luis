@@ -1,0 +1,179 @@
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <form [formGroup]="careForm" class="w-full max-w-3xl">
+        <!-- Date Assigned / Assigned To / Serviced By -->
+        <div class="mt-4">
+            <!-- Date Assigned -->
+            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Date Assigned</mat-label>
+                <input matInput [matDatepicker]="assignedPicker" [formControlName]="'dateAssigned'" required />
+                <mat-datepicker-toggle matSuffix [for]="assignedPicker"></mat-datepicker-toggle>
+                <mat-datepicker #assignedPicker></mat-datepicker>
+                @if (careForm.get('dateAssigned').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Date Assigned cannot be in the past.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- Due Date -->
+            <mat-form-field class="w-4/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Due Date</mat-label>
+                <input matInput [matDatepicker]="duePicker" [formControlName]="'dueDate'" required />
+                <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
+                <mat-datepicker #duePicker></mat-datepicker>
+                @if (careForm.get('dueDate').hasError('pastDate')) {
+                    <mat-error class="whitespace-nowrap">Due Date cannot be in the past.</mat-error>
+                }
+            </mat-form-field>
+        </div>
+
+        <!-- Assigned To/Serviced By -->
+        <div class="mt-4">
+            <!-- Assigned To -->
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Assigned To</mat-label>
+                <mat-select formControlName="assignedTo">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay>
+
+            <!-- Serviced By -->
+            <mat-form-field class="w-6/12" [subscriptSizing]="'dynamic'">
+                <mat-label>Serviced By</mat-label>
+                <mat-select formControlName="servicedBy">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay>
+        </div>
+
+        <!-- Label -->
+        <div class="mt-4">
+            <div class="mt-2 flex flex-wrap gap-4">
+                <mat-checkbox
+                    *ngFor="let option of labelOptions"
+                    [checked]="option.selected"
+                    (change)="onLabelOptionChecked(option)"
+                    color="primary"
+                >
+                    {{ option.name }}
+                </mat-checkbox>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <!-- Insurance ID -->
+            <mat-form-field class="w-6/12 pr-2" [subscriptSizing]="'dynamic'">
+                <mat-label>Insurance ID</mat-label>
+                <input class="uppercase" matInput [formControlName]="'insuranceId'" required />
+            </mat-form-field>
+
+            <!-- Insurance Updated -->
+            <mat-form-field class="w-6/12" [subscriptSizing]="'dynamic'">
+                <mat-label>Insurance Updated</mat-label>
+                <mat-select [formControlName]="'insuranceUpdated'" required>
+                    <mat-option [value]="true">Yes</mat-option>
+                    <mat-option [value]="false">No</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- Billing Code -->
+        <div class="mt-4">
+            <mat-label>Billing Code</mat-label>
+            <div class="mt-2 flex flex-wrap gap-4">
+                <mat-checkbox
+                    *ngFor="let option of billingCodeOptions"
+                    [checked]="option.selected"
+                    (change)="onBillingCodeChecked(option)"
+                    color="primary"
+                >
+                    {{ option.code }}
+                </mat-checkbox>
+            </div>
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <input class="uppercase" matInput [formControlName]="'billingCode'" readonly required />
+            </mat-form-field>
+        </div>
+
+        <!-- Billing Details -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Billing Details</mat-label>
+                <mat-select [formControlName]="'billingDetails'" required>
+                    <mat-option *ngFor="let option of billingDetailsOptions" [value]="option">
+                        {{ option }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <!-- Updated by User -->
+        <div *ngIf="showUpdatedByUser" class="mt-4 flex items-center">
+            <mat-form-field class="w-6/12" [subscriptSizing]="'dynamic'">
+                <mat-label>Updated by User</mat-label>
+                <mat-select formControlName="updatedByUser">
+                    @for (owner of owners$ | async; track owner) {
+                        <mat-option class="uppercase" [value]="owner.networkName">{{ owner.networkName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <ac-loading-overlay [diameter]="50" [show]="loadingOwners$ | async" type="spinner"></ac-loading-overlay>
+        </div>
+
+        <!-- Noble ID -->
+        <div class="mt-4">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Noble ID</mat-label>
+                <input class="uppercase" matInput [formControlName]="'nobleId'" />
+            </mat-form-field>
+        </div>
+
+        <!-- Sent for Shipment -->
+        <div class="mt-4">
+            <mat-checkbox
+                [checked]="careForm.get('sentForShipment').value === 'Y'"
+                (change)="onSentForShipmentChange($event)"
+                color="primary"
+            >
+                Sent for Shipment
+            </mat-checkbox>
+        </div>
+
+        <!-- Shipment Date -->
+        <div class="mt-4" *ngIf="careForm.get('sentForShipment').value === 'Y'">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Shipment Date</mat-label>
+                <input matInput [matDatepicker]="shipmentPicker" [formControlName]="'shipmentDate'" required />
+                <mat-datepicker-toggle matSuffix [for]="shipmentPicker"></mat-datepicker-toggle>
+                <mat-datepicker #shipmentPicker></mat-datepicker>
+                <!--  @if (careForm.get('shipmentDate').hasError('futureDateNotAllowed')) {
+                    <mat-error class="whitespace-nowrap">Shipment date must be of today OR from the past.</mat-error>
+                } -->
+            </mat-form-field>
+        </div>
+
+        <!-- Contact Note (Visible only when adding a new record) -->
+        <div class="mt-4" *ngIf="!patientCareManagement">
+            <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                <mat-label>Contact Note</mat-label>
+                <textarea class="uppercase" matInput [formControlName]="'contactNote'" rows="2"></textarea>
+            </mat-form-field>
+        </div>
+
+        <!-- Alert -->
+        <fuse-alert
+            *ngIf="alert"
+            [appearance]="'outline'"
+            [type]="alert.type"
+            [showIcon]="false"
+            [@shake]="true"
+            class="mt-4"
+        >
+            {{ alert.message }}
+        </fuse-alert>
+    </form>
+</div>

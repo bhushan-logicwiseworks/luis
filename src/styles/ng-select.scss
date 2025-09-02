@@ -1,0 +1,41 @@
+.fix-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 17px;
+    color: rgba(148, 163, 184, 1);
+}
+.state {
+    &.ng-select {
+        padding: 0;
+
+        .ng-select-container {
+            &.ng-appearance-outline {
+                min-height: 48px;
+
+                .ng-value {
+                    padding-left: 42px;
+
+                    .ng-value-label {
+                        line-height: 1;
+                        display: block;
+                        text-transform: uppercase;
+                    }
+                }
+
+                .ng-arrow-wrapper {
+                    bottom: 16px !important;
+                }
+            }
+
+            .ng-value-container {
+                .ng-input {
+                    padding: 0 10px 0 48px;
+                    input {
+                        padding-left: 35px !important;
+                    }
+                }
+            }
+        }
+    }
+}

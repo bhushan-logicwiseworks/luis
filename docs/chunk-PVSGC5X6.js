@@ -1,0 +1,1 @@
+import{Db as i,Ma as e,od as a}from"./chunk-3Q5CJMKA.js";var m=(()=>{class r extends a{transform(t,o){return t==="1900-01-01T00:00:00"||t==="0001-01-01T00:00:00"?"":super.transform(t,"M/d/yyyy")}static{this.\u0275fac=(()=>{let t;return function(s){return(t||(t=e(r)))(s||r)}})()}static{this.\u0275pipe=i({name:"dateformat",type:r,pure:!0})}}return r})();export{m as a};

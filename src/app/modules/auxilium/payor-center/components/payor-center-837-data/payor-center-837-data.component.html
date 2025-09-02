@@ -1,0 +1,175 @@
+<div class="payor-837-data flex flex-auto flex-col overflow-hidden">
+    <form [formGroup]="payor837DataForm" class="w-full">
+        <!-- Toolbar -->
+        <div class="flex w-full bg-white p-1 shadow dark:bg-transparent">
+            <fuse-horizontal-navigation
+                [navigation]="toolbarData"
+                [name]="'payor-toolbar'"
+            ></fuse-horizontal-navigation>
+        </div>
+
+        <!-- Bill Options Details -->
+        <div class="w-full p-2 md:flex md:flex-wrap lg:flex-nowrap">
+            <!-- LEFT COLUM -->
+            <div class="mr-2 w-full">
+                <div class="bg-white p-2 shadow dark:bg-transparent">
+                    <div class="grid gap-y-1">
+                        <div class="pb-2 pt-2"></div>
+
+                        <!-- Clearinghouse -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Clearinghouse</label>
+                            <aux-select-dropdown
+                                class="w-32"
+                                [className]="'w-full'"
+                                [label]="''"
+                                [selectOption]="clearinghouseList$ | async"
+                                [matForm]="payor837DataForm"
+                                [controlName]="'clearinghouseid'"
+                            >
+                            </aux-select-dropdown>
+                        </div>
+
+                        <!-- Clearinghouse Payor ID -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">Clearinghouse Payor ID:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-32">
+                                <input class="uppercase" matInput formControlName="clearinghousepayorid" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- ISA03 Security Info Qualifier -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">ISA03 Security Info Qualifier:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="securityinfoqualifier" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- ISA04 Security Info -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">ISA04 Security Info:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="securityinfo" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- ISA06 Sender ID -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">ISA06 Sender ID:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="senderid" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- ISA07 ID Qualifier -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">ISA07 ID Qualifier:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="idqualifier" />
+                            </mat-form-field>
+                        </div>
+                        <!-- ISA08 Receiver ID -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">ISA08 Receiver ID:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="receiverid" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- GS02 Sender Code -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">GS02 Sender Code:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="sendercode" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- GS03 Receiver Code -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">GS03 Receiver Code:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="receivercode" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 1000A NM109 Plan Qualifier -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">1000A NM109 Plan Qualifier:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-16">
+                                <input class="uppercase" matInput formControlName="planqualifier" />
+                            </mat-form-field>
+                        </div>
+
+                        <!-- 1000A NM109 Submitter -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">1000A NM109 Submitter:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="submitter" />
+                            </mat-form-field>
+                        </div>
+                        <!-- 1000B NM109 Plan ID -->
+                        <div class="flex items-center gap-x-2">
+                            <label class="w-80 text-right">1000B NM109 Plan ID:</label>
+                            <mat-form-field appearance="outline" class="m-0 w-48">
+                                <input class="uppercase" matInput formControlName="plancode" />
+                            </mat-form-field>
+                        </div>
+
+                        <div class="pb-2 pt-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUM -->
+            <!-- COMPACT FORM COLUMN -->
+            <div class="mt-2 w-full md:mr-2 md:mt-2 lg:mr-0 lg:mt-0">
+                <div class="bg-white p-2 shadow dark:bg-transparent">
+                    <div class="grid gap-y-1">
+                        <div class="pb-2 pt-2"></div>
+
+                        <!-- Separators and Claim File -->
+                        <div class="mb-4 flex flex-col gap-y-2">
+                            <div class="flex items-center gap-x-2">
+                                <label class="w-56 text-right">Repetition Separator:</label>
+                                <mat-form-field appearance="outline" class="m-0 w-16">
+                                    <input class="uppercase" matInput formControlName="repetitionseparator" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <label class="w-56 text-right">Component Element Separator:</label>
+                                <mat-form-field appearance="outline" class="m-0 w-16">
+                                    <input class="uppercase" matInput formControlName="componentelementseparator" />
+                                </mat-form-field>
+                            </div>
+                            <div class="flex items-center gap-x-2">
+                                <label class="w-56 text-right">Claim File Name:</label>
+                                <mat-form-field appearance="outline" class="m-0 w-64">
+                                    <input class="uppercase" matInput formControlName="claimfile" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="ml-56 flex flex-col gap-y-2">
+                            <mat-checkbox [color]="'primary'" formControlName="sendtaxonomy">
+                                Send Taxonomy
+                            </mat-checkbox>
+                            <mat-checkbox [color]="'primary'" formControlName="crlf"> CRLF </mat-checkbox>
+                            <mat-checkbox [color]="'primary'" formControlName="donotsendtaxonomyon837copay">
+                                No Taxonomy 837 Copay
+                            </mat-checkbox>
+                            <mat-checkbox [color]="'primary'" formControlName="usepatientinfoin2310c">
+                                Use Patient Info For 2310C (Facility)
+                            </mat-checkbox>
+                            <mat-checkbox [color]="'primary'" formControlName="usediag24easenteredoncharge">
+                                Use Diag24E as Entered on Charge
+                            </mat-checkbox>
+                        </div>
+
+                        <div class="pb-4 pt-5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

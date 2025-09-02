@@ -1,0 +1,107 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+    @if (showAlert && alert.message) {
+        <div>
+            <fuse-alert [type]="'warn'">
+                <span fuseAlertTitle>Warn alert</span>
+                {{ alert.message }}
+            </fuse-alert>
+        </div>
+    }
+    <div class="relative overflow-auto bg-white dark:bg-transparent">
+        <div class="relative overflow-auto bg-white dark:bg-transparent">
+            <aux-ag-grid
+                [gridOptions]="options"
+                [rowData]="rowData"
+                [agGridHeight]="'calc(100vh - 471px)'"
+                [columnDefs]="columnDefs"
+                [visibleColumns]="visibleColumns"
+                (rowSelectionChange)="onSelectionChanged($event)"
+                [loading]="loading$ | async"
+            >
+            </aux-ag-grid>
+        </div>
+        <div class="lg:flex">
+            <!-- Work Order Total -->
+            <div class="ml-2 mr-2 w-full border-t-2 bg-white pl-2 pr-2 pt-2 dark:bg-transparent lg:w-1/2">
+                <div class="flex w-full items-baseline">
+                    <div class="whitespace-nowrap pr-2">Work Order Total</div>
+                    <mat-form-field class="w-6/12 pr-2">
+                        <mat-label>Primary</mat-label>
+                        <span matPrefix class="text-black">$&nbsp;</span>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [ngClass]="{ 'bg-red-500 text-white': workOrderTotalObj.dueprimary < 0 }"
+                            [(ngModel)]="workOrderTotalObj.dueprimary"
+                            readonly
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="w-6/12 pr-2">
+                        <mat-label>Co-pay</mat-label>
+                        <span matPrefix class="text-black">$&nbsp;</span>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [ngClass]="{ 'bg-red-500 text-white': workOrderTotalObj.duesecondary < 0 }"
+                            [(ngModel)]="workOrderTotalObj.duesecondary"
+                            readonly
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="w-6/12 pr-2">
+                        <mat-label>Total</mat-label>
+                        <span matPrefix class="text-black">$&nbsp;</span>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [ngClass]="{ 'bg-red-500 text-white': workOrderTotalObj.total < 0 }"
+                            [(ngModel)]="workOrderTotalObj.total"
+                            readonly
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- INVOICE TOTALS -->
+            <div class="ml-2 mr-2 w-full border-t-2 bg-white pl-2 pr-2 pt-2 dark:bg-transparent lg:w-1/2">
+                <div class="flex w-full items-baseline">
+                    <div class="whitespace-nowrap pr-2">Invoice Total</div>
+                    <mat-form-field class="w-6/12 pr-2">
+                        <mat-label>Invoice#</mat-label>
+                        <input class="uppercase" matInput [(ngModel)]="invoiceTotalObj.invoice_number" readonly />
+                    </mat-form-field>
+                    <mat-form-field class="w-6/12 pr-2">
+                        <mat-label>Profit/Loss$</mat-label>
+                        <span matPrefix class="text-black">$&nbsp;</span>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [ngClass]="{
+                                'bg-red-500 text-white': invoiceTotalObj.profit < 0,
+                                'bg-green-500 text-white': invoiceTotalObj.profit > 0,
+                            }"
+                            [(ngModel)]="invoiceTotalObj.profit"
+                            readonly
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="w-6/12 pr-2">
+                        <mat-label>Margin%</mat-label>
+                        <span matPrefix class="text-black">$&nbsp;</span>
+                        <input
+                            class="uppercase"
+                            matInput
+                            [ngClass]="{
+                                'bg-red-500 text-white': invoiceTotalObj.profit < 0,
+                                'bg-green-500 text-white': invoiceTotalObj.profit > 0,
+                            }"
+                            [(ngModel)]="invoiceTotalObj.margin"
+                            readonly
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

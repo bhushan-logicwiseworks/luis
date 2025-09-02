@@ -1,0 +1,79 @@
+<form class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-6 sm:pb-0" [formGroup]="addForm">
+    <!-- First Name -->
+    <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>First Name</mat-label>
+        <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'firstname'"
+            [placeholder]="'First Name'"
+            [spellcheck]="false"
+            tabindex="1"
+        />
+    </mat-form-field>
+
+    <!-- Last Name -->
+    <mat-form-field class="mt-4 w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>Last Name</mat-label>
+        <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+        <input
+            class="uppercase"
+            matInput
+            [formControlName]="'lastname'"
+            [placeholder]="'Last Name'"
+            [spellcheck]="false"
+            tabindex="2"
+        />
+    </mat-form-field>
+
+    <aux-select-dropdown
+        [className]="'w-full mt-4'"
+        [tabindex]="3"
+        [label]="'Sex'"
+        [selectOption]="dropDownOption['sex']"
+        [controlName]="'sex'"
+        [matForm]="addForm"
+    ></aux-select-dropdown>
+
+    <!-- Date Of Birth -->
+    <mat-form-field
+        class="custom-datepicker-toggle w-full"
+        [ngClass]="{ 'mb-5': addForm.get('dob').hasError('notValidDate') }"
+    >
+        <mat-label>Date of Birth</mat-label>
+        <div class="input-container">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <input
+                matInput
+                [formControlName]="'dob'"
+                [matDatepicker]="datepicker"
+                (change)="onDateChange($event, 'dob')"
+                [placeholder]="dateFormat"
+                tabindex="4"
+            />
+        </div>
+        <mat-datepicker #datepicker="matDatepicker"></mat-datepicker>
+        @if (addForm.get('dob').hasError('notValidDate')) {
+            <mat-error>Please enter a valid date! It should be {{ dateFormat }}.</mat-error>
+        }
+    </mat-form-field>
+
+    <!-- Phone -->
+    <mat-form-field class="mb-4 w-full" [subscriptSizing]="'dynamic'">
+        <mat-label>Phone</mat-label>
+        <mat-icon matPrefix class="hidden icon-size-5 sm:flex" [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+        <input
+            matInput
+            [formControlName]="'phone'"
+            [value]="'' | phone"
+            mask="(000) 000-0000"
+            [showMaskTyped]="true"
+            [placeholder]="'Phone'"
+            numbers
+            tabindex="5"
+        />
+    </mat-form-field>
+
+    <!-- Actions -->
+</form>

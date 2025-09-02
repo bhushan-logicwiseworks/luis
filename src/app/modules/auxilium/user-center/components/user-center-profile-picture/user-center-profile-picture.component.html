@@ -1,0 +1,124 @@
+<div class="flex w-full flex-col">
+    <!-- View mode -->
+    @if (!editMode) {
+        <!-- Header -->
+        <div class="relative h-40 w-full bg-accent-100 px-8 dark:bg-accent-700 sm:h-48 sm:px-12">
+            <!-- Background -->
+            <ng-container>
+                <img
+                    class="absolute inset-0 h-full w-full object-cover"
+                    [src]="profileBackgroundImage$ | async | getimage: profilePicture.BackgroundImage"
+                />
+            </ng-container>
+        </div>
+        <!-- Contact -->
+        <div class="relative flex flex-auto flex-col items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- Avatar and actions -->
+                <div class="-mt-16 flex flex-auto items-end">
+                    <!-- Avatar -->
+                    <div
+                        class="ring-bg-card flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-white ring-4"
+                        style="margin: 0 0 0 auto"
+                    >
+                        <img
+                            class="h-full w-full object-cover"
+                            [src]="profilePicData$ | async | getimage: profilePicture.Picture"
+                        />
+                    </div>
+                    <!-- Actions -->
+                    <div class="mb-1 ml-auto flex items-center">
+                        <button mat-stroked-button (click)="toggleEditMode(true)">
+                            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:pencil-alt'"></mat-icon>
+                            <span class="ml-2">Edit</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Edit mode -->
+    @if (editMode) {
+        <!-- Header -->
+        <div class="relative h-40 w-full overflow-hidden bg-accent-100 dark:bg-accent-700 sm:h-48">
+            <!-- Background -->
+            <div class="relative flex h-full items-center justify-center" style="margin: 0 0 0 auto">
+                <!-- Upload / Remove avatar -->
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                <div class="absolute inset-0 z-20 items-center justify-center">
+                    <div>
+                        <input
+                            id="avatar-file-backgroun"
+                            class="pointer-events-none invisible absolute h-0 w-0 opacity-0"
+                            type="file"
+                            [multiple]="false"
+                            [accept]="'image/jpeg, image/png'"
+                            (change)="uploadAvatar(backgroundAvtar.files, profilePicture.BackgroundImage)"
+                            #backgroundAvtar
+                        />
+                        <label
+                            class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-hover"
+                            for="avatar-file-backgroun"
+                            matRipple
+                        >
+                            <mat-icon class="text-white" [svgIcon]="'heroicons_outline:camera'"></mat-icon>
+                        </label>
+                    </div>
+                </div>
+                <!-- Image/Letter -->
+                <img
+                    class="h-full w-full object-cover"
+                    [src]="profileBackgroundImage$ | async | getimage: profilePicture.BackgroundImage"
+                />
+            </div>
+        </div>
+        <!-- Contact form -->
+        <div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+            <div class="w-full max-w-3xl">
+                <!-- Avatar -->
+                <div class="-mt-16 flex flex-auto items-end">
+                    <div
+                        class="ring-bg-card relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full ring-4"
+                        style="margin: 0 0 0 auto"
+                    >
+                        <!-- Upload / Remove avatar -->
+                        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                        <div class="absolute inset-0 z-20 flex items-center justify-center">
+                            <div>
+                                <input
+                                    id="avatar-file-input"
+                                    class="pointer-events-none invisible absolute h-0 w-0 opacity-0"
+                                    type="file"
+                                    [multiple]="false"
+                                    [accept]="'image/jpeg, image/png'"
+                                    (change)="uploadAvatar(avatarFileInput.files, profilePicture.Picture)"
+                                    #avatarFileInput
+                                />
+                                <label
+                                    class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full hover:bg-hover"
+                                    for="avatar-file-input"
+                                    matRipple
+                                >
+                                    <mat-icon class="text-white" [svgIcon]="'heroicons_outline:camera'"></mat-icon>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Image/Letter -->
+                        <img
+                            class="h-full w-full object-cover"
+                            [src]="profilePicData$ | async | getimage: profilePicture.Picture"
+                        />
+                    </div>
+                    <!-- Actions -->
+                    <div class="mb-1 ml-auto flex items-center">
+                        <!-- Cancel -->
+                        <button class="ml-auto" mat-button [matTooltip]="'Cancel'" (click)="toggleEditMode(false)">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

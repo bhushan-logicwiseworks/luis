@@ -1,0 +1,13 @@
+<div>
+    <aux-ag-grid
+        [gridOptions]="options"
+        [component]="'shortcutcenter'"
+        [rowData]="shortcutListData"
+        [columnDefs]="columnDefs"
+        [visibleColumns]="visibleColumns"
+        [agGridHeight]="'calc(100vh - 312px)'"
+        [loading]="loading$ | async"
+        (rowSelectionChange)="selectionChange($event)"
+    >
+    </aux-ag-grid>
+</div>

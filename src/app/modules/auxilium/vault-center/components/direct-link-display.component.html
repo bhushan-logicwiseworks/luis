@@ -1,0 +1,7 @@
+<div class="flex items-center" id="snackbar-link">
+    <p class="ml-4 flex-auto text-sm leading-normal">{{ data.link }}</p>
+    <button (click)="copy()" [cdkCopyToClipboard]="data.link" class="ml-2 flex" color="primary" mat-button>
+        <ic-icon [icon]="icCopy" size="24px" class="mr-2" [inline]="true"></ic-icon>
+        Copy
+    </button>
+</div>

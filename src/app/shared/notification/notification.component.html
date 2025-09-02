@@ -1,0 +1,28 @@
+<div class="flex items-center">
+    @if (data.type === type.success) {
+        <mat-icon class="flex-none rounded-full bg-white p-1 text-green-500" [icIcon]="icCheck" size="24px"
+            >check</mat-icon
+        >
+    }
+    @if (data.type === type.warning) {
+        <mat-icon class="flex-none rounded-full bg-white p-1 text-amber-500" [icIcon]="icWarning" size="24px"
+            >warning</mat-icon
+        >
+    }
+    @if (data.type === type.error) {
+        <mat-icon class="flex-none rounded-full bg-white p-1 text-red-500" [icIcon]="icError" size="24px"
+            >error</mat-icon
+        >
+    }
+    @if (data.type === type.info) {
+        <mat-icon class="flex-none rounded-full bg-white p-1 text-cyan-500" [icIcon]="icInfo" size="24px"
+            >info</mat-icon
+        >
+    }
+    <p class="ml-4 flex-auto text-sm leading-normal">{{ data.message }}</p>
+    @if (data.dismissable) {
+        <button (click)="dismiss()" class="ml-2 flex-none" mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose" size="24px">close</mat-icon>
+        </button>
+    }
+</div>

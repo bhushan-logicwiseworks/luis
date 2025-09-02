@@ -1,0 +1,37 @@
+<div class="grid w-full min-w-0 grid-cols-1 gap-6 p-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    @for (member of employee; track member) {
+        <div>
+            <div class="bg-card flex flex-auto flex-col items-center overflow-hidden rounded-2xl shadow">
+                <!-- Avatar & Info -->
+                <div class="flex w-full flex-auto flex-col p-8 text-center">
+                    <div class="mx-auto h-32 w-32 overflow-hidden rounded-full">
+                        <ngx-avatars
+                            class="mt-1"
+                            [name]="member?.firstName + ' ' + member?.lastName"
+                            size="128"
+                        ></ngx-avatars>
+                    </div>
+                    <div class="mt-6 font-medium">{{ member?.firstName + ' ' + member?.lastName }}</div>
+                </div>
+                <!-- Email & Phone -->
+                <div class="flex w-full items-center divide-x border-t">
+                    <a
+                        class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                        [href]="'mailto:' + member.email"
+                    >
+                        <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:mail'"></mat-icon>
+                        <span class="ml-2">Email</span>
+                    </a>
+                    <a
+                        class="flex flex-auto items-center justify-center py-4 hover:bg-hover"
+                        [href]="'tel:' + member.cell"
+                    >
+                        <mat-icon class="text-hint icon-size-5" [svgIcon]="'heroicons_solid:phone'"></mat-icon>
+                        <span class="ml-2">Call</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>

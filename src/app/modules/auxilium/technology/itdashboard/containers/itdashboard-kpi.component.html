@@ -1,0 +1,55 @@
+<!-- <ac-secondary-toolbar current="">
+  <ac-breadcrumbs [crumbs]="['Dashboards', 'Key Performance Indicators']" class="flex-auto"></ac-breadcrumbs>
+</ac-secondary-toolbar> -->
+
+<div class="p-4">
+    <div class="md:flex">
+        <!-- COLUMN 1 -->
+        <div class="w-full pr-4 md:w-1/3">
+            <!-- COLUMN 1 : COUNTER 1 - THREATS BY MONTH FOR LAST 6 MONTHS -->
+            <div class="pb-4">
+                <ac-line-chart-tech
+                    class="dark:bg-gray-800"
+                    [iconClasses]="['bg-red-200', 'text-red-500']"
+                    [icon]="icAssessment"
+                    [options]="threatsByMonthChartOptions"
+                    [series]="threatsByMonth"
+                    [value]="currentMonthThreatCount"
+                    label="Threats by month"
+                ></ac-line-chart-tech>
+            </div>
+        </div>
+
+        <!-- COLUMN 2 -->
+        <div class="w-full pr-4 md:w-1/3">
+            <!-- COLUMN 2 : COUNTER 1 - THREAT PERCENTAGE AGAINST TOTAL TRANSACTIONS -->
+            <div class="pb-4">
+                <ac-quick-value-tech
+                    class="dark:bg-gray-800"
+                    [gaugeOptions]="threatGaugeOptions"
+                    [gaugeSeries]="[totalThreatPercentage || 0]"
+                    [iconClasses]="['bg-orange-100', 'text-orange-500']"
+                    [icon]="icBarChar"
+                    [value]="totalThreatCount"
+                    chartPosition="below"
+                    label="% threats against total transactions this month"
+                ></ac-quick-value-tech>
+            </div>
+        </div>
+
+        <!-- COLUMN 3 -->
+        <div class="w-full md:w-1/3">
+            <!-- COLUMN 3 : COUNTER 1 - MONTH WITH HIGHEST THREAT -->
+            <div class="pb-4">
+                <ac-quick-value-tech
+                    class="dark:bg-gray-800"
+                    [iconClasses]="['bg-primary-light', 'text-primary']"
+                    [icon]="icCalendarToday"
+                    [value]="highestThreatCount"
+                    chartPosition="none"
+                    label="Highest number of threats: {{ monthdata }}"
+                ></ac-quick-value-tech>
+            </div>
+        </div>
+    </div>
+</div>

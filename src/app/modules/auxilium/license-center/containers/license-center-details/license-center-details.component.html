@@ -1,0 +1,123 @@
+<div class="flex min-w-0 flex-auto flex-col">
+    <mat-drawer-container class="flex-auto">
+        <ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>
+
+        <!-- Drawer -->
+        <mat-drawer
+            class="w-72 dark:bg-gray-900"
+            [autoFocus]="false"
+            [mode]="drawerMode"
+            [opened]="drawerOpened"
+            #matDrawer
+        >
+            <!-- Patient Details Sidebar -->
+            <div class="mx-6 mt-6 text-2xl font-bold">License Details</div>
+            <fuse-vertical-navigation
+                [appearance]="'default'"
+                [navigation]="menuData$ | async"
+                [inner]="true"
+                [mode]="'side'"
+                [name]="'patient-details-navigation'"
+                [opened]="true"
+            ></fuse-vertical-navigation>
+        </mat-drawer>
+
+        <!-- Drawer content -->
+        <mat-drawer-content class="flex flex-col">
+            <!-- Header -->
+            <div
+                class="bg-card flex flex-0 flex-col dark:bg-transparent sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:pb-0 sm:pb-4 sm:pt-4"
+            >
+                <div class="min-w-0 flex-1">
+                    <!-- Breadcrumbs -->
+                    <div>
+                        <div class="hidden w-full flex-wrap items-center font-medium sm:flex">
+                            <div>
+                                <a class="whitespace-nowrap text-sm font-bold uppercase tracking-wider text-primary-500"
+                                    >Home</a
+                                >
+                            </div>
+                            <div class="ml-1 flex items-center whitespace-nowrap">
+                                <mat-icon
+                                    class="text-secondary icon-size-5"
+                                    [svgIcon]="'heroicons_solid:chevron-right'"
+                                ></mat-icon>
+                                <a
+                                    class="ml-1 whitespace-nowrap text-sm font-bold uppercase tracking-wider text-primary-500"
+                                    [routerLink]="['/company/license-center/']"
+                                    >License Center</a
+                                >
+                            </div>
+                            <div class="ml-1 flex items-center whitespace-nowrap">
+                                <mat-icon
+                                    class="text-secondary icon-size-5"
+                                    [svgIcon]="'heroicons_solid:chevron-right'"
+                                ></mat-icon>
+                                <span
+                                    class="text-secondary ml-1 whitespace-nowrap text-sm font-bold uppercase tracking-wider"
+                                    >{{ title }}</span
+                                >
+                            </div>
+                        </div>
+                        <!-- Breadcrumbs for small devices -->
+                        <div class="flex pl-4 pt-4 sm:hidden">
+                            <a
+                                class="text-secondary -ml-1.5 inline-flex items-center font-medium"
+                                [routerLink]="'./..'"
+                            >
+                                <mat-icon
+                                    class="text-secondary icon-size-5"
+                                    [svgIcon]="'heroicons_solid:chevron-left'"
+                                ></mat-icon>
+                                <span class="ml-1">Back</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="bg-card flex flex-0 flex-col p-6 dark:bg-transparent sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:pb-4 sm:pt-0"
+            >
+                <div class="min-w-0 flex-1">
+                    <!-- Title -->
+                    @if (licenseDetails) {
+                        <div class="flex">
+                            <ngx-avatars class="mr-4 mt-1" [name]="licenseDetails?.state" size="75"></ngx-avatars>
+                            <div class="items-left my-auto">
+                                <div class="grid">
+                                    <h2
+                                        class="my-auto truncate text-2xl font-extrabold leading-7 sm:leading-10 md:text-3xl"
+                                    >
+                                        {{ licenseDetails?.state }}
+                                    </h2>
+                                </div>
+                                <div class="flex items-center">
+                                    <div
+                                        class="mr-2 flex flex-none items-center rounded bg-yellow-300 px-2 text-xs font-medium"
+                                    >
+                                        {{ licenseDetails.id }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Actions -->
+                <div class="mt-6 flex shrink-0 items-center sm:ml-4 sm:mt-0">
+                    <button mat-icon-button (click)="matDrawer.toggle()">
+                        <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main -->
+            <div class="flex-auto">
+                <!-- CONTENT GOES HERE -->
+                <ac-loading-overlay [show]="loading$ | async"></ac-loading-overlay>
+                <router-outlet></router-outlet>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

@@ -1,0 +1,291 @@
+<div class="flex h-[625px] max-h-screen flex-col md:min-w-160">
+    <!-- Header -->
+    <!-- <div class="flex flex-0 items-center justify-between h-16 pr-3 pl-6 bg-primary text-on-primary">
+  <div class="text-lg font-medium">Item Price Information</div>
+  <button mat-icon-button [tabIndex]="-1" (click)="closeModal()">
+    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+  </button>
+</div> -->
+    <form
+        class="addForm flex flex-auto flex-col p-6 sm:p-6 sm:pb-0"
+        [formGroup]="itemPriceInfo"
+        (ngSubmit)="submitItemPrice()"
+    >
+        <!-- Item Code -->
+        <!-- Item Code -->
+        <div class="flex items-baseline gap-6">
+            <mat-form-field class="w-1/3">
+                <mat-label>Item Code</mat-label>
+                <input
+                    class="uppercase"
+                    readonly
+                    matInput
+                    formControlName="itemcode"
+                    [placeholder]="'item code'"
+                    [spellcheck]="false"
+                />
+            </mat-form-field>
+            <mat-form-field class="w-1/2">
+                <input class="uppercase" readonly matInput formControlName="description" [spellcheck]="false" />
+            </mat-form-field>
+        </div>
+        <div class="flex gap-6">
+            <mat-form-field class="w-1/3">
+                <mat-label>Hcpcs Code</mat-label>
+                <input
+                    class="uppercase"
+                    readonly
+                    matInput
+                    formControlName="hcpcscode"
+                    [placeholder]="'Hcpcs Code'"
+                    [spellcheck]="false"
+                />
+            </mat-form-field>
+            <mat-form-field class="w-1/3">
+                <mat-label>Branch Code</mat-label>
+                <input
+                    class="uppercase"
+                    readonly
+                    matInput
+                    formControlName="branchcode"
+                    [placeholder]="'Branch Code'"
+                    [spellcheck]="false"
+                />
+            </mat-form-field>
+        </div>
+        <div class="flex gap-6">
+            <aux-select-dropdown
+                class="w-1/3"
+                [className]="'w-full'"
+                [label]="'Price Code'"
+                [selectOption]="priceCode$ | async"
+                [matForm]="itemPriceInfo"
+                [controlName]="'pricecode'"
+            ></aux-select-dropdown>
+            <mat-form-field class="w-1/3">
+                <mat-label></mat-label>
+                <input
+                    class="uppercase"
+                    formControlName="description2"
+                    matInput
+                    [placeholder]="''"
+                    [spellcheck]="false"
+                />
+            </mat-form-field>
+        </div>
+        <div class="w-full items-baseline md:flex">
+            <div class="flex w-full flex-col md:w-full">
+                <div class="flex w-full items-center">
+                    <mat-form-field class="mr-2 w-1/3">
+                        <mat-label>CMN Required (Y N)</mat-label>
+                        <input
+                            class="uppercase"
+                            formControlName="rxflag"
+                            matInput
+                            [placeholder]="''"
+                            [spellcheck]="false"
+                        />
+                    </mat-form-field>
+                    <mat-form-field class="mr-2 w-1/3">
+                        <mat-label>Auth # Required</mat-label>
+                        <input
+                            class="uppercase"
+                            matInput
+                            formControlName="authreq"
+                            [placeholder]="''"
+                            [spellcheck]="false"
+                        />
+                    </mat-form-field>
+                    <mat-checkbox [color]="'primary'" formControlName="lot">Lot # Required</mat-checkbox>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-6">
+            <mat-checkbox [color]="'primary'" formControlName="norollup">No Rollup</mat-checkbox>
+            <mat-checkbox [color]="'primary'" formControlName="roundtonearestdollar"
+                >Round to Nearest Dollar</mat-checkbox
+            >
+            <mat-checkbox [color]="'primary'" formControlName="spanhold">No Span Date</mat-checkbox>
+        </div>
+
+        <div class="w-full items-baseline pt-2 md:flex">
+            <mat-form-field class="mr-2 w-1/2">
+                <mat-label>CNN Form Name</mat-label>
+                <mat-select formControlName="cmnformid">
+                    <mat-option>COVER</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="mr-2 w-1/2">
+                <mat-label>Quantity Allowed</mat-label>
+                <input
+                    class="uppercase"
+                    matInput
+                    formControlName="quantityallowed"
+                    [placeholder]="''"
+                    [spellcheck]="false"
+                />
+            </mat-form-field>
+
+            <mat-form-field class="mr-2 w-1/2">
+                <mat-label>Effective Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="effectivedate" placeholder="Choose a date" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="w-full items-baseline md:flex">
+            <mat-form-field class="mr-2 w-1/3">
+                <mat-label>Expire Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="expirPicker"
+                    formControlName="expiredate"
+                    placeholder="Choose a date"
+                />
+                <mat-datepicker-toggle matSuffix [for]="expirPicker"></mat-datepicker-toggle>
+                <mat-datepicker #expirPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="mr-2 w-1/3">
+                <mat-label>Bill Type</mat-label>
+                <mat-select [formControlName]="'billtype'">
+                    <mat-select-trigger>{{ selectedBillType }}</mat-select-trigger>
+                    @for (status of billTypeDropDown; track status) {
+                        <mat-option [value]="status.billType">
+                            <div class="flex gap-6">
+                                <h2 class="font-extrabold">{{ status.billType }}</h2>
+                                {{ status.description }}
+                            </div>
+                        </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="flex flex-col">
+            <!-- Section Title -->
+            <div class="text-secondary flex items-center text-xl font-semibold">Rentals</div>
+            <div class="mt-4 flex flex-col">
+                <!-- Patient Full Name -->
+                <div class="flex w-full items-baseline">
+                    <mat-form-field class="w-4/12 pr-2">
+                        <mat-label>Modifiers</mat-label>
+                        <input class="uppercase" formControlName="rentmod" matInput tabindex="1" />
+                    </mat-form-field>
+                    <mat-form-field class="w-4/12 pr-2">
+                        <input matInput tabindex="2" formControlName="rentmod2" />
+                    </mat-form-field>
+                    <mat-form-field class="w-4/12 pr-2">
+                        <input class="uppercase" formControlName="rentmod3" matInput tabindex="3" />
+                    </mat-form-field>
+                    <mat-form-field class="w-4/12 pr-2">
+                        <input class="uppercase" formControlName="rentmod4" matInput tabindex="4" />
+                    </mat-form-field>
+                </div>
+
+                <!-- Address Line 1 & 2-->
+                <div class="flex w-full items-baseline">
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Submitted</mat-label>
+                        <input class="uppercase" formControlName="rentsubmitted" matInput tabindex="5" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Allowed</mat-label>
+                        <input class="uppercase" formControlName="rentallowed" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Daily Rental</mat-label>
+                        <input class="uppercase" formControlName="rentday" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Weekly Rental</mat-label>
+                        <input class="uppercase" formControlName="rentweek" matInput tabindex="6" />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex w-full items-baseline">
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Length of Need Rent</mat-label>
+                        <input class="uppercase" formControlName="lonrent" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Capped Rental Months</mat-label>
+                        <input class="uppercase" formControlName="cappedrentalmonths" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <input class="uppercase" matInput tabindex="6" />
+                        <mat-label>36 Mo cap</mat-label>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col">
+            <!-- Section Title -->
+            <div class="text-secondary flex items-center text-xl font-semibold">Purchases</div>
+            <div class="mt-4 flex flex-col">
+                <!-- Patient Full Name -->
+                <div class="flex w-full items-baseline">
+                    <mat-form-field class="w-4/12 pr-2">
+                        <mat-label>Purchase Mode</mat-label>
+                        <input class="uppercase" formControlName="salemod" matInput tabindex="1" />
+                    </mat-form-field>
+                    <mat-form-field class="w-4/12 pr-2">
+                        <input matInput tabindex="2" formControlName="salemod2" />
+                    </mat-form-field>
+                    <mat-form-field class="w-4/12 pr-2">
+                        <input class="uppercase" matInput tabindex="3" formControlName="salemod3" />
+                    </mat-form-field>
+                    <mat-form-field class="w-4/12 pr-2">
+                        <input class="uppercase" matInput tabindex="4" formControlName="salemod4" />
+                    </mat-form-field>
+                </div>
+
+                <!-- Address Line 1 & 2-->
+                <div class="flex w-full items-baseline">
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Submitted</mat-label>
+                        <input class="uppercase" formControlName="salesubmitted" matInput tabindex="5" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Allowed</mat-label>
+                        <input class="uppercase" formControlName="saleallowed" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Length of Need Sale</mat-label>
+                        <input class="uppercase" formControlName="lonsale" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Place of Service</mat-label>
+                        <input class="uppercase" formControlName="pos" matInput tabindex="6" />
+                    </mat-form-field>
+                </div>
+
+                <div class="flex w-full items-baseline">
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Qty Divider</mat-label>
+                        <input class="uppercase" formControlName="quantitydivider" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Markup Percent</mat-label>
+                        <input class="uppercase" formControlName="markuppercent" matInput tabindex="6" />
+                    </mat-form-field>
+                    <mat-form-field class="w-3/12 pr-2">
+                        <mat-label>Markup Amt +</mat-label>
+                        <input class="uppercase" formControlName="markupamount" matInput tabindex="6" />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="flex">
+  <button class="ml-2 mb-2 medium-width" type="submit" mat-flat-button [color]="'primary'" [matTooltip]="'Save'">
+    Save
+  </button>
+  <button class="ml-2 mb-2 medium-width" type="button" mat-flat-button [color]="'accent'" (click)="closeModal()" [matTooltip]="'Cancel'">
+    Cancel
+  </button>
+</div> -->
+    </form>
+</div>

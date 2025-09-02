@@ -1,0 +1,61 @@
+<div class="flex max-h-screen flex-col md:min-w-160">
+    <!-- Compose form -->
+    <form class="flex flex-auto flex-col sm:pb-0" [formGroup]="searchForm" (ngSubmit)="searchShipment()">
+        <!-- Patient# -->
+        <mat-form-field class="w-full px-3 pt-1">
+            <mat-label>PATIENT #</mat-label>
+            <input
+                class="uppercase"
+                matInput
+                [formControlName]="'patientId'"
+                [placeholder]="'Patient id'"
+                [spellcheck]="false"
+            />
+        </mat-form-field>
+
+        <!-- Invoice Number -->
+        <mat-form-field class="w-full px-3">
+            <mat-label>Invoice Number</mat-label>
+            <input
+                class="uppercase"
+                matInput
+                [formControlName]="'invoiceNo'"
+                [placeholder]="'Invoice Number'"
+                [spellcheck]="false"
+            />
+        </mat-form-field>
+
+        <!-- Ship Date -->
+        <mat-form-field
+            class="w-full px-3"
+            [ngClass]="{ 'mb-12': searchForm.get('shipDate').hasError('notValidDate') }"
+        >
+            <mat-label>Ship Date </mat-label>
+            <input
+                matInput
+                [formControlName]="'shipDate'"
+                [matDatepicker]="datepicker"
+                (change)="onDateChange($event, 'shipDate')"
+                [placeholder]="dateFormat"
+                defaultDate
+            />
+            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker="matDatepicker"></mat-datepicker>
+            @if (searchForm.get('shipDate').hasError('notValidDate')) {
+                <mat-error>Please enter valid date!! It should be {{ dateFormat }} .</mat-error>
+            }
+        </mat-form-field>
+
+        <!-- Tracking Number -->
+        <mat-form-field class="w-full px-3">
+            <mat-label>Tracking Number</mat-label>
+            <input
+                class="uppercase"
+                matInput
+                [formControlName]="'trackingNumber'"
+                [placeholder]="'Tracking Number'"
+                [spellcheck]="false"
+            />
+        </mat-form-field>
+    </form>
+</div>

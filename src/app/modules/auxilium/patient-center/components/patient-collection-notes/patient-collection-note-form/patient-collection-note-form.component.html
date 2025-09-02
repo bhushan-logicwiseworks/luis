@@ -1,0 +1,59 @@
+<!-- Contact form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- Contact Type -->
+            <div class="mt-4">
+                <aux-select-dropdown
+                    class="w-1/3 pr-2"
+                    [className]="'w-full'"
+                    [label]="'Contact Type'"
+                    [selectOption]="contactList$ | async"
+                    [controlName]="'contactType'"
+                    [matForm]="contactForm"
+                ></aux-select-dropdown>
+            </div>
+
+            <!-- Notes -->
+            <div class="mt-8">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Notes</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:menu-alt-2'"
+                    ></mat-icon>
+                    <textarea
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'note'"
+                        [placeholder]="'Notes'"
+                        [rows]="8"
+                        [spellcheck]="false"
+                        cdkTextareaAutosize
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- Priority -->
+            <div class="mt-4">
+                <mat-checkbox class="-ml-2" [color]="'primary'" [formControlName]="'priority'">
+                    <span>Priority?</span>
+                </mat-checkbox>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

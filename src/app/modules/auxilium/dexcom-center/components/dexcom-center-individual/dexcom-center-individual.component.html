@@ -1,0 +1,10 @@
+<div class="flex w-full flex-col">
+    <ng-container>
+        <ac-dexcom-center-individual-form
+            [contact]="contact"
+            showDeleteButton="true"
+            (delete)="deleteContact()"
+            (save)="updateContact()"
+        ></ac-dexcom-center-individual-form>
+    </ng-container>
+</div>

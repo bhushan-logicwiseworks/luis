@@ -1,0 +1,10 @@
+<div class="flex items-baseline pl-3">
+    <div class="pr-2">Item per page</div>
+    <mat-form-field [subscriptSizing]="'dynamic'" [appearance]="'fill'">
+        <mat-select [value]="pageSize" (valueChange)="pageSizeChange.emit($event)">
+            @for (size of pageSizeOptions; track size) {
+                <mat-option [value]="size">{{ size }}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+</div>

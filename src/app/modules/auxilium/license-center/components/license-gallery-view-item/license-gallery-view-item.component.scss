@@ -1,0 +1,42 @@
+.gallery-item:not(.active) {
+    &:hover {
+        @apply bg-blue-100 shadow transition;
+    }
+}
+
+.active {
+    @apply bg-blue-200 transition;
+}
+
+.responsive {
+    @media only screen and (max-width: 600px) {
+        width: calc(64px / 4);
+        height: calc(64px / 4);
+        font-size: calc(64px / 4);
+        line-height: calc(32px / 4);
+    }
+    @media only screen and (min-width: 600px) and (max-width: 800px) {
+        width: calc(64px / 3);
+        height: calc(64px / 3);
+        font-size: calc(64px / 3);
+        line-height: calc(32px / 3);
+    }
+    @media only screen and (min-width: 800px) and (max-width: 1500px) {
+        width: calc(64px / 2);
+        height: calc(64px / 2);
+        font-size: calc(64px / 2);
+        line-height: calc(32px / 2);
+    }
+    @media only screen and (min-width: 1500px) and (max-width: 1800px) {
+        width: calc(64px / 1.5);
+        height: calc(64px / 1.5);
+        font-size: calc(64px / 1.5);
+        line-height: calc(32px / 1.5);
+    }
+    @media only screen and (min-width: 1800px) {
+        width: calc(64px / 1) !important;
+        height: 64px !important;
+        font-size: 64px;
+        line-height: 32px;
+    }
+}

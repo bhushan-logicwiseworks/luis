@@ -1,0 +1,176 @@
+<ac-secondary-toolbar current="">
+    <ac-breadcrumbs [crumbs]="['OnboardingCenter']" class="flex-auto"></ac-breadcrumbs>
+</ac-secondary-toolbar>
+
+<!-- KPI 1 -->
+<div class="cursor-pointer pl-4 pr-4 pt-4" (click)="drilldown('1')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Today's Referrals</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi1 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 2 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('2')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Ready for Insurance Verification</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi2 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 3 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('3')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Missing Documents</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi3 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 4 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('4')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Ready for Document Review</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi4 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 5 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('5')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Ready for Patient Interview</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi5 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 6 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('6')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Additional Information Needed</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi6 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 7 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('7')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Ready for QA Review</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi7 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 8 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('8')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Shipped Today</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi8 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPI 9 -->
+<div class="pt4 cursor-pointer pl-4 pr-4" (click)="drilldown('9')">
+    <div class="md:flex">
+        <div class="w-full">
+            <div class="p-2">
+                <div
+                    class="text-black-500 text-teal inline-flex w-full items-center rounded bg-white p-4 leading-none shadow hover:bg-gray-300 dark:bg-gray-800"
+                >
+                    <span class="inline-flex w-full px-2">Pending Incomplete</span>
+                    <span
+                        class="inline-flex h-6 items-center justify-center rounded-full bg-pink-600 px-3 text-sm text-white"
+                        >{{ kpi9 }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ac-loading-overlay [show]="loading"></ac-loading-overlay>

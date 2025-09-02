@@ -1,0 +1,71 @@
+<!-- COLUMN 1 -->
+<div class="w-full" [ngClass]="className">
+    <!-- COUNTER 1-1 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totalOrdersMain"
+            [kpiLabel]="reorderAbbott"
+            class="h-full dark:bg-gray-800"
+            color="text-orange-500"
+            label="CGM Patient Reorders Confirmed Today By Manufacturer"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 1-2 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="totalOrdersMain2"
+            [kpiLabel]="referralAbbot"
+            class="h-full dark:bg-gray-800"
+            color="text-orange-500"
+            label="CGM Referrals Entered Today By Manufacturer"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 1-3 -->
+    <div [ngClass]="rowClassName">
+        <aux-reorder-value
+            [value]="tot_Ref_MenuVisits"
+            class="h-full dark:bg-gray-800"
+            color="text-orange-500"
+            label="Daily Unique RSP Logins"
+        ></aux-reorder-value>
+    </div>
+
+    <!-- COUNTER 1-4 -->
+    <div [ngClass]="rowClassName">
+        <aux-line-chart
+            [options]="newCGMPatientsShippedTodayChartOptions"
+            class="dark:bg-gray-800"
+            color="text-orange-500"
+            [series]="newCGMPatientsShippedToday"
+            [value]="newCGMPatientsShippedTodayCount"
+            label="New CGM Patients Shipped Today"
+        ></aux-line-chart>
+    </div>
+
+    <!-- COUNTER 1-5 -->
+    <div [ngClass]="rowClassName">
+        <aux-line-chart
+            [options]="pendingCGMReferralsreconciledChartOptions"
+            color="text-orange-500"
+            class="dark:bg-gray-800"
+            [series]="pendingCGMReferralsreconciled"
+            [value]="pendingCGMReferralsreconciledCount"
+            label="Pending CGM Patient Referrals Reconciled"
+        ></aux-line-chart>
+    </div>
+
+    <!-- COUNTER 1-6 -->
+    <div [ngClass]="rowClassName">
+        <aux-line-chart
+            [options]="docmanagementChartOptions"
+            [series]="docmanagementToday"
+            color="text-orange-500"
+            class="dark:bg-gray-800"
+            [series]="docmanagementToday"
+            [value]="docmanagementCount"
+            label="Doc Management"
+        ></aux-line-chart>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="flex items-center">
+    @switch (status) {
+        @case ('A') {
+            <div
+                class="status flex flex-none items-center rounded bg-green-100 px-2 text-xs font-medium text-green-500"
+            >
+                ACTIVE
+            </div>
+        }
+        @case ('P') {
+            <div class="status flex flex-none items-center rounded bg-red-100 px-2 text-xs font-medium text-red-500">
+                PENDING
+            </div>
+        }
+        @case ('M') {
+            <div
+                class="status flex flex-none items-center rounded bg-purple-100 px-2 text-xs font-medium text-purple-500"
+            >
+                INACTIVE PREBILLING
+            </div>
+        }
+        @case ('I') {
+            <div class="status flex flex-none items-center rounded bg-gray-100 px-2 text-xs font-medium text-gray-500">
+                INACTIVE
+            </div>
+        }
+        @case ('S') {
+            <div
+                class="status flex flex-none items-center rounded bg-yellow-100 px-2 text-xs font-medium text-yellow-500"
+            >
+                SUSPENDED
+            </div>
+        }
+    }
+</div>

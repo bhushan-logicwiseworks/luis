@@ -1,0 +1,22 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Toolbar -->
+    @if (toolbarData.length) {
+        <div class="flex w-full bg-white p-1">
+            <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'">
+            </fuse-horizontal-navigation>
+        </div>
+    }
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [component]="'chargescenter'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            [agGridHeight]="'calc(100vh - 292px)'"
+            (rowSelectionChange)="onChangeSelection($event)"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

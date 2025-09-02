@@ -1,0 +1,53 @@
+import { Moment } from 'moment';
+
+export class PatientWorkOrders {
+    accessionno: string;
+    adddate: string | Date | Moment;
+    allowed: number;
+    assetno: string;
+    authDate: string | Date | Moment;
+    billType: string;
+    branchcode: string;
+    calories: number;
+    cmnexpire: string | Date | Moment;
+    cmnform: string;
+    confirm: string;
+    confirmid: string;
+    contractprice: number;
+    datedelivered: string | Date | Moment;
+    dateprinted: string | Date | Moment;
+    description: string;
+    dueprimary: number;
+    duesecondary: number;
+    hcpcscode: string;
+    id: number;
+    invoiceno: string;
+    itemcode: string;
+    itemid: number;
+    lastdatebilled: string | Date | Moment;
+    lotnumber: string;
+    moD1: string;
+    moD2: string;
+    moD3: string;
+    moD4: string;
+    narrative: string;
+    notes: string;
+    notesexpiredate: string | Date | Moment;
+    patalpha: string;
+    patientid: number;
+    patientpayoriD1: number;
+    priceid: number;
+    primarypayer: string;
+    quantity: number;
+    quantityshipped: number;
+    salescode: string;
+    shipdate: string | Date | Moment;
+    shippingquantity: number;
+    shipstatus: string;
+    submitted: number;
+    svcdate: string | Date | Moment;
+    todate: string | Date | Moment;
+    trackingno: string;
+}
+
+export type Email = PatientWorkOrders;

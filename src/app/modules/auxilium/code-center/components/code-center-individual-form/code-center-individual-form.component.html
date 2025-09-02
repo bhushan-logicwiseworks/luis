@@ -1,0 +1,120 @@
+<!-- Code Center form -->
+<div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+    <div class="w-full max-w-3xl">
+        <form [formGroup]="contactForm">
+            <!-- Code -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Code</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'code'"
+                        [placeholder]="'Code'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Code Type -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Code Type</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'codetype'"
+                        [placeholder]="'Code Type'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Description -->
+            <div class="mt-4">
+                <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Description</mat-label>
+                    <mat-icon
+                        matPrefix
+                        class="hidden icon-size-5 sm:flex"
+                        [svgIcon]="'heroicons_solid:user-circle'"
+                    ></mat-icon>
+                    <input
+                        class="uppercase"
+                        matInput
+                        [formControlName]="'description'"
+                        [placeholder]="'Description'"
+                        [spellcheck]="false"
+                    />
+                </mat-form-field>
+            </div>
+
+            <!-- Effective Date -->
+            <div class="mt-4">
+                <mat-form-field class="custom-datepicker-toggle w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Effective Date</mat-label>
+                    <div class="input-container">
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                        <input
+                            matInput
+                            [formControlName]="'effectivedate'"
+                            [matDatepicker]="datepicker1"
+                            defaultDate
+                            [placeholder]="dateFormat"
+                            (change)="onDateChange($event, 'effectivedate')"
+                        />
+                    </div>
+                    <mat-datepicker #datepicker1="matDatepicker"></mat-datepicker>
+                    @if (contactForm.get('effectivedate').hasError('notValidDate')) {
+                        <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Expired Date -->
+            <div class="mt-4">
+                <mat-form-field class="custom-datepicker-toggle w-full" [subscriptSizing]="'dynamic'">
+                    <mat-label>Expired Date</mat-label>
+                    <div class="input-container">
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                        <input
+                            matInput
+                            [formControlName]="'expiredate'"
+                            [matDatepicker]="datepicker2"
+                            defaultDate
+                            [placeholder]="dateFormat"
+                            (change)="onDateChange($event, 'expiredate')"
+                        />
+                    </div>
+                    <mat-datepicker #datepicker2="matDatepicker"></mat-datepicker>
+                    @if (contactForm.get('expiredate').hasError('notValidDate')) {
+                        <mat-error>Please enter valid date!! It should be {{ dateFormat }}.</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Alert -->
+            @if (alert) {
+                <fuse-alert
+                    [appearance]="'outline'"
+                    [type]="alert.type"
+                    [showIcon]="false"
+                    [@shake]="true"
+                    class="mt-4"
+                >
+                    {{ alert.message }}
+                </fuse-alert>
+            }
+        </form>
+    </div>
+</div>

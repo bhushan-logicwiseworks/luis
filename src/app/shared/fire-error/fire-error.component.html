@@ -1,0 +1,15 @@
+@if (error) {
+    <div>
+        @switch (error.code) {
+            @case ('auth/user-not-found') {
+                That email address doesn't match an existing account
+            }
+            @case ('auth/wrong-password') {
+                The email and password you entered don't match
+            }
+            @default {
+                An unexpected error occured, please try again or contact us.
+            }
+        }
+    </div>
+}

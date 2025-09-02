@@ -1,0 +1,414 @@
+<form
+    class="addForm flex max-h-[400px] flex-auto flex-col overflow-x-scroll p-6 sm:p-6 sm:pb-0 xl:max-h-none xl:overflow-y-scroll"
+    [formGroup]="addShortcutForm"
+>
+    <!-- <div class="shadow bg-white overflow-auto relative"> -->
+    <div class="mt-0 min-w-[588px] p-3 md:w-full">
+        <div class="flex w-full">
+            <mat-form-field class="w-120 pr-5">
+                <mat-label>Title</mat-label>
+                <input class="uppercase" matInput formControlName="title" />
+                @if (addShortcutForm.get('title').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field class="w-full">
+                <mat-label>Description</mat-label>
+                <input class="uppercase" matInput formControlName="description" />
+                @if (addShortcutForm.get('description').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 1</mat-label>
+                <input class="uppercase" matInput formControlName="itemId1" />
+                @if (addShortcutForm.get('itemId1').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 1</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode1" />
+                @if (addShortcutForm.get('itemcode1').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(1)"
+            ></mat-icon>
+        </div>
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description1" />
+            @if (addShortcutForm.get('description1').hasError('required')) {
+                <mat-error></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity1" min="0" />
+            @if (addShortcutForm.get('quantity1').hasError('required')) {
+                <mat-error></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType1" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType1').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+                @if (addShortcutForm.get('billType1').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            (click)="handleOnclickClearField(1)"
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 2</mat-label>
+                <input class="uppercase" matInput formControlName="itemId2" />
+                @if (addShortcutForm.get('itemId2').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 2</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode2" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(2)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description2" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity2" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType2" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType2').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+            (click)="handleOnclickClearField(2)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 3</mat-label>
+                <input class="uppercase" matInput formControlName="itemId3" />
+                @if (addShortcutForm.get('itemId3').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 3</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode3" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(3)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description3" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity3" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType3" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType3').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+            (click)="handleOnclickClearField(3)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 4</mat-label>
+                <input class="uppercase" matInput formControlName="itemId4" />
+                @if (addShortcutForm.get('itemId4').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 4</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode4" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(4)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description4" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity4" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType4" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType4').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+            (click)="handleOnclickClearField(4)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 5</mat-label>
+                <input class="uppercase" matInput formControlName="itemId5" />
+                @if (addShortcutForm.get('itemId5').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 5</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode5" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(5)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description5" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity5" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType5" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType5').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <button
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+            (click)="handleOnclickClearField(5)"
+        >
+            CLEAR
+        </button>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 6</mat-label>
+                <input class="uppercase" matInput formControlName="itemId6" />
+                @if (addShortcutForm.get('itemId6').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 6</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode6" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(6)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description6" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity6" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType6" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType6').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+            (click)="handleOnclickClearField(6)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <div class="ml-3 mt-0 flex min-w-[588px]">
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-20 pr-0">
+                <mat-label>Item Id 7</mat-label>
+                <input class="uppercase" matInput formControlName="itemId7" />
+                @if (addShortcutForm.get('itemId7').hasError('required')) {
+                    <mat-error></mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="flex items-center pr-2">
+            <mat-form-field class="w-40 pr-0">
+                <mat-label>Item code 7</mat-label>
+                <input class="uppercase" matInput formControlName="itemcode7" />
+            </mat-form-field>
+            <mat-icon
+                matPrefix
+                class="icon-size-1 hidden cursor-pointer sm:flex"
+                [svgIcon]="'heroicons_solid:download'"
+                (click)="openItemList(7)"
+            ></mat-icon>
+        </div>
+
+        <mat-form-field class="w-80 pr-2">
+            <mat-label>Description</mat-label>
+            <input class="uppercase" matInput formControlName="description7" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Quantity</mat-label>
+            <input class="uppercase" matInput type="number" formControlName="quantity7" min="0" />
+        </mat-form-field>
+        <mat-form-field class="w-30 pr-2">
+            <mat-label>Bill Type</mat-label>
+            <mat-select formControlName="billType7" [panelClass]="'w-72 min-w-72 max-w-96 h-auto max-h-none'">
+                <mat-select-trigger>{{ addShortcutForm.get('billType7').value }}</mat-select-trigger>
+                @for (status of billType$ | async; track status) {
+                    <mat-option [value]="status.billtype">
+                        <div class="flex gap-6">
+                            <h2 class="font-extrabold">{{ status.billtype }}</h2>
+                            {{ status.description }}
+                        </div>
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <a
+            class="mt-9 w-20 cursor-pointer rounded border-none text-center font-bold text-blue-500 hover:to-blue-900"
+            (click)="handleOnclickClearField(7)"
+        >
+            CLEAR
+        </a>
+    </div>
+
+    <div class="mr-4 flex flex-0 items-center justify-end">
+        <!-- <button class="ml-4 w-20 fuse-mat-button fuse-bg-app-bar" mat-flat-button  [disabled]="addShortcutForm.invalid"
+    [matTooltip]="'Add'" (click)="save()" [color]="'primary'">
+    Add
+  </button> -->
+    </div>
+    <!-- </div> -->
+</form>

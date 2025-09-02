@@ -1,0 +1,22 @@
+<div class="flex flex-auto flex-col overflow-hidden">
+    <!-- Title -->
+    <div class="flex w-full bg-white pl-2 pt-2 font-bold dark:bg-transparent">Confirmed Work Orders (PYE) - ALL</div>
+    <!-- Toolbar -->
+    <div class="flex w-full bg-white p-1 dark:bg-transparent">
+        <fuse-horizontal-navigation [navigation]="toolbarData" [name]="'patient-toolbar'"> </fuse-horizontal-navigation>
+    </div>
+    <div class="relative overflow-auto bg-white shadow">
+        <aux-ag-grid
+            [gridOptions]="options"
+            [selectAllManually]="selectAll"
+            [component]="'confirmOrder'"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [visibleColumns]="visibleColumns"
+            (rowSelectionChange)="onChangeSelection($event)"
+            [agGridHeight]="'calc(100vh - 377px)'"
+            [loading]="loading$ | async"
+        >
+        </aux-ag-grid>
+    </div>
+</div>

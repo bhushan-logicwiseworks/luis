@@ -1,0 +1,77 @@
+.pay-adjust {
+    ::ng-deep {
+        .mat-mdc-form-field {
+            .mat-form-field-wrapper {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .mat-form-field-flex {
+                min-height: 30px !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            .mat-mdc-form-field-infix {
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+                min-height: 0px !important;
+            }
+
+            .mat-mdc-text-field-wrapper {
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+            }
+
+            &.mat-mdc-form-field {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+
+            .mat-mdc-form-field-subscript-wrapper {
+                margin: 0 !important;
+                padding: 0 !important;
+                min-height: 0 !important;
+                height: 0 !important;
+            }
+
+            .mat-mdc-form-field-bottom-align::after {
+                display: none !important;
+            }
+
+            // Fix for datepicker input field
+            input[matDatepicker] {
+                height: 30px !important;
+                line-height: 30px !important;
+                padding: 0 8px !important;
+            }
+
+            // Fix for datepicker toggle button
+            .mat-datepicker-toggle {
+                height: 30px !important;
+                width: 30px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+
+                .mat-datepicker-toggle-default-icon {
+                    width: 16px !important;
+                    height: 16px !important;
+                }
+            }
+
+            // Ensure suffix container matches height
+            .mat-mdc-form-field-icon-suffix {
+                height: 30px !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+        }
+    }
+
+    aux-select-dropdown {
+        ::ng-deep .mat-mdc-text-field-wrapper {
+            margin-top: 0px !important;
+        }
+    }
+}

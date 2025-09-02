@@ -1,0 +1,25 @@
+<div class="NAN flex flex-auto flex-col justify-center">
+    @if (kpiLabel.length) {
+        <div class="flex justify-around">
+            @for (item of kpiLabel; track item) {
+                <div class="flex columns-4 flex-col">
+                    <div class="mt-8 text-center">
+                        <p class="m-0 text-sm text-primary" [ngClass]="customClass">
+                            <span
+                                class="align-baseline inline-block whitespace-nowrap rounded px-2.5 py-1.5 text-center font-bold leading-none text-white"
+                                [ngClass]="item.color"
+                                >{{ item.label }}</span
+                            >
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <p class="m-0 text-lg text-primary">{{ item.total }}</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="m-0 text-lg text-primary">{{ item.percent }}%</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

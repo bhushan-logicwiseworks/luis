@@ -1,0 +1,11 @@
+<div class="flex w-full flex-col">
+    <!-- Edit mode -->
+    <ng-container>
+        <ac-patient-alternate-address-form
+            [address]="address"
+            showDeleteButton="true"
+            (delete)="deleteaddress()"
+            (save)="updateaddress()"
+        ></ac-patient-alternate-address-form>
+    </ng-container>
+</div>

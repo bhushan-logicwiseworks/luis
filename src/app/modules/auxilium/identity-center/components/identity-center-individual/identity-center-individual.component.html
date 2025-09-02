@@ -1,0 +1,96 @@
+<div class="flex w-full flex-col">
+    <!-- View mode -->
+    @if (!editMode) {
+        <!-- <Detailed info> -->
+        <div class="relative flex flex-auto flex-col items-center p-6 pt-0 sm:p-12 sm:pt-0">
+            <div class="w-full max-w-3xl">
+                <!-- Name -->
+                <div class="mt-3 truncate text-2xl font-bold">{{ contact.email }}</div>
+                <!-- Main Section -->
+                <div class="mt-4 flex flex-col space-y-8 border-t pt-6">
+                    <!-- User UID -->
+                    <div class="flex">
+                        <button matTooltip="User UID">
+                            <mat-icon [svgIcon]="'mat_outline:grid_3x3'"></mat-icon>
+                        </button>
+                        <div class="ml-6 text-lg">
+                            {{ contact.uid }}
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    @if (contact.email) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Email">
+                                <mat-icon [svgIcon]="'heroicons_outline:mail'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                <a
+                                    class="text-lg text-primary-500 hover:underline"
+                                    [href]="'mailto:' + contact.email"
+                                    target="_blank"
+                                >
+                                    {{ contact.email }}
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    <!-- Display Name -->
+                    @if (contact.displayName) {
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Email">
+                                <mat-icon [svgIcon]="'mat_outline:person_pin'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ contact.displayName }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Email Verified -->
+                    <ng-container>
+                        <div class="flex sm:items-center">
+                            <button matTooltip="Verified">
+                                <mat-icon [svgIcon]="'mat_outline:done'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ contact.emailVerified }}
+                            </div>
+                        </div>
+                    </ng-container>
+                    <!-- Created Date -->
+                    @if (contact.created) {
+                        <div class="flex">
+                            <button matTooltip="Created Date">
+                                <mat-icon [svgIcon]="'mat_outline:calendar_today'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ contact.created | datetimeformat }}
+                            </div>
+                        </div>
+                    }
+                    <!-- Last Signin Date -->
+                    @if (contact.lastSignIn) {
+                        <div class="flex">
+                            <button matTooltip="Last Signin Date">
+                                <mat-icon [svgIcon]="'mat_outline:edit_calendar'"></mat-icon>
+                            </button>
+                            <div class="ml-6 text-lg">
+                                {{ contact.lastSignIn | datetimeformat }}
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Edit mode -->
+    @if (editMode) {
+        <ac-identity-center-individual-form
+            [contact]="contact"
+            showDeleteButton="true"
+            (cancel)="toggleEditMode(event)"
+            (delete)="deleteContact()"
+            (save)="updateContact()"
+        ></ac-identity-center-individual-form>
+    }
+</div>

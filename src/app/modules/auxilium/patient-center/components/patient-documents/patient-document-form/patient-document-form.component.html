@@ -1,0 +1,141 @@
+<!-- UPLOAD DOCUMENT VIEW -->
+@if (uploadFile) {
+    <div>
+        <!-- Header -->
+        <!-- <div class="flex flex-0 items-center justify-between h-16 pr-3 sm:pr-5 pl-6 sm:pl-8 bg-primary text-on-primary">
+    <div class="text-lg font-medium" *ngIf="uploadFile">Upload Document</div>
+    <button mat-icon-button  (click)="closeDocument()" [tabIndex]="-1">
+      <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+    </button>
+  </div> -->
+        <!-- Compose form -->
+        <form class="flex flex-auto flex-col overflow-y-auto p-6 sm:p-8" [formGroup]="composeForm">
+            <!-- Select your file -->
+            <div class="w-full" fileDragDrop (filesChangeEmiter)="onFileChange($event)">
+                <div class="flex h-48 w-full flex-col justify-center text-center text-2xl">
+                    <mat-label for="FileDetails">Drag Your File Here</mat-label>
+                    <input
+                        class="file-upload-input"
+                        [formControlName]="'FileDetails'"
+                        type="file"
+                        id="file"
+                        (change)="onFileChange($event.target.files)"
+                        multiple
+                    />
+                </div>
+            </div>
+            <!-- Display list of files to upload -->
+            <mat-list>
+                <div class="font-bold">Files</div>
+                @for (file of files; track file) {
+                    <mat-list-item>
+                        <div class="flex items-center">
+                            <mat-icon class="text-green-500" svgIcon="heroicons_outline:cloud-upload"></mat-icon>
+                            <div class="ml-4 font-bold">
+                                {{ file.name }}
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                    </mat-list-item>
+                }
+            </mat-list>
+            <!-- Document Name -->
+            <mat-form-field>
+                <mat-label>Document Name</mat-label>
+                <mat-icon
+                    matPrefix
+                    class="hidden icon-size-5 sm:flex"
+                    [svgIcon]="'heroicons_solid:user-circle'"
+                ></mat-icon>
+                <input class="uppercase" matInput [formControlName]="'DocumentName'" />
+            </mat-form-field>
+            <!-- Document Description -->
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <input class="uppercase" matInput [formControlName]="'Description'" />
+            </mat-form-field>
+            <!-- Document Note -->
+            <mat-form-field>
+                <mat-label>Contact Note</mat-label>
+                <textarea
+                    class="uppercase"
+                    matInput
+                    [formControlName]="'Note'"
+                    [placeholder]="'Contact Note'"
+                    [rows]="5"
+                    [spellcheck]="false"
+                    cdkTextareaAutosize
+                ></textarea>
+            </mat-form-field>
+            <!-- Upload Button -->
+        </form>
+    </div>
+}
+
+<!-- EDIT DOCUMENT VIEW -->
+@if (!uploadFile) {
+    <div>
+        <!-- Header -->
+        <!-- Contact form -->
+        <div class="relative flex flex-auto flex-col items-center px-6 sm:px-9">
+            <div class="w-full max-w-3xl">
+                <form [formGroup]="composeForm">
+                    <!-- Document Name -->
+                    <div class="mt-4">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Document Name</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'DocumentName'"
+                                [placeholder]="'DocumentName'"
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <!-- Document Description -->
+                    <div class="mt-4">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Description</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'Description'"
+                                [placeholder]="'Description'"
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <!-- Document Note -->
+                    <div class="mt-4">
+                        <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
+                            <mat-label>Note</mat-label>
+                            <mat-icon
+                                matPrefix
+                                class="hidden icon-size-5 sm:flex"
+                                [svgIcon]="'heroicons_solid:user-circle'"
+                            ></mat-icon>
+                            <input
+                                class="uppercase"
+                                matInput
+                                [formControlName]="'Note'"
+                                [placeholder]="'Note'"
+                                [spellcheck]="false"
+                            />
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

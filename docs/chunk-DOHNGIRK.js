@@ -1,0 +1,1 @@
+import{Db as s}from"./chunk-3Q5CJMKA.js";var a=(()=>{class e{transform(t){if(t===null||t===void 0||t==="")return"";let r=t.substr(0,3),i=t.substr(3,3),n=t.substr(6,4);return this.phoneMasked="("+r+") "+i+"-"+n,this.phoneMasked}static{this.\u0275fac=function(r){return new(r||e)}}static{this.\u0275pipe=s({name:"phonenumber",type:e,pure:!0})}}return e})();export{a};
